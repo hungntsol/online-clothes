@@ -1,11 +1,9 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using OnlineClothes.Application.Commons;
 using OnlineClothes.Domain.Entities;
 using OnlineClothes.Domain.Paging;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.HttpResponse;
 
@@ -15,32 +13,34 @@ public class
 	ListingProductQueryHandler : IRequestHandler<ListingProductQuery,
 		JsonApiResponse<PagingModel<ListingProductQueryResultModel>>>
 {
-	private readonly ILogger<ListingProductQueryHandler> _logger;
-	private readonly IProductRepository _productRepository;
+	//private readonly ILogger<ListingProductQueryHandler> _logger;
+	//private readonly IProductRepository _productRepository;
 
-	public ListingProductQueryHandler(IProductRepository productRepository, ILogger<ListingProductQueryHandler> logger)
-	{
-		_productRepository = productRepository;
-		_logger = logger;
-	}
+	//public ListingProductQueryHandler(IProductRepository productRepository, ILogger<ListingProductQueryHandler> logger)
+	//{
+	//	_productRepository = productRepository;
+	//	_logger = logger;
+	//}
 
 	public async Task<JsonApiResponse<PagingModel<ListingProductQueryResultModel>>> Handle(ListingProductQuery request,
 		CancellationToken cancellationToken)
 	{
-		var filterDef = PrepareSearchQuery(request);
+		throw new NotImplementedException();
 
-		var productsCursorTask = _productRepository.FindAsync(filterDef, PrepareFindOptions(request),
-			cancellationToken);
-		var countTotalTask = _productRepository.CountAsync(filterDef, cancellationToken);
+		//var filterDef = PrepareSearchQuery(request);
 
-		await Task.WhenAll(productsCursorTask, countTotalTask);
+		//var productsCursorTask = _productRepository.FindAsync(filterDef, PrepareFindOptions(request),
+		//	cancellationToken);
+		//var countTotalTask = _productRepository.CountAsync(filterDef, cancellationToken);
 
-		var data = (await productsCursorTask.Result.ToListAsync(cancellationToken))
-			.Select(ListingProductQueryResultModel.Create).ToList();
+		//await Task.WhenAll(productsCursorTask, countTotalTask);
 
-		var viewModel = new PagingModel<ListingProductQueryResultModel>(countTotalTask.Result, data);
+		//var data = (await productsCursorTask.Result.ToListAsync(cancellationToken))
+		//	.Select(ListingProductQueryResultModel.Create).ToList();
 
-		return JsonApiResponse<PagingModel<ListingProductQueryResultModel>>.Success(data: viewModel);
+		//var viewModel = new PagingModel<ListingProductQueryResultModel>(countTotalTask.Result, data);
+
+		//return JsonApiResponse<PagingModel<ListingProductQueryResultModel>>.Success(data: viewModel);
 	}
 
 	private static FilterBuilder<ProductClothe> PrepareSearchQuery(ListingProductQuery request)

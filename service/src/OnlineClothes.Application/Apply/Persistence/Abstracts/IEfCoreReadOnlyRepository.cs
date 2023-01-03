@@ -1,12 +1,13 @@
 ﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.Query;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Entity;
 
-namespace OnlineClothes.Persistence.MySql.Repositories.Abstracts;
+namespace OnlineClothes.Application.Apply.Repositories.Abstracts;
 
 public interface IEfCoreReadOnlyRepository<TEntity, TKey> where TEntity : class, IEntity<TKey>, new()
 {
+	IQueryable AsQueryable(bool noTracking = true);
+
 	#region FindOne
 
 	Task<TEntity?> FindOneAsync(object?[]? keyValues, CancellationToken cancellationToken = default);
@@ -19,18 +20,18 @@ public interface IEfCoreReadOnlyRepository<TEntity, TKey> where TEntity : class,
 
 	Task<TEntity?> FindOneAsync(
 		FilterBuilder<TEntity> filterBuilder,
-		Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include,
+		List<string> includes,
 		CancellationToken cancellationToken = default);
 
 	Task<TEntity?> FindOneAsync(
 		FilterBuilder<TEntity> filterBuilder,
-		Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include,
+		List<string> includes,
 		bool asTracking,
 		CancellationToken cancellationToken = default);
 
 	Task<TEntity?> FindOneAsync(
 		FilterBuilder<TEntity> filterBuilder,
-		Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include,
+		List<string> includes,
 		bool asTracking,
 		bool ignoreQueryFilters = true,
 		CancellationToken cancellationToken = default);
@@ -38,7 +39,7 @@ public interface IEfCoreReadOnlyRepository<TEntity, TKey> where TEntity : class,
 	Task<TProject?> FindOneAsync<TProject>(
 		FilterBuilder<TEntity> filterBuilder,
 		Expression<Func<TEntity, TProject>> selector,
-		Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include,
+		List<string> includes,
 		bool asTracking,
 		bool ignoreQueryFilters = true,
 		CancellationToken cancellationToken = default);

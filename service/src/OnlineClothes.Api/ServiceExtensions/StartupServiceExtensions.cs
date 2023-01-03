@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OnlineClothes.Application;
+using OnlineClothes.Application.Apply.Services.Auth.Models;
 using OnlineClothes.Infrastructure;
-using OnlineClothes.Infrastructure.Services.Auth;
 using OnlineClothes.Persistence.Context;
 using OnlineClothes.Persistence.MySql;
 

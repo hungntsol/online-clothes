@@ -1,13 +1,7 @@
 ﻿using System.Text;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using OnlineClothes.Domain.Entities;
 using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
-using OnlineClothes.Infrastructure.Services.Mailing;
-using OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
-using OnlineClothes.Infrastructure.Services.Mailing.Models;
-using OnlineClothes.Infrastructure.Services.UserContext.Abstracts;
 using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Order.Commands.Checkout;
@@ -15,31 +9,31 @@ namespace OnlineClothes.Application.Features.Order.Commands.Checkout;
 public class
 	CheckoutOrderCommandHandler : IRequestHandler<CheckoutOrderCommand, JsonApiResponse<CheckoutOrderCommandViewModel>>
 {
-	private readonly IAccountRepository _accountRepository;
-	private readonly ICartRepository _cartRepository;
-	private readonly ILogger<CheckoutOrderCommandHandler> _logger;
-	private readonly IMailingService _mailingService;
-	private readonly IOrderRepository _orderRepository;
-	private readonly IProductRepository _productRepository;
-	private readonly IUserContext _userContext;
+	//private readonly IAccountRepository _accountRepository;
+	//private readonly ICartRepository _cartRepository;
+	//private readonly ILogger<CheckoutOrderCommandHandler> _logger;
+	//private readonly IMailingService _mailingService;
+	//private readonly IOrderRepository _orderRepository;
+	//private readonly IProductRepository _productRepository;
+	//private readonly IUserContext _userContext;
 
 
-	public CheckoutOrderCommandHandler(IUserContext userContext,
-		ILogger<CheckoutOrderCommandHandler> logger,
-		IProductRepository productRepository,
-		IOrderRepository orderRepository,
-		ICartRepository cartRepository,
-		IAccountRepository accountRepository,
-		IMailingService mailingService)
-	{
-		_userContext = userContext;
-		_logger = logger;
-		_productRepository = productRepository;
-		_orderRepository = orderRepository;
-		_cartRepository = cartRepository;
-		_accountRepository = accountRepository;
-		_mailingService = mailingService;
-	}
+	//public CheckoutOrderCommandHandler(IUserContext userContext,
+	//	ILogger<CheckoutOrderCommandHandler> logger,
+	//	IProductRepository productRepository,
+	//	IOrderRepository orderRepository,
+	//	ICartRepository cartRepository,
+	//	IAccountRepository accountRepository,
+	//	IMailingService mailingService)
+	//{
+	//	_userContext = userContext;
+	//	_logger = logger;
+	//	_productRepository = productRepository;
+	//	_orderRepository = orderRepository;
+	//	_cartRepository = cartRepository;
+	//	_accountRepository = accountRepository;
+	//	_mailingService = mailingService;
+	//}
 
 	public async Task<JsonApiResponse<CheckoutOrderCommandViewModel>> Handle(CheckoutOrderCommand request,
 		CancellationToken cancellationToken)
@@ -90,8 +84,8 @@ public class
 
 	private async Task CreateOrderTransactionAsync(OrderProduct order, CancellationToken cancellationToken = default)
 	{
-		await _orderRepository.InsertAsync(order, cancellationToken);
-		_logger.LogInformation("Order created id: {Id}", order.Id);
+		//await _orderRepository.InsertAsync(order, cancellationToken);
+		//_logger.LogInformation("Order created id: {Id}", order.Id);
 	}
 
 	private async Task ClearCartAsync(AccountCart cart, CancellationToken cancellationToken = default)
@@ -109,24 +103,26 @@ public class
 
 
 		//var items = new List<ReceiptMailOrderItem>();
-		foreach (var (key, value) in itemsInCart)
-		{
-			sb.Append(
-				$"<tr>\r\n<td align=\"left\" width=\"75%\" style=\"padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">" +
-				$"{productFromCartsDict[key].Name} x {value}</td>\r\n<td align=\"left\" width=\"25%\" style=\"padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">" +
-				$"{productFromCartsDict[key].Price} vnd</td>\r\n</tr>");
-		}
 
-		var mail = new MailingTemplate(order.CustomerEmail, "Checkout Order", EmailTemplateNames.CheckoutOrderReceipt,
-			new
-			{
-				OrderId = order.Id,
-				ItemsHtmlContent = sb.ToString(),
-				OrderAddress = order.DeliveryAddress,
-				order.Total
-			});
 
-		await _mailingService.SendEmailAsync(mail);
+		//foreach (var (key, value) in itemsInCart)
+		//{
+		//	sb.Append(
+		//		$"<tr>\r\n<td align=\"left\" width=\"75%\" style=\"padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">" +
+		//		$"{productFromCartsDict[key].Name} x {value}</td>\r\n<td align=\"left\" width=\"25%\" style=\"padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">" +
+		//		$"{productFromCartsDict[key].Price} vnd</td>\r\n</tr>");
+		//}
+
+		//var mail = new MailingTemplate(order.CustomerEmail, "Checkout Order", EmailTemplateNames.CheckoutOrderReceipt,
+		//	new
+		//	{
+		//		OrderId = order.Id,
+		//		ItemsHtmlContent = sb.ToString(),
+		//		OrderAddress = order.DeliveryAddress,
+		//		order.Total
+		//	});
+
+		//await _mailingService.SendEmailAsync(mail);
 	}
 }
 

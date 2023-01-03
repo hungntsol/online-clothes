@@ -1,4 +1,4 @@
-﻿namespace OnlineClothes.Infrastructure.Services.Auth;
+﻿namespace OnlineClothes.Application.Apply.Services.Auth.Models;
 
 public class AuthConfiguration
 {

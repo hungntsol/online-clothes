@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using OnlineClothes.Support.Exceptions;
 using RazorEngineCore;
 
-namespace OnlineClothes.Infrastructure.Services.Mailing.Engine;
+namespace OnlineClothes.Application.Apply.Services.Mailing.Engine;
 
 public class RazorEngineRenderer
 {
@@ -40,7 +40,7 @@ public class RazorEngineRenderer
 		return compiledTemplate.Run(model);
 	}
 
-	internal void LoadTemplateToMemory()
+	public void LoadTemplateToMemory()
 	{
 		var directoryInfo = new DirectoryInfo(RootDirectoryContainTemplate);
 		var files = directoryInfo.GetFiles();

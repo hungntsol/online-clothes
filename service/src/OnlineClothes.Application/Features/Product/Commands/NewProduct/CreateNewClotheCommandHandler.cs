@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
 using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Product.Commands.NewProduct;
@@ -8,15 +6,15 @@ namespace OnlineClothes.Application.Features.Product.Commands.NewProduct;
 public sealed class
 	CreateNewClotheCommandHandler : IRequestHandler<CreateNewClotheCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	private readonly ILogger<CreateNewClotheCommandHandler> _logger;
-	private readonly IProductRepository _productRepository;
+	//private readonly ILogger<CreateNewClotheCommandHandler> _logger;
+	//private readonly IProductRepository _productRepository;
 
-	public CreateNewClotheCommandHandler(ILogger<CreateNewClotheCommandHandler> logger,
-		IProductRepository productRepository)
-	{
-		_logger = logger;
-		_productRepository = productRepository;
-	}
+	//public CreateNewClotheCommandHandler(ILogger<CreateNewClotheCommandHandler> logger,
+	//	IProductRepository productRepository)
+	//{
+	//	_logger = logger;
+	//	_productRepository = productRepository;
+	//}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(CreateNewClotheCommand request,
 		CancellationToken cancellationToken)

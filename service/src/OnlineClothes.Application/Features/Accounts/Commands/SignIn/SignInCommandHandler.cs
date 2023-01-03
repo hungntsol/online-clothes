@@ -1,7 +1,7 @@
 ﻿using MediatR;
+using OnlineClothes.Application.Apply.Persistence.Abstracts;
+using OnlineClothes.Application.Apply.Services.Auth;
 using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
-using OnlineClothes.Infrastructure.Services.Auth.Abstracts;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.HttpResponse;
 
@@ -12,22 +12,22 @@ internal sealed class
 {
 	private const string ErrorLoginFailMessage = "Email hoặc mật khẩu không chính xác";
 	private const string ErrorAccountNotActivateMessage = "Tài khoảng chưa được kích hoạt";
-	private readonly IAccountRepository _accountRepository;
 
-	private readonly IAuthService _authService;
+	private readonly IAuthorizeService _authorizeService;
+	private readonly IUnitOfWork _unitOfWork;
 
-	public SignInCommandHandler(IAccountRepository accountRepository, IAuthService authService)
+	public SignInCommandHandler(IAuthorizeService authorizeService, IUnitOfWork unitOfWork)
 	{
-		_accountRepository = accountRepository;
-		_authService = authService;
+		_unitOfWork = unitOfWork;
+		_authorizeService = authorizeService;
 	}
 
 	public async Task<JsonApiResponse<SignInCommandResult>> Handle(SignInCommand request,
 		CancellationToken cancellationToken)
 	{
 		var account =
-			await _accountRepository.FindOneAsync(
-				FilterBuilder<AccountUser>.Where(acc => acc.Email.Equals(request.Email)), cancellationToken);
+			await _unitOfWork.AccountUserRepository.FindOneAsync(
+				FilterBuilder<AccountUser>.Where(q => q.Email.Equals(request.Email)), cancellationToken);
 
 		if (account is null || !account.VerifyPassword(request.Password))
 		{
@@ -39,7 +39,7 @@ internal sealed class
 			return JsonApiResponse<SignInCommandResult>.Fail(ErrorAccountNotActivateMessage);
 		}
 
-		var responseModel = new SignInCommandResult(_authService.CreateJwtAccessToken(account));
+		var responseModel = new SignInCommandResult(_authorizeService.CreateJwtAccessToken(account));
 
 		return JsonApiResponse<SignInCommandResult>.Success(data: responseModel);
 	}

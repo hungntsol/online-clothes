@@ -1,6 +1,6 @@
 ﻿using MailKit.Net.Smtp;
 
-namespace OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
+namespace OnlineClothes.Application.Apply.Services.Mailing;
 
 public interface IMailingProviderConnection
 {

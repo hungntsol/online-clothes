@@ -1,6 +1,4 @@
-﻿using OnlineClothes.Infrastructure.AggregateModels;
-
-namespace OnlineClothes.Application.Features.Cart.Queries.GetInfo;
+﻿namespace OnlineClothes.Application.Features.Cart.Queries.GetInfo;
 
 public class GetCartInfoQueryViewModel
 {
@@ -27,10 +25,5 @@ public class GetCartInfoQueryViewModel
 		public int Quantity { get; set; }
 		public double Price { get; set; }
 		public string? ImageUrl { get; set; }
-
-		public static Item Create(AggregateCartInfoModel.Item input)
-		{
-			return new Item(input.ProductId, input.Name, input.Quantity, input.Price, input.ImageUrl);
-		}
 	}
 }

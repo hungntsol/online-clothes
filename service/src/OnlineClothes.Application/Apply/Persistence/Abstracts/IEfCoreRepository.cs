@@ -1,6 +1,6 @@
 ﻿using OnlineClothes.Support.Entity;
 
-namespace OnlineClothes.Persistence.MySql.Repositories.Abstracts;
+namespace OnlineClothes.Application.Apply.Repositories.Abstracts;
 
 /// <summary>
 /// Wrap all implement of repository

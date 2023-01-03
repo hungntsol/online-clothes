@@ -1,9 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using OnlineClothes.Application.Apply.Persistence.Abstracts;
 using OnlineClothes.Domain.Common;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
 using OnlineClothes.Infrastructure.Services.UserContext.Abstracts;
-using OnlineClothes.Persistence.Extensions;
 using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Accounts.Commands.ChangePassword;
@@ -11,36 +10,39 @@ namespace OnlineClothes.Application.Features.Accounts.Commands.ChangePassword;
 internal sealed class
 	ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	private readonly IAccountRepository _accountRepository;
 	private readonly ILogger<ChangePasswordCommandHandler> _logger;
+	private readonly IUnitOfWork _unitOfWork;
 	private readonly IUserContext _userContext;
 
 	public ChangePasswordCommandHandler(ILogger<ChangePasswordCommandHandler> logger,
-		IAccountRepository accountRepository,
-		IUserContext userContext)
+		IUserContext userContext, IUnitOfWork unitOfWork)
 	{
 		_logger = logger;
-		_accountRepository = accountRepository;
 		_userContext = userContext;
+		_unitOfWork = unitOfWork;
 	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(ChangePasswordCommand request,
 		CancellationToken cancellationToken)
 	{
-		var account = await _accountRepository.GetOneAsync(_userContext.GetNameIdentifier(), cancellationToken);
+		var account =
+			await _unitOfWork.AccountUserRepository.FindOneAsync(
+				new object?[] { _userContext.GetNameIdentifier() }, cancellationToken);
 
-		if (!account.VerifyPassword(request.CurrentPassword))
+		if (account != null && !account.VerifyPassword(request.CurrentPassword))
 		{
 			return JsonApiResponse<EmptyUnitResponse>.Fail("Mật khẩu hiện tại không chính xác");
 		}
 
 		var newHashPassword = PasswordHasher.Hash(request.NewPassword);
+		account!.HashedPassword = newHashPassword;
+		_unitOfWork.AccountUserRepository.UpdateOneField(
+			account,
+			p => p.HashedPassword);
 
-		var updatedResult = await _accountRepository.UpdateOneAsync(account.Id.ToString(),
-			p => p.Set(acc => acc.HashedPassword, newHashPassword),
-			cancellationToken: cancellationToken);
+		var updatedResult = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-		return updatedResult.Any()
+		return updatedResult
 			? JsonApiResponse<EmptyUnitResponse>.Success()
 			: JsonApiResponse<EmptyUnitResponse>.Fail();
 	}

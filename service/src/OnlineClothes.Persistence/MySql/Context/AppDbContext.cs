@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OnlineClothes.Domain.Entities;
@@ -17,8 +18,11 @@ public class AppDbContext : DbContext
 				.AddConsole();
 		});
 
-	public AppDbContext(DbContextOptions options) : base(options)
+	private readonly IMediator _mediator;
+
+	public AppDbContext(DbContextOptions options, IMediator mediator) : base(options)
 	{
+		_mediator = mediator;
 	}
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -46,6 +50,7 @@ public class AppDbContext : DbContext
 				case EntityState.Added:
 					entityEntry.Entity.CreatedAt = DateTime.UtcNow;
 					break;
+
 				case EntityState.Deleted:
 				case EntityState.Modified:
 					entityEntry.Entity.ModifiedAt = DateTime.UtcNow;

@@ -1,20 +1,18 @@
 ﻿using MediatR;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
-using OnlineClothes.Infrastructure.Services.UserContext.Abstracts;
 using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Cart.Commands.RemoveItem;
 
 public class RemoveCartItemCommandHandler : IRequestHandler<RemoveCartItemCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	private readonly ICartRepository _cartRepository;
-	private readonly IUserContext _userContext;
+	//private readonly ICartRepository _cartRepository;
+	//private readonly IUserContext _userContext;
 
-	public RemoveCartItemCommandHandler(ICartRepository cartRepository, IUserContext userContext)
-	{
-		_cartRepository = cartRepository;
-		_userContext = userContext;
-	}
+	//public RemoveCartItemCommandHandler(ICartRepository cartRepository, IUserContext userContext)
+	//{
+	//	_cartRepository = cartRepository;
+	//	_userContext = userContext;
+	//}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(RemoveCartItemCommand request,
 		CancellationToken cancellationToken)

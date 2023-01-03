@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
+using OnlineClothes.Application.Apply.Persistence.Abstracts;
+using OnlineClothes.Application.Apply.Services.Mailing.Models;
 using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
-using OnlineClothes.Infrastructure.Services.Mailing;
 using OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
 using OnlineClothes.Infrastructure.Services.Mailing.Models;
 using OnlineClothes.Infrastructure.StandaloneConfigurations;
@@ -11,22 +11,19 @@ namespace OnlineClothes.Application.Helpers;
 public class AccountActivationHelper
 {
 	private readonly AccountActivationConfiguration _accountActivationConfiguration;
-	private readonly IAccountRepository _accountRepository;
-	private readonly IAccountTokenCodeRepository _accountTokenCodeRepository;
 	private readonly AppDomainConfiguration _domainConfiguration;
 	private readonly IMailingService _mailingService;
+	private readonly IUnitOfWork _unitOfWork;
 
 	public AccountActivationHelper(IOptions<AppDomainConfiguration> domainConfigurationOption,
 		IOptions<AccountActivationConfiguration> accountActivationConfigurationOption,
-		IAccountTokenCodeRepository accountTokenCodeRepository,
 		IMailingService mailingService,
-		IAccountRepository accountRepository)
+		IUnitOfWork unitOfWork)
 	{
 		_accountActivationConfiguration = accountActivationConfigurationOption.Value;
 		_domainConfiguration = domainConfigurationOption.Value;
-		_accountTokenCodeRepository = accountTokenCodeRepository;
 		_mailingService = mailingService;
-		_accountRepository = accountRepository;
+		_unitOfWork = unitOfWork;
 	}
 
 	public async Task<AccountActivationResult> StartNewAccount(AccountUser account,
@@ -35,13 +32,6 @@ public class AccountActivationHelper
 		if (!_accountActivationConfiguration.ByEmail)
 		{
 			account.Activate();
-
-			// update activated status
-			await _accountRepository.UpdateOneAsync(
-				account.Id.ToString(),
-				update => update.Set(acc => acc.IsActivated, account.IsActivated),
-				cancellationToken: cancellationToken);
-
 			return AccountActivationResult.Activated;
 		}
 
@@ -55,7 +45,9 @@ public class AccountActivationHelper
 		CancellationToken cancellationToken)
 	{
 		var newTokenCode = new AccountTokenCode(account.Email, AccountTokenType.Verification, TimeSpan.FromMinutes(15));
-		await _accountTokenCodeRepository.InsertAsync(newTokenCode, cancellationToken);
+		await _unitOfWork.AccountTokenRepository.InsertAsync(newTokenCode, cancellationToken: cancellationToken);
+		await _unitOfWork.SaveChangesAsync(cancellationToken);
+
 		return newTokenCode;
 	}
 

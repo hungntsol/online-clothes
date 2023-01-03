@@ -1,9 +1,9 @@
 ﻿using System.Security.Claims;
 using OnlineClothes.Domain.Entities.Aggregate;
 
-namespace OnlineClothes.Infrastructure.Services.Auth.Abstracts;
+namespace OnlineClothes.Application.Apply.Services.Auth;
 
-public interface IAuthService
+public interface IAuthorizeService
 {
 	string CreateJwtAccessToken(AccountUser account);
 

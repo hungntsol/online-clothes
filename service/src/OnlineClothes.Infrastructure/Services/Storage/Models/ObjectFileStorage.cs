@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using OnlineClothes.Application;
 using OnlineClothes.Support.Utilities;
 
 namespace OnlineClothes.Infrastructure.Services.Storage.Models;
@@ -15,7 +16,8 @@ public class ObjectFileStorage
 		ContentType = contentType;
 	}
 
-	public ObjectFileStorage(IFormFile file, string prefixDirectory, string? fileName = null, string? contentType = null)
+	public ObjectFileStorage(IFormFile file, string prefixDirectory, string? fileName = null,
+		string? contentType = null)
 	{
 		Stream = file.OpenReadStream();
 		PrefixDirectory = prefixDirectory;

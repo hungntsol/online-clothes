@@ -1,4 +1,4 @@
-﻿namespace OnlineClothes.Infrastructure.Services.Mailing;
+﻿namespace OnlineClothes.Application.Apply.Services.Mailing.Models;
 
 public static class EmailTemplateNames
 {

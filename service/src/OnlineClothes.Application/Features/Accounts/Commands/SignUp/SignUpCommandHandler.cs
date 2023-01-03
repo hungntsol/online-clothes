@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using OnlineClothes.Application.Apply.Persistence.Abstracts;
 using OnlineClothes.Application.Helpers;
 using OnlineClothes.Domain.Common;
 using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.HttpResponse;
 
@@ -14,23 +14,24 @@ internal sealed class
 	SignUpCommandHandler : IRequestHandler<SignUpCommand, JsonApiResponse<EmptyUnitResponse>>
 {
 	private readonly AccountActivationHelper _accountActivationHelper;
-	private readonly IAccountRepository _accountRepository;
 	private readonly ILogger<SignUpCommandHandler> _logger;
+	private readonly IUnitOfWork _unitOfWork;
 
 	public SignUpCommandHandler(ILogger<SignUpCommandHandler> logger,
-		IAccountRepository accountRepository,
-		AccountActivationHelper accountActivationHelper)
+		AccountActivationHelper accountActivationHelper,
+		IUnitOfWork unitOfWork)
 	{
 		_logger = logger;
-		_accountRepository = accountRepository;
 		_accountActivationHelper = accountActivationHelper;
+		_unitOfWork = unitOfWork;
 	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(SignUpCommand request,
 		CancellationToken cancellationToken)
 	{
 		var existingAccount =
-			await _accountRepository.FindOneAsync(FilterBuilder<AccountUser>.Where(p => p.Email == request.Email),
+			await _unitOfWork.AccountUserRepository.FindOneAsync(
+				FilterBuilder<AccountUser>.Where(p => p.Email == request.Email),
 				cancellationToken);
 
 		if (existingAccount is not null)
@@ -42,8 +43,10 @@ internal sealed class
 			Fullname.Create(request.FirstName, request.LastName));
 
 		var activateResult = await _accountActivationHelper.StartNewAccount(newAccount, cancellationToken);
+		await _unitOfWork.AccountUserRepository.InsertAsync(newAccount, cancellationToken: cancellationToken);
 
-		await _accountRepository.InsertAsync(newAccount, cancellationToken);
+		await _unitOfWork.SaveChangesAsync(cancellationToken);
+
 		_logger.LogInformation("Create new account {Email}", newAccount.Email);
 
 		return activateResult == AccountActivationResult.Activated

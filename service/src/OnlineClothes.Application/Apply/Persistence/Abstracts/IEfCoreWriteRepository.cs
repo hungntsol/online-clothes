@@ -2,7 +2,7 @@
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Entity;
 
-namespace OnlineClothes.Persistence.MySql.Repositories.Abstracts;
+namespace OnlineClothes.Application.Apply.Repositories.Abstracts;
 
 public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IEntity<TKey>, new()
 {
@@ -11,11 +11,11 @@ public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IE
 	/// <summary>
 	/// Find and delete entity with predication definition
 	/// </summary>
-	/// <param name="predicateDefinition"></param>
+	/// <param name="filterBuilder"></param>
 	/// <param name="notify"></param>
 	/// <param name="cancellationToken"></param>
 	/// <returns></returns>
-	Task<TEntity?> FindAndDelete(FilterBuilder<TEntity> predicateDefinition,
+	Task<TEntity?> FindAndDelete(FilterBuilder<TEntity> filterBuilder,
 		bool notify = true,
 		CancellationToken cancellationToken = default);
 
@@ -53,11 +53,9 @@ public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IE
 	/// </summary>
 	/// <param name="entity"></param>
 	/// <param name="notify"></param>
-	/// <param name="cancellationToken"></param>
 	/// <returns></returns>
-	Task<bool> UpdateAsync(TEntity entity,
-		bool notify = true,
-		CancellationToken cancellationToken = default);
+	bool Update(TEntity entity,
+		bool notify = true);
 
 	/// <summary>
 	/// Update only one field of record
@@ -65,13 +63,11 @@ public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IE
 	/// <param name="entity"></param>
 	/// <param name="updateDef"></param>
 	/// <param name="notify"></param>
-	/// <param name="cancellationToken"></param>
 	/// <returns></returns>
-	Task<bool> UpdateOneFieldAsync(
+	bool UpdateOneField(
 		TEntity entity,
 		Expression<Func<TEntity, object>> updateDef,
-		bool notify = true,
-		CancellationToken cancellationToken = default);
+		bool notify = true);
 
 	#endregion
 
@@ -82,22 +78,18 @@ public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IE
 	/// </summary>
 	/// <param name="entity"></param>
 	/// <param name="notify"></param>
-	/// <param name="cancellationToken"></param>
 	/// <returns></returns>
-	Task<bool> DeleteAsync(TEntity entity,
-		bool notify = true,
-		CancellationToken cancellationToken = default);
+	bool Delete(TEntity entity,
+		bool notify = true);
 
 	/// <summary>
 	/// Delete multiple entity
 	/// </summary>
 	/// <param name="filterBuilder"></param>
 	/// <param name="notify"></param>
-	/// <param name="cancellationToken"></param>
 	/// <returns></returns>
-	Task<bool> DeleteBatchAsync(FilterBuilder<TEntity> filterBuilder,
-		bool notify = true,
-		CancellationToken cancellationToken = default);
+	bool DeleteBatch(FilterBuilder<TEntity> filterBuilder,
+		bool notify = true);
 
 	#endregion
 }

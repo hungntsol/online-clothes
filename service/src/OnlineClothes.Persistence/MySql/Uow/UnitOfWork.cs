@@ -1,0 +1,112 @@
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using OnlineClothes.Application.Apply.Persistence;
+using OnlineClothes.Application.Apply.Persistence.Abstracts;
+using OnlineClothes.Persistence.MySql.Context;
+
+namespace OnlineClothes.Persistence.MySql.Uow;
+
+public class UnitOfWork : IUnitOfWork
+{
+	private readonly AppDbContext _dbContext;
+	private readonly ILogger<UnitOfWork> _logger;
+	private readonly IServiceProvider _serviceProvider;
+	private bool _disposed;
+	private IDbContextTransaction _transaction = null!;
+
+	public UnitOfWork(ILogger<UnitOfWork> logger, AppDbContext dbContext, IServiceProvider serviceProvider)
+	{
+		_logger = logger;
+		_dbContext = dbContext;
+		_serviceProvider = serviceProvider;
+	}
+
+	public void Dispose()
+	{
+		Dispose(true);
+		GC.SuppressFinalize(this);
+	}
+
+	public void BeginTransaction()
+	{
+		_transaction = _dbContext.Database.BeginTransaction();
+	}
+
+	public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+	{
+		_transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+		return _transaction;
+	}
+
+	public bool SaveChanges()
+	{
+		try
+		{
+			return _dbContext.SaveChanges() > 0;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "{message}", ex.Message);
+			return false;
+		}
+	}
+
+	public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			return await _dbContext.SaveChangesAsync(cancellationToken) > 0;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "{message}", ex.Message);
+			throw new Exception(ex.Message);
+		}
+	}
+
+	public void Commit()
+	{
+		_transaction.Commit();
+	}
+
+	public async Task CommitAsync(CancellationToken cancellationToken = default)
+	{
+		await _transaction.CommitAsync(cancellationToken);
+	}
+
+	public void Rollback()
+	{
+		_transaction.Rollback();
+		_transaction.Dispose();
+	}
+
+	public async Task RollbackAsync(CancellationToken cancellationToken = default)
+	{
+		await _transaction.RollbackAsync(cancellationToken);
+		await _transaction.DisposeAsync();
+	}
+
+	protected virtual void Dispose(bool disposing)
+	{
+		if (!_disposed)
+		{
+			if (disposing)
+			{
+				_dbContext.Dispose();
+			}
+		}
+
+		_disposed = true;
+	}
+
+	#region Repos
+
+	public IAccountUserRepository AccountUserRepository =>
+		_serviceProvider.GetRequiredService<IAccountUserRepository>();
+
+	public IAccountTokenRepository AccountTokenRepository =>
+		_serviceProvider.GetRequiredService<IAccountTokenRepository>();
+
+	#endregion
+}

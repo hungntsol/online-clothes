@@ -2,13 +2,13 @@
 using Amazon.S3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OnlineClothes.Infrastructure.Repositories;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
+using OnlineClothes.Application.Apply.Services.Auth;
+using OnlineClothes.Application.Apply.Services.Mailing;
+using OnlineClothes.Application.Apply.Services.Mailing.Engine;
+using OnlineClothes.Application.Apply.Services.Mailing.Models;
 using OnlineClothes.Infrastructure.Services.Auth;
-using OnlineClothes.Infrastructure.Services.Auth.Abstracts;
 using OnlineClothes.Infrastructure.Services.Mailing;
 using OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
-using OnlineClothes.Infrastructure.Services.Mailing.Engine;
 using OnlineClothes.Infrastructure.Services.Storage.Abstracts;
 using OnlineClothes.Infrastructure.Services.Storage.AwsS3;
 using OnlineClothes.Infrastructure.Services.UserContext;
@@ -31,17 +31,12 @@ public static class DependencyInjection
 
 	public static void RegisterRepositories(this IServiceCollection services)
 	{
-		services.AddTransient<IAccountRepository, AccountRepository>();
-		services.AddTransient<IAccountTokenCodeRepository, AccountTokenCodeRepository>();
-		services.AddTransient<IProductRepository, ProductRepository>();
-		services.AddTransient<ICartRepository, CartRepository>();
-		services.AddTransient<IOrderRepository, OrderRepository>();
 	}
 
 	public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
 	{
 		// auth
-		services.AddTransient<IAuthService, AuthService>();
+		services.AddTransient<IAuthorizeService, AuthorizeService>();
 
 		// mailing
 		services.AddSingleton<IMailingProviderConnection, MailingProviderConnection>();

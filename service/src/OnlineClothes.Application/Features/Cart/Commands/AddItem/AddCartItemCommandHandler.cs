@@ -1,23 +1,22 @@
 ﻿using MediatR;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
-using OnlineClothes.Infrastructure.Services.UserContext.Abstracts;
 using OnlineClothes.Support.HttpResponse;
+//using OnlineClothes.Infrastructure.Repositories.Abstracts;
 
 namespace OnlineClothes.Application.Features.Cart.Commands.AddItem;
 
 public class AddCartItemCommandHandler : IRequestHandler<AddCartItemCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	private readonly ICartRepository _cartRepository;
-	private readonly IProductRepository _productRepository;
-	private readonly IUserContext _userContext;
+	//private readonly ICartRepository _cartRepository;
+	//private readonly IProductRepository _productRepository;
+	//private readonly IUserContext _userContext;
 
-	public AddCartItemCommandHandler(ICartRepository cartRepository, IUserContext userContext,
-		IProductRepository productRepository)
-	{
-		_cartRepository = cartRepository;
-		_userContext = userContext;
-		_productRepository = productRepository;
-	}
+	//public AddCartItemCommandHandler(ICartRepository cartRepository, IUserContext userContext,
+	//	IProductRepository productRepository)
+	//{
+	//	_cartRepository = cartRepository;
+	//	_userContext = userContext;
+	//	_productRepository = productRepository;
+	//}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(AddCartItemCommand request,
 		CancellationToken cancellationToken)

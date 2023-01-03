@@ -8,6 +8,6 @@ public class EntityProductInCategoryConfigure : IEntityTypeConfiguration<Product
 {
 	public void Configure(EntityTypeBuilder<ProductInCategory> builder)
 	{
-		builder.HasKey(q => new { q.ProductId, q.ClotheCategoryId });
+		builder.HasKey(q => new { ProductId = q.ProductSku, q.ClotheCategoryId });
 	}
 }

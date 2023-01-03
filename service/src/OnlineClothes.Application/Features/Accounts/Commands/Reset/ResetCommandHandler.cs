@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OnlineClothes.Application.Apply.Persistence.Abstracts;
+using OnlineClothes.Application.Apply.Services.Mailing.Models;
 using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
-using OnlineClothes.Infrastructure.Services.Mailing;
 using OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
 using OnlineClothes.Infrastructure.Services.Mailing.Models;
 using OnlineClothes.Infrastructure.StandaloneConfigurations;
@@ -15,28 +15,24 @@ namespace OnlineClothes.Application.Features.Accounts.Commands.Reset;
 
 internal sealed class ResetCommandHandler : IRequestHandler<ResetCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	private readonly IAccountRepository _accountRepository;
-	private readonly IAccountTokenCodeRepository _accountTokenCodeRepository;
 	private readonly AppDomainConfiguration _domainConfiguration;
 	private readonly ILogger<ResetCommand> _logger;
 	private readonly IMailingService _mailingService;
+	private readonly IUnitOfWork _unitOfWork;
 
 	public ResetCommandHandler(ILogger<ResetCommand> logger,
-		IAccountRepository accountRepository,
-		IAccountTokenCodeRepository accountTokenCodeRepository,
-		IOptions<AppDomainConfiguration> appDomainOptions, IMailingService mailingService)
+		IOptions<AppDomainConfiguration> appDomainOptions, IMailingService mailingService, IUnitOfWork unitOfWork)
 	{
 		_logger = logger;
-		_accountRepository = accountRepository;
-		_accountTokenCodeRepository = accountTokenCodeRepository;
 		_mailingService = mailingService;
+		_unitOfWork = unitOfWork;
 		_domainConfiguration = appDomainOptions.Value;
 	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(ResetCommand request,
 		CancellationToken cancellationToken)
 	{
-		var account = await _accountRepository.FindOneAsync(
+		var account = await _unitOfWork.AccountUserRepository.FindOneAsync(
 			FilterBuilder<AccountUser>.Where(acc => acc.Email.Equals(request.Email)), cancellationToken);
 
 		NullValueReferenceException.ThrowIfNull(account, nameof(account));
@@ -44,7 +40,7 @@ internal sealed class ResetCommandHandler : IRequestHandler<ResetCommand, JsonAp
 		var recoveryCode =
 			new AccountTokenCode(account.Email, AccountTokenType.ResetPassword, TimeSpan.FromMinutes(15));
 
-		await _accountTokenCodeRepository.InsertAsync(recoveryCode, cancellationToken);
+		await _unitOfWork.AccountTokenRepository.InsertAsync(recoveryCode, cancellationToken: cancellationToken);
 
 		var mail = new MailingTemplate(account.Email, "Recovery account", EmailTemplateNames.ResetPassword,
 			new

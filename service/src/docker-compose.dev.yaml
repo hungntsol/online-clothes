@@ -1,29 +1,29 @@
 version: '3.8'
 
 services:
-  # mongodb
-  mongo-database:
-    image: bitnami/mongodb:6.0-debian-11
-    hostname: mongo-database
-    container_name: oop-mongo-database
+  # mysql
+  mysql-db:
+    image: mysql:debian
+    hostname: mysql-db
     networks:
       - oop-infra
     volumes:
-      - mongo-data:/bitnami/mongodb
+      - app-data:/var/lib/mysql
     ports:
-      - 27018:27017
+      - "3306:3306"
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=mysql@123
 
   mail-server-smtp:
-    image: jijiechen/papercut
+    image: marcopas/docker-mailslurper
     hostname: mail-server-smtp
-    container_name: oop-mail-server
     networks:
       - oop-infra
     ports:
-      - 25:25
-      - 37408:37408
+      - "2500:2500"
+      - "8080:8080"
+      - "8085:8085"
+
 
 networks:
   oop-infra:
@@ -31,4 +31,4 @@ networks:
 
 
 volumes:
-  mongo-data:
+  app-data:

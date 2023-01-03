@@ -1,21 +1,19 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
 using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Product.Commands.UpdateInfo;
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	private readonly ILogger<UpdateProductCommandHandler> _logger;
-	private readonly IProductRepository _productRepository;
+	//private readonly ILogger<UpdateProductCommandHandler> _logger;
+	//private readonly IProductRepository _productRepository;
 
-	public UpdateProductCommandHandler(ILogger<UpdateProductCommandHandler> logger,
-		IProductRepository productRepository)
-	{
-		_logger = logger;
-		_productRepository = productRepository;
-	}
+	//public UpdateProductCommandHandler(ILogger<UpdateProductCommandHandler> logger,
+	//	IProductRepository productRepository)
+	//{
+	//	_logger = logger;
+	//	_productRepository = productRepository;
+	//}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(UpdateProductCommand request,
 		CancellationToken cancellationToken)

@@ -21,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OnlineClothes.Application\OnlineClothes.Application.csproj" />
+    <ProjectReference Include="..\OnlineClothes.Infrastructure\OnlineClothes.Infrastructure.csproj" />
+    <ProjectReference Include="..\OnlineClothes.Persistence\OnlineClothes.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

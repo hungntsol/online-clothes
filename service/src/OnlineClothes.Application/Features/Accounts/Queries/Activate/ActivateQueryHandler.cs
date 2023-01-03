@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using OnlineClothes.Application.Apply.Persistence.Abstracts;
 using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Infrastructure.Repositories.Abstracts;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Exceptions;
 using OnlineClothes.Support.HttpResponse;
@@ -10,22 +10,19 @@ namespace OnlineClothes.Application.Features.Accounts.Queries.Activate;
 
 internal sealed class ActivateQueryHandler : IRequestHandler<ActivateQuery, JsonApiResponse<EmptyUnitResponse>>
 {
-	private readonly IAccountRepository _accountRepository;
-	private readonly IAccountTokenCodeRepository _accountTokenCodeRepository;
 	private readonly ILogger<ActivateQueryHandler> _logger;
+	private readonly IUnitOfWork _unitOfWork;
 
-	public ActivateQueryHandler(ILogger<ActivateQueryHandler> logger, IAccountRepository accountRepository,
-		IAccountTokenCodeRepository accountTokenCodeRepository)
+	public ActivateQueryHandler(ILogger<ActivateQueryHandler> logger, IUnitOfWork unitOfWork)
 	{
 		_logger = logger;
-		_accountRepository = accountRepository;
-		_accountTokenCodeRepository = accountTokenCodeRepository;
+		_unitOfWork = unitOfWork;
 	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(ActivateQuery request,
 		CancellationToken cancellationToken)
 	{
-		var tokenCode = await _accountTokenCodeRepository.FindOneAsync(FilterBuilder<AccountTokenCode>.Where(x =>
+		var tokenCode = await _unitOfWork.AccountTokenRepository.FindOneAsync(FilterBuilder<AccountTokenCode>.Where(x =>
 			x.TokenCode == request.Token && x.TokenType == AccountTokenType.Verification), cancellationToken);
 
 		NullValueReferenceException.ThrowIfNull(tokenCode, nameof(tokenCode));
@@ -35,17 +32,38 @@ internal sealed class ActivateQueryHandler : IRequestHandler<ActivateQuery, Json
 			return JsonApiResponse<EmptyUnitResponse>.Fail();
 		}
 
-		var updateResult = await _accountRepository.UpdateOneAsync(
-			FilterBuilder<AccountUser>.Where(acc => acc.Email.Equals(tokenCode.Email)),
-			p => p.Set(acc => acc.IsActivated, true),
-			cancellationToken: cancellationToken);
+		var account =
+			await _unitOfWork.AccountUserRepository.FindOneAsync(q => q.Email.Equals(tokenCode.Email),
+				cancellationToken);
 
-		if (updateResult.IsAcknowledged && updateResult.IsModifiedCountAvailable)
+		NullValueReferenceException.ThrowIfNull(account);
+
+		// Begin tx
+		await _unitOfWork.BeginTransactionAsync(cancellationToken);
+
+		account.Activate();
+		_unitOfWork.AccountUserRepository.Update(account);
+
+		var updateResult = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+		if (updateResult)
 		{
-			await _accountTokenCodeRepository.DeleteOneAsync(tokenCode.Id.ToString(), cancellationToken);
+			_unitOfWork.AccountTokenRepository.Delete(tokenCode);
+			await _unitOfWork.SaveChangesAsync(cancellationToken);
+
 			_logger.LogInformation("Account {Email} is activated", tokenCode.Email);
 		}
 
-		return JsonApiResponse<EmptyUnitResponse>.Success();
+		try
+		{
+			// Commit
+			await _unitOfWork.CommitAsync(cancellationToken);
+			return JsonApiResponse<EmptyUnitResponse>.Success();
+		}
+		catch (Exception e)
+		{
+			_logger.LogError(e, "{message}", e.Message);
+			throw new Exception(e.Message);
+		}
 	}
 }

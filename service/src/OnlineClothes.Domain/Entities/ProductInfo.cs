@@ -5,7 +5,7 @@ using OnlineClothes.Support.Entity;
 
 namespace OnlineClothes.Domain.Entities;
 
-public class ProductInfo : EntityDatetimeBase
+public class ProductInfo : IEntityDatetimeSupport
 {
 	[Key] [Required] public string Sku { get; set; } = null!;
 
@@ -18,4 +18,8 @@ public class ProductInfo : EntityDatetimeBase
 	public ICollection<ClotheCategory> ClotheCategories { get; set; } = new List<ClotheCategory>();
 
 	public ClotheType Type { get; set; }
+
+	public DateTime CreatedAt { get; set; }
+
+	public DateTime ModifiedAt { get; set; }
 }
