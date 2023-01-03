@@ -63,11 +63,11 @@ public class AppDbContext : DbContext
 	public DbSet<AccountTokenCode> AccountTokens { get; set; } = null!;
 	public DbSet<AccountCart> AccountCarts { get; set; } = null!;
 	public DbSet<CartItem> CartItems { get; set; } = null!;
-	public DbSet<ClotheMaterialType> ClotheMaterialTypes { get; set; }
-	public DbSet<ProductInMaterial> ProductInMaterials { get; set; }
-	public DbSet<ClotheCategory> ClotheCategories { get; set; }
-	public DbSet<ProductInCategory> ProductInCategories { get; set; }
-	public DbSet<ClotheBrand> ClotheBrands { get; set; }
+	public DbSet<ClotheMaterialType> ClotheMaterialTypes { get; set; } = null!;
+	public DbSet<ProductInMaterial> ProductInMaterials { get; set; } = null!;
+	public DbSet<ClotheCategory> ClotheCategories { get; set; } = null!;
+	public DbSet<ProductInCategory> ProductInCategories { get; set; } = null!;
+	public DbSet<ClotheBrand> ClotheBrands { get; set; } = null!;
 
 	#endregion
 }

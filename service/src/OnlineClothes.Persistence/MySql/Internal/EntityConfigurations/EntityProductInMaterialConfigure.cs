@@ -4,7 +4,7 @@ using OnlineClothes.Domain.Entities;
 
 namespace OnlineClothes.Persistence.MySql.Internal.EntityConfigurations;
 
-public class EntityClotheMaterialConfigure : IEntityTypeConfiguration<ProductInMaterial>
+public class EntityProductInMaterialConfigure : IEntityTypeConfiguration<ProductInMaterial>
 {
 	public void Configure(EntityTypeBuilder<ProductInMaterial> builder)
 	{
