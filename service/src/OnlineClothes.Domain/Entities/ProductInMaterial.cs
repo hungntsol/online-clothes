@@ -15,13 +15,13 @@ public class ProductInMaterial
 		MaterialId = materialId;
 	}
 
-	public ProductInMaterial(ProductDetail detail, ClotheMaterialType materialType)
+	public ProductInMaterial(Product detail, ClotheMaterialType materialType)
 	{
 		Detail = detail;
 		MaterialType = materialType;
 	}
 
-	[ForeignKey("ClotheDetailId")] public ProductDetail Detail { get; set; } = null!;
+	[ForeignKey("ClotheDetailId")] public Product Detail { get; set; } = null!;
 	public int ClotheDetailId { get; set; }
 
 	[ForeignKey("MaterialId")] public ClotheMaterialType MaterialType { get; set; } = null!;

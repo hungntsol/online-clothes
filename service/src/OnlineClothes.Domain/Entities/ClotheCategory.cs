@@ -1,5 +1,4 @@
-﻿using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Support.Entity;
+﻿using OnlineClothes.Support.Entity;
 
 namespace OnlineClothes.Domain.Entities;
 
@@ -18,7 +17,7 @@ public class ClotheCategory : EntityBase
 	public string Name { get; set; } = null!;
 	public string? Description { get; set; }
 
-	public ICollection<Product> Products { get; set; } = new List<Product>();
+	public ICollection<ProductInfo> Products { get; set; } = new List<ProductInfo>();
 
 	public void Update(string newName, string newDesc)
 	{

@@ -20,7 +20,6 @@ public class AccountCart : EntityBase
 	}
 
 	[ForeignKey("AccountId")] public AccountUser Account { get; set; } = null!;
-
 	public int AccountId { get; set; }
 
 	public ICollection<CartItem> Items { get; set; } = new List<CartItem>();
@@ -54,7 +53,7 @@ public class AccountCart : EntityBase
 
 	private CartItem? FindItemInCart(int productId)
 	{
-		return Items.FirstOrDefault(q => q.ProductId.Equals(productId));
+		return Items.FirstOrDefault(q => q.ProductDetailId.Equals(productId));
 	}
 
 	private void PostCheck(CartItem item)

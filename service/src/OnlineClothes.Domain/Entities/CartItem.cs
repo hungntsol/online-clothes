@@ -9,9 +9,9 @@ public class CartItem
 	{
 	}
 
-	public CartItem(int productId, int quantity = 1) : this()
+	public CartItem(int productDetailId, int quantity = 1) : this()
 	{
-		ProductId = productId;
+		ProductDetailId = productDetailId;
 		Quantity = quantity;
 	}
 
@@ -28,8 +28,9 @@ public class CartItem
 	[ForeignKey("CartId")] public AccountCart Cart { get; set; } = null!;
 	public int CartId { get; set; }
 
-	// foreign key
-	public int ProductId { get; set; }
+	[ForeignKey("ProductDetailId")] private Product Product { get; set; } = null!;
+	public int ProductDetailId { get; set; }
+
 	public int Quantity { get; set; }
 
 	public void Increase(int number)

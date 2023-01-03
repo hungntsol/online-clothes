@@ -16,7 +16,7 @@ public class ClotheMaterialType : EntityBase
 
 	public string MaterialName { get; set; } = null!;
 
-	public ICollection<ProductDetail> ProductDetails { get; set; } = new List<ProductDetail>();
+	public ICollection<Product> ProductDetails { get; set; } = new List<Product>();
 
 	public void Rename(string newName)
 	{
