@@ -17,7 +17,7 @@ public class ClotheCategory : EntityBase
 
 	public ICollection<ProductInfo> Products { get; set; } = new List<ProductInfo>();
 
-	public void Update(string newName, string newDesc)
+	public void Update(string newName, string? newDesc)
 	{
 		Name = newName;
 		Description = newDesc;

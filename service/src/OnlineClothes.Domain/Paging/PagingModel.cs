@@ -1,19 +1,32 @@
 ﻿namespace OnlineClothes.Domain.Paging;
 
-public class PagingModel<T> where T : class
+public class PagingModel<T>
 {
-	public PagingModel(long totalCount, IEnumerable<T> items)
+	public PagingModel(long totalCount, ICollection<T> items, int pageIndex)
 	{
-		Total = totalCount;
+		total = totalCount;
+		itemCount = items.Count;
 
-		var enumerable = items as T[] ?? items.ToArray();
-		ItemCount = enumerable.Length;
-		Items = enumerable;
+		Items = items;
+		PageIndex = pageIndex;
 	}
 
-	private long Total { get; }
-	private int ItemCount { get; }
-	public IEnumerable<T>? Items { get; set; }
+	private long total { get; }
+	private int itemCount { get; }
 
-	public int Pages => (int)(Total / ItemCount);
+	public ICollection<T>? Items { get; set; }
+
+	public int Pages => (int)(total / itemCount);
+
+	public int PageIndex { get; set; }
+
+	public static PagingModel<T> ToPages(long total, ICollection<T> items, int pageIndex)
+	{
+		return new PagingModel<T>(total, items, pageIndex);
+	}
+
+	public static PagingModel<T> ToPages(long total, IEnumerable<T> items, int pageIndex)
+	{
+		return new PagingModel<T>(total, items.ToArray(), pageIndex);
+	}
 }

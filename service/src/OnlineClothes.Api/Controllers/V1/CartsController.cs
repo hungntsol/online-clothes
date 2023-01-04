@@ -17,13 +17,13 @@ public class CartsController : ApiV1ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> Get()
 	{
-		return ApiResponse(await Mediator.Send(new GetCartInfoQuery()));
+		return HandleApiResponse(await Mediator.Send(new GetCartInfoQuery()));
 	}
 
 	[HttpPut("{productId}/add-item/{quantity}")]
 	public async Task<IActionResult> AddItem(string productId, int quantity)
 	{
-		return ApiResponse(await Mediator.Send(new AddCartItemCommand
+		return HandleApiResponse(await Mediator.Send(new AddCartItemCommand
 		{
 			ProductId = productId,
 			Quantity = quantity
@@ -33,7 +33,7 @@ public class CartsController : ApiV1ControllerBase
 	[HttpPut("{productId}/remove-item/{quantity}")]
 	public async Task<IActionResult> RemoveItem(string productId, int quantity)
 	{
-		return ApiResponse(await Mediator.Send(new RemoveCartItemCommand
+		return HandleApiResponse(await Mediator.Send(new RemoveCartItemCommand
 		{
 			ProductId = productId,
 			Quantity = quantity

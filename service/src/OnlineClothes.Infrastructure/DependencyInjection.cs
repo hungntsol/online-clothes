@@ -34,7 +34,8 @@ public static class DependencyInjection
 	public static void RegisterRepositories(this IServiceCollection services)
 	{
 		services.AddTransient<IAccountRepository, AccountRepository>()
-			.AddTransient<ITokenRepository, TokenRepository>();
+			.AddTransient<ITokenRepository, TokenRepository>()
+			.AddTransient<ICategoryRepository, CategoryRepository>();
 	}
 
 	public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)

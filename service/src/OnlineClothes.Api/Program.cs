@@ -1,5 +1,4 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using OnlineClothes.Api.ServiceExtensions;
 using OnlineClothes.Application.Middlewares;
 
@@ -7,10 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers()
-	.AddJsonOptions(options =>
+	.AddNewtonsoftJson(mvcNewtonsoftJsonOptions =>
 	{
-		options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-		options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+		mvcNewtonsoftJsonOptions.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+		mvcNewtonsoftJsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 	});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -8,7 +8,7 @@ namespace OnlineClothes.Application.Persistence.Abstracts;
 /// <typeparam name="TEntity"></typeparam>
 /// <typeparam name="TKey"></typeparam>
 public interface IEfCoreRepository<TEntity, TKey> : IEfCoreWriteRepository<TEntity, TKey>,
-	IEfCoreReadOnlyRepository<TEntity, TKey>
+	IEfCorePagingRepository<TEntity, TKey>
 	where TEntity : class, IEntity<TKey>, new()
 {
 }

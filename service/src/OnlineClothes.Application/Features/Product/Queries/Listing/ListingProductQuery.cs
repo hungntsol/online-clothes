@@ -6,6 +6,10 @@ namespace OnlineClothes.Application.Features.Product.Queries.Listing;
 public class ListingProductQuery : PagingRequest,
 	IRequest<JsonApiResponse<PagingModel<ListingProductQueryResultModel>>>
 {
+	public ListingProductQuery(int pageIndex, int pageSize) : base(pageIndex, pageSize)
+	{
+	}
+
 	// search query
 	public string? Q { get; set; }
 

@@ -6,6 +6,7 @@ using OnlineClothes.Application;
 using OnlineClothes.Application.Services.Auth.Models;
 using OnlineClothes.Infrastructure;
 using OnlineClothes.Persistence;
+using OnlineClothes.Support.Mapping;
 
 namespace OnlineClothes.Api.ServiceExtensions;
 
@@ -18,6 +19,7 @@ public static class StartupServiceExtensions
 		services.ConfigSwagger();
 		services.ConfigAuth(configuration);
 		services.ConfigCors();
+		services.AddMapping();
 
 		services.RegisterPersistenceLayer(configuration);
 		services.RegisterApplicationLayer(configuration);

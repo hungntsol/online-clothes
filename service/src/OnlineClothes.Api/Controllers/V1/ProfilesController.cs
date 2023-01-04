@@ -17,19 +17,19 @@ public class ProfilesController : ApiV1ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> FetchInformation(CancellationToken cancellationToken = default)
 	{
-		return ApiResponse(await Mediator.Send(new FetchInformationQuery(), cancellationToken));
+		return HandleApiResponse(await Mediator.Send(new FetchInformationQuery(), cancellationToken));
 	}
 
 	[HttpPut("edit-info")]
 	public async Task<IActionResult> EditInformation([FromBody] EditInformationCommand command,
 		CancellationToken cancellationToken = default)
 	{
-		return ApiResponse(await Mediator.Send(command, cancellationToken));
+		return HandleApiResponse(await Mediator.Send(command, cancellationToken));
 	}
 
 	[HttpPost("upload-avatar")]
 	public async Task<IActionResult> EditAvatar([FromForm] EditAvatarCommand command)
 	{
-		return ApiResponse(await Mediator.Send(command));
+		return HandleApiResponse(await Mediator.Send(command));
 	}
 }

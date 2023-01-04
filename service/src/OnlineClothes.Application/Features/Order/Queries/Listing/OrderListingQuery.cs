@@ -4,4 +4,7 @@ namespace OnlineClothes.Application.Features.Order.Queries.Listing;
 
 public class OrderListingQuery : PagingRequest, IRequest<JsonApiResponse<PagingModel<OrderListingQueryViewModel>>>
 {
+	public OrderListingQuery(int pageIndex, int pageSize) : base(pageIndex, pageSize)
+	{
+	}
 }

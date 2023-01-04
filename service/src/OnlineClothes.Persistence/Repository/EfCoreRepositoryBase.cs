@@ -7,7 +7,7 @@ using OnlineClothes.Support.Entity;
 
 namespace OnlineClothes.Persistence.Repository;
 
-public abstract class EfCoreRepositoryBase<TEntity, TKey> : EfCoreReadOnlyRepositoryBase<TEntity, TKey>,
+public abstract class EfCoreRepositoryBase<TEntity, TKey> : EfCorePagingRepository<TEntity, TKey>,
 	IEfCoreRepository<TEntity, TKey>
 	where TEntity : class, IEntity<TKey>, new()
 {
