@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace OnlineClothes.Application.Features.Category.Commands.NewCategory;
+namespace OnlineClothes.Application.Features.Category.Commands.Create;
 
 public class CreateNewCategoryCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {

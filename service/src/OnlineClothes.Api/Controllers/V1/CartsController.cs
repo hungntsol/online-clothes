@@ -1,6 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 using OnlineClothes.Application.Features.Cart.Commands.AddItem;
 using OnlineClothes.Application.Features.Cart.Commands.RemoveItem;
 using OnlineClothes.Application.Features.Cart.Queries.GetInfo;

@@ -21,7 +21,7 @@ public class EditInformationCommandHandler : IRequestHandler<EditInformationComm
 		CancellationToken cancellationToken)
 	{
 		var account = await _accountRepository.GetByIntKey(_userContext.GetNameIdentifier(), cancellationToken);
-		request.Mapper(account);
+		request.Map(account);
 
 		_accountRepository.Update(account);
 

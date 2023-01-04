@@ -7,7 +7,7 @@ public class EditInformationCommand : IRequest<JsonApiResponse<EmptyUnitResponse
 	public string? PhoneNumber { get; init; }
 	public string? Address { get; init; }
 
-	public void Mapper(AccountUser account)
+	public void Map(AccountUser account)
 	{
 		account.FirstName = FirstName;
 		account.LastName = LastName;

@@ -1,6 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 using OnlineClothes.Application.Features.Accounts.Commands.ChangePassword;
 using OnlineClothes.Application.Features.Accounts.Commands.Reset;
 using OnlineClothes.Application.Features.Accounts.Commands.SignIn;

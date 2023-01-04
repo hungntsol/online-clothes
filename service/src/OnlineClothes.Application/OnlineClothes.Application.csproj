@@ -26,8 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Category\Commands\Edit\" />
-    <Folder Include="Features\Category\Commands\Delete\" />
-    <Folder Include="Features\Category\Queries\Paging\" />
+    <Folder Include="Features\Brand\Commands\Create\" />
+    <Folder Include="Features\Brand\Commands\Edit\" />
+    <Folder Include="Features\Brand\Commands\Delete\" />
+    <Folder Include="Features\Brand\Queries\Paging\" />
+    <Folder Include="Features\Brand\Queries\Single\" />
   </ItemGroup>
 </Project>

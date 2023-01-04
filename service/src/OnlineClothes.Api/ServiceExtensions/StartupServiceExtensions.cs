@@ -33,9 +33,9 @@ public static class StartupServiceExtensions
 	/// </summary>
 	private static void ConfigSwagger(this IServiceCollection services)
 	{
-		services.AddSwaggerGen(c =>
+		services.AddSwaggerGen(swaggerGenOptions =>
 		{
-			c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+			swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
 			var jwtSchema = new OpenApiSecurityScheme
 			{
 				Scheme = JwtBearerDefaults.AuthenticationScheme,
@@ -50,11 +50,12 @@ public static class StartupServiceExtensions
 					Type = ReferenceType.SecurityScheme
 				}
 			};
-			c.AddSecurityDefinition(jwtSchema.Reference.Id, jwtSchema);
-			c.AddSecurityRequirement(new OpenApiSecurityRequirement
+			swaggerGenOptions.AddSecurityDefinition(jwtSchema.Reference.Id, jwtSchema);
+			swaggerGenOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
 			{
 				{ jwtSchema, ArraySegment<string>.Empty }
 			});
+			swaggerGenOptions.CustomSchemaIds(type => type.ToString());
 		});
 	}
 

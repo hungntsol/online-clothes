@@ -1,6 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using OnlineClothes.Support.HttpResponse;
+﻿using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Api.Controllers;
 

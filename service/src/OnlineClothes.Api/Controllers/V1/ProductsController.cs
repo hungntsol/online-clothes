@@ -1,6 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 using OnlineClothes.Application.Features.Product.Commands.Delete;
 using OnlineClothes.Application.Features.Product.Commands.ImportProducts;
 using OnlineClothes.Application.Features.Product.Commands.NewProduct;

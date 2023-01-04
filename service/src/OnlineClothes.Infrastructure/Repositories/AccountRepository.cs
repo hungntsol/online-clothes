@@ -3,7 +3,7 @@ using OnlineClothes.Application.Persistence;
 
 namespace OnlineClothes.Infrastructure.Repositories;
 
-public class AccountRepository : EfCoreRepositoryBase<AccountUser, int>, IAccountRepository
+internal class AccountRepository : EfCoreRepositoryBase<AccountUser, int>, IAccountRepository
 {
 	public AccountRepository(AppDbContext dbContext) : base(dbContext)
 	{

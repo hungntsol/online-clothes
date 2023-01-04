@@ -1,6 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 using OnlineClothes.Application.Features.Order.Commands.Cancel;
 using OnlineClothes.Application.Features.Order.Commands.Checkout;
 using OnlineClothes.Application.Features.Order.Commands.Delivery;

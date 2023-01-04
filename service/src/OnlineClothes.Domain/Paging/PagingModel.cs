@@ -21,7 +21,7 @@ public class PagingModel<T>
 		get
 		{
 			if (itemCount == 0) return 1;
-			return (int)(total / itemCount);
+			return (int)Math.Ceiling((double)total / itemCount);
 		}
 	}
 

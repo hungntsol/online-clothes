@@ -2,7 +2,7 @@
 using OnlineClothes.Application.Persistence;
 using OnlineClothes.Domain.Entities;
 
-namespace OnlineClothes.Application.Features.Category.Commands.NewCategory;
+namespace OnlineClothes.Application.Features.Category.Commands.Create;
 
 public sealed class
 	CreateNewCategoryCommandHandler : IRequestHandler<CreateNewCategoryCommand, JsonApiResponse<EmptyUnitResponse>>
