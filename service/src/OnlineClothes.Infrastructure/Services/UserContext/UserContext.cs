@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using OnlineClothes.Infrastructure.Services.UserContext.Abstracts;
+using OnlineClothes.Application.Services.UserContext;
 
 namespace OnlineClothes.Infrastructure.Services.UserContext;
 

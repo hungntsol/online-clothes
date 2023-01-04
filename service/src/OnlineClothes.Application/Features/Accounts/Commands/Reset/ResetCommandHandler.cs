@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
-using OnlineClothes.Application.Apply.Services.Mailing.Models;
+using OnlineClothes.Application.Persistence;
+using OnlineClothes.Application.Persistence.Abstracts;
+using OnlineClothes.Application.Services.Mailing;
+using OnlineClothes.Application.Services.Mailing.Models;
+using OnlineClothes.Application.StandaloneConfigurations;
 using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
-using OnlineClothes.Infrastructure.Services.Mailing.Models;
-using OnlineClothes.Infrastructure.StandaloneConfigurations;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Exceptions;
 

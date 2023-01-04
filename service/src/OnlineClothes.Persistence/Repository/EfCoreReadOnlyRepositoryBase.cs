@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using OnlineClothes.Application.Apply.Repositories.Abstracts;
+using OnlineClothes.Application.Persistence.Abstracts;
 using OnlineClothes.Persistence.Context;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Entity;

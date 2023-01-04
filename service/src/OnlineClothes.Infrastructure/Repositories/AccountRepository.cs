@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineClothes.Application.Apply.Persistence;
+using OnlineClothes.Application.Persistence;
 
 namespace OnlineClothes.Infrastructure.Repositories;
 

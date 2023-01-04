@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OnlineClothes.Application;
-using OnlineClothes.Application.Apply.Services.Auth.Models;
+using OnlineClothes.Application.Services.Auth.Models;
 using OnlineClothes.Infrastructure;
 using OnlineClothes.Persistence;
 

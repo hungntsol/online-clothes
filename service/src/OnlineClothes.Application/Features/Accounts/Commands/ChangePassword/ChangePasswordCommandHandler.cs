@@ -1,4 +1,8 @@
-﻿namespace OnlineClothes.Application.Features.Accounts.Commands.ChangePassword;
+﻿using OnlineClothes.Application.Persistence;
+using OnlineClothes.Application.Persistence.Abstracts;
+using OnlineClothes.Application.Services.UserContext;
+
+namespace OnlineClothes.Application.Features.Accounts.Commands.ChangePassword;
 
 internal sealed class
 	ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, JsonApiResponse<EmptyUnitResponse>>

@@ -3,8 +3,8 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using OnlineClothes.Application.Apply.Services.Mailing;
-using OnlineClothes.Application.Apply.Services.Mailing.Models;
+using OnlineClothes.Application.Services.Mailing;
+using OnlineClothes.Application.Services.Mailing.Models;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 

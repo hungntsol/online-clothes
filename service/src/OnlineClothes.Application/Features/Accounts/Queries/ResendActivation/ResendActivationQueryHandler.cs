@@ -1,4 +1,6 @@
 ﻿using OnlineClothes.Application.Helpers;
+using OnlineClothes.Application.Persistence;
+using OnlineClothes.Application.Persistence.Abstracts;
 
 namespace OnlineClothes.Application.Features.Accounts.Queries.ResendActivation;
 

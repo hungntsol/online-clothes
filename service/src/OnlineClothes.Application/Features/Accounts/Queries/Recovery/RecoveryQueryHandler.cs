@@ -1,5 +1,7 @@
-﻿using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
+﻿using OnlineClothes.Application.Persistence;
+using OnlineClothes.Application.Persistence.Abstracts;
+using OnlineClothes.Application.Services.Mailing;
+using OnlineClothes.Domain.Entities.Aggregate;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Exceptions;
 

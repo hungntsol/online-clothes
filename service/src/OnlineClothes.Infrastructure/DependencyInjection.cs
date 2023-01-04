@@ -2,21 +2,20 @@
 using Amazon.S3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OnlineClothes.Application.Apply.Persistence;
-using OnlineClothes.Application.Apply.Services.Auth;
-using OnlineClothes.Application.Apply.Services.Mailing;
-using OnlineClothes.Application.Apply.Services.Mailing.Engine;
-using OnlineClothes.Application.Apply.Services.Mailing.Models;
-using OnlineClothes.Application.Apply.Services.ObjectStorage;
-using OnlineClothes.Application.Apply.Services.ObjectStorage.Models;
+using OnlineClothes.Application.Persistence;
+using OnlineClothes.Application.Services.Auth;
+using OnlineClothes.Application.Services.Mailing;
+using OnlineClothes.Application.Services.Mailing.Engine;
+using OnlineClothes.Application.Services.Mailing.Models;
+using OnlineClothes.Application.Services.ObjectStorage;
+using OnlineClothes.Application.Services.ObjectStorage.Models;
+using OnlineClothes.Application.Services.UserContext;
+using OnlineClothes.Application.StandaloneConfigurations;
 using OnlineClothes.Infrastructure.Repositories;
 using OnlineClothes.Infrastructure.Services.Auth;
 using OnlineClothes.Infrastructure.Services.Mailing;
-using OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
 using OnlineClothes.Infrastructure.Services.Storage.AwsS3;
 using OnlineClothes.Infrastructure.Services.UserContext;
-using OnlineClothes.Infrastructure.Services.UserContext.Abstracts;
-using OnlineClothes.Infrastructure.StandaloneConfigurations;
 
 namespace OnlineClothes.Infrastructure;
 

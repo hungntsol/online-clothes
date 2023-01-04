@@ -4,8 +4,8 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using OnlineClothes.Application.Apply.Services.Auth;
-using OnlineClothes.Application.Apply.Services.Auth.Models;
+using OnlineClothes.Application.Services.Auth;
+using OnlineClothes.Application.Services.Auth.Models;
 using OnlineClothes.Support.Utilities;
 
 namespace OnlineClothes.Infrastructure.Services.Auth;

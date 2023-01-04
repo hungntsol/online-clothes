@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OnlineClothes.Application.Apply.Persistence.Abstracts;
+using OnlineClothes.Application.Persistence.Abstracts;
 using OnlineClothes.Persistence.Context;
 using OnlineClothes.Persistence.Uow;
 

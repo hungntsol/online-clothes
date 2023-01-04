@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
-using OnlineClothes.Application.Apply.Persistence.Abstracts;
+using OnlineClothes.Application.Persistence.Abstracts;
 using OnlineClothes.Persistence.Context;
 
 namespace OnlineClothes.Persistence.Uow;
