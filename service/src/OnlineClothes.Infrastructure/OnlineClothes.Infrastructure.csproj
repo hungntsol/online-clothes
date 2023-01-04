@@ -19,10 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OnlineClothes.Application\OnlineClothes.Application.csproj" />
     <ProjectReference Include="..\OnlineClothes.Domain\OnlineClothes.Domain.csproj" />
-  </ItemGroup>
-    
-  <ItemGroup>
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\OnlineClothes.Persistence\OnlineClothes.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

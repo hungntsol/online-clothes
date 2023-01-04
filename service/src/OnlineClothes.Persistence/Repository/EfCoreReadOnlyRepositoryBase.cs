@@ -6,7 +6,7 @@ using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Entity;
 using OnlineClothes.Support.Utilities.Extensions;
 
-namespace OnlineClothes.Persistence.Repositories;
+namespace OnlineClothes.Persistence.Repository;
 
 public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadOnlyRepository<TEntity, TKey>
 	where TEntity : class, IEntity<TKey>, new()

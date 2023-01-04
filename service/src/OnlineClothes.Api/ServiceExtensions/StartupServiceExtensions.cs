@@ -20,7 +20,6 @@ public static class StartupServiceExtensions
 		services.ConfigCors();
 
 		services.RegisterPersistenceLayer(configuration);
-
 		services.RegisterApplicationLayer(configuration);
 		services.RegisterInfrastructureLayer(configuration);
 

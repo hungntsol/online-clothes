@@ -2,12 +2,14 @@
 using Amazon.S3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OnlineClothes.Application.Apply.Persistence;
 using OnlineClothes.Application.Apply.Services.Auth;
 using OnlineClothes.Application.Apply.Services.Mailing;
 using OnlineClothes.Application.Apply.Services.Mailing.Engine;
 using OnlineClothes.Application.Apply.Services.Mailing.Models;
 using OnlineClothes.Application.Apply.Services.ObjectStorage;
 using OnlineClothes.Application.Apply.Services.ObjectStorage.Models;
+using OnlineClothes.Infrastructure.Repositories;
 using OnlineClothes.Infrastructure.Services.Auth;
 using OnlineClothes.Infrastructure.Services.Mailing;
 using OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
@@ -32,6 +34,8 @@ public static class DependencyInjection
 
 	public static void RegisterRepositories(this IServiceCollection services)
 	{
+		services.AddTransient<IAccountRepository, AccountRepository>()
+			.AddTransient<ITokenRepository, TokenRepository>();
 	}
 
 	public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
