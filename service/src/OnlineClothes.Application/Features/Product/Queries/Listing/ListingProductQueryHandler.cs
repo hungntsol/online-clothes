@@ -1,9 +1,5 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
-using OnlineClothes.Application.Commons;
-using OnlineClothes.Domain.Entities;
+﻿using OnlineClothes.Application.Commons;
 using OnlineClothes.Domain.Paging;
-using OnlineClothes.Support.Builders.Predicate;
 
 namespace OnlineClothes.Application.Features.Product.Queries.Listing;
 
@@ -41,34 +37,34 @@ public class
 		//return JsonApiResponse<PagingModel<ListingProductQueryResultModel>>.Success(data: viewModel);
 	}
 
-	private static FilterBuilder<ProductClothe> PrepareSearchQuery(ListingProductQuery request)
-	{
-		var filter = new FilterBuilder<ProductClothe>(q => !q.IsDeleted);
-		if (!string.IsNullOrEmpty(request.Q))
-		{
-			filter.And(q => q.Name.ToLower().Contains(request.Q.ToLower()));
-		}
+	//private static FilterBuilder<ProductClothe> PrepareSearchQuery(ListingProductQuery request)
+	//{
+	//	var filter = new FilterBuilder<ProductClothe>(q => !q.IsDeleted);
+	//	if (!string.IsNullOrEmpty(request.Q))
+	//	{
+	//		filter.And(q => q.Name.ToLower().Contains(request.Q.ToLower()));
+	//	}
 
-		if (!string.IsNullOrEmpty(request.Category))
-		{
-			filter.And(q => q.Categories.Contains(request.Category));
-		}
+	//	if (!string.IsNullOrEmpty(request.Category))
+	//	{
+	//		filter.And(q => q.Categories.Contains(request.Category));
+	//	}
 
-		return filter;
-	}
+	//	return filter;
+	//}
 
-	private static FindOptions<ProductClothe, ProductClothe> PrepareFindOptions(ListingProductQuery request)
-	{
-		var sortField = request.SortBy;
-		var findOptions = new FindOptions<ProductClothe, ProductClothe>
-		{
-			Limit = request.PageSize,
-			Skip = (request.PageIndex - 1) * request.PageSize,
-			Sort = new BsonDocument { { sortField, GetSortDirect(request.Sort) } }
-		};
+	//private static FindOptions<ProductClothe, ProductClothe> PrepareFindOptions(ListingProductQuery request)
+	//{
+	//	var sortField = request.SortBy;
+	//	var findOptions = new FindOptions<ProductClothe, ProductClothe>
+	//	{
+	//		Limit = request.PageSize,
+	//		Skip = (request.PageIndex - 1) * request.PageSize,
+	//		Sort = new BsonDocument { { sortField, GetSortDirect(request.Sort) } }
+	//	};
 
-		return findOptions;
-	}
+	//	return findOptions;
+	//}
 
 	private static int GetSortDirect(string sort)
 	{

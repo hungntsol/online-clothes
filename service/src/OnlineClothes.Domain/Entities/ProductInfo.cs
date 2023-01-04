@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using OnlineClothes.Domain.Common;
-using OnlineClothes.Support.Entity;
 
 namespace OnlineClothes.Domain.Entities;
 

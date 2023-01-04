@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using OnlineClothes.Support.Entity;
-
-namespace OnlineClothes.Domain.Entities.Aggregate;
+﻿namespace OnlineClothes.Domain.Entities.Aggregate;
 
 public class AccountCart : EntityBase
 {

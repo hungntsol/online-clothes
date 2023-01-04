@@ -1,8 +1,4 @@
-﻿using System.Text;
-using OnlineClothes.Domain.Entities;
-using OnlineClothes.Domain.Entities.Aggregate;
-
-namespace OnlineClothes.Application.Features.Order.Commands.Checkout;
+﻿namespace OnlineClothes.Application.Features.Order.Commands.Checkout;
 
 public class
 	CheckoutOrderCommandHandler : IRequestHandler<CheckoutOrderCommand, JsonApiResponse<CheckoutOrderCommandViewModel>>
@@ -80,48 +76,48 @@ public class
 		throw new NotImplementedException();
 	}
 
-	private async Task CreateOrderTransactionAsync(OrderProduct order, CancellationToken cancellationToken = default)
-	{
-		//await _orderRepository.InsertAsync(order, cancellationToken);
-		//_logger.LogInformation("Order created id: {Id}", order.Id);
-	}
+	//private async Task CreateOrderTransactionAsync(OrderProduct order, CancellationToken cancellationToken = default)
+	//{
+	//	//await _orderRepository.InsertAsync(order, cancellationToken);
+	//	//_logger.LogInformation("Order created id: {Id}", order.Id);
+	//}
 
-	private async Task ClearCartAsync(AccountCart cart, CancellationToken cancellationToken = default)
-	{
-		//cart.Items.Clear();
-		//await _cartRepository.UpdateOneAsync(
-		//	cart.Id,
-		//	update => update.Set(q => q.Items, cart.Items), cancellationToken: cancellationToken);
-	}
+	//private async Task ClearCartAsync(AccountCart cart, CancellationToken cancellationToken = default)
+	//{
+	//	//cart.Items.Clear();
+	//	//await _cartRepository.UpdateOneAsync(
+	//	//	cart.Id,
+	//	//	update => update.Set(q => q.Items, cart.Items), cancellationToken: cancellationToken);
+	//}
 
-	private async Task SendReceiptMail(ICollection<KeyValuePair<string, int>> itemsInCart,
-		IReadOnlyDictionary<string, ProductClothe> productFromCartsDict, OrderProduct order)
-	{
-		var sb = new StringBuilder();
-
-
-		//var items = new List<ReceiptMailOrderItem>();
+	//private async Task SendReceiptMail(ICollection<KeyValuePair<string, int>> itemsInCart,
+	//	IReadOnlyDictionary<string, ProductClothe> productFromCartsDict, OrderProduct order)
+	//{
+	//	var sb = new StringBuilder();
 
 
-		//foreach (var (key, value) in itemsInCart)
-		//{
-		//	sb.Append(
-		//		$"<tr>\r\n<td align=\"left\" width=\"75%\" style=\"padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">" +
-		//		$"{productFromCartsDict[key].Name} x {value}</td>\r\n<td align=\"left\" width=\"25%\" style=\"padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">" +
-		//		$"{productFromCartsDict[key].Price} vnd</td>\r\n</tr>");
-		//}
+	//	//var items = new List<ReceiptMailOrderItem>();
 
-		//var mail = new MailingTemplate(order.CustomerEmail, "Checkout Order", EmailTemplateNames.CheckoutOrderReceipt,
-		//	new
-		//	{
-		//		OrderId = order.Id,
-		//		ItemsHtmlContent = sb.ToString(),
-		//		OrderAddress = order.DeliveryAddress,
-		//		order.Total
-		//	});
 
-		//await _mailingService.SendEmailAsync(mail);
-	}
+	//	//foreach (var (key, value) in itemsInCart)
+	//	//{
+	//	//	sb.Append(
+	//	//		$"<tr>\r\n<td align=\"left\" width=\"75%\" style=\"padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">" +
+	//	//		$"{productFromCartsDict[key].Name} x {value}</td>\r\n<td align=\"left\" width=\"25%\" style=\"padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">" +
+	//	//		$"{productFromCartsDict[key].Price} vnd</td>\r\n</tr>");
+	//	//}
+
+	//	//var mail = new MailingTemplate(order.CustomerEmail, "Checkout Order", EmailTemplateNames.CheckoutOrderReceipt,
+	//	//	new
+	//	//	{
+	//	//		OrderId = order.Id,
+	//	//		ItemsHtmlContent = sb.ToString(),
+	//	//		OrderAddress = order.DeliveryAddress,
+	//	//		order.Total
+	//	//	});
+
+	//	//await _mailingService.SendEmailAsync(mail);
+	//}
 }
 
 internal class ReceiptMailOrderItem

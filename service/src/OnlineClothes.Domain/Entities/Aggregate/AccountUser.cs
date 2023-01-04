@@ -1,7 +1,4 @@
-﻿using OnlineClothes.Domain.Common;
-using OnlineClothes.Support.Entity;
-
-namespace OnlineClothes.Domain.Entities.Aggregate;
+﻿namespace OnlineClothes.Domain.Entities.Aggregate;
 
 public class AccountUser : EntityBase
 {

@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using OnlineClothes.Domain.Common;
-using OnlineClothes.Support.Entity;
-
-namespace OnlineClothes.Domain.Entities.Aggregate;
+﻿namespace OnlineClothes.Domain.Entities.Aggregate;
 
 public class Product : EntityBase
 {
@@ -17,4 +13,6 @@ public class Product : EntityBase
 
 	[ForeignKey("MaterialTypeId")] public ClotheMaterialType? MaterialType { get; set; }
 	public int? MaterialTypeId { get; set; }
+
+	public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

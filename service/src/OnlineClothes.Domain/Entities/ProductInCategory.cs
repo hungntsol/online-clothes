@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace OnlineClothes.Domain.Entities;
+﻿namespace OnlineClothes.Domain.Entities;
 
 public class ProductInCategory
 {

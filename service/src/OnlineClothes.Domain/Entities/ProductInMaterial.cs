@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using OnlineClothes.Domain.Entities.Aggregate;
+﻿using OnlineClothes.Domain.Entities.Aggregate;
 
 namespace OnlineClothes.Domain.Entities;
 

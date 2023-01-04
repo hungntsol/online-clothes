@@ -1,6 +1,4 @@
-﻿using OnlineClothes.Support.Entity;
-
-namespace OnlineClothes.Domain.Entities;
+﻿namespace OnlineClothes.Domain.Entities;
 
 public class ClotheBrand : EntityBase<string>
 {

@@ -1,6 +1,4 @@
-﻿using OnlineClothes.Domain.Entities;
-
-namespace OnlineClothes.Application.Features.Product.Queries.Detail;
+﻿namespace OnlineClothes.Application.Features.Product.Queries.Detail;
 
 public class ProductDetailQueryViewModel
 {
@@ -14,22 +12,22 @@ public class ProductDetailQueryViewModel
 	public string Type { get; set; } = ClotheType.Unknown.ToString();
 	public List<string> ImageUrls { get; set; } = new();
 
-	public static ProductDetailQueryViewModel Create(ProductClothe input)
-	{
-		var sizes = input.Detail.Sizes.Select(q => q.ToString()).ToHashSet();
-		var materials = input.Detail.Materials.Select(q => q.ToString()).ToHashSet();
+	//public static ProductDetailQueryViewModel Create(ProductClothe input)
+	//{
+	//	var sizes = input.Detail.Sizes.Select(q => q.ToString()).ToHashSet();
+	//	var materials = input.Detail.Materials.Select(q => q.ToString()).ToHashSet();
 
-		return new ProductDetailQueryViewModel
-		{
-			Name = input.Name,
-			Description = input.Description,
-			Price = input.Price,
-			Stock = input.Stock,
-			ImageUrls = input.ImageUrls,
-			Tags = input.Tags,
-			Sizes = sizes,
-			Materials = materials,
-			Type = input.Detail.Type.ToString()
-		};
-	}
+	//	return new ProductDetailQueryViewModel
+	//	{
+	//		Name = input.Name,
+	//		Description = input.Description,
+	//		Price = input.Price,
+	//		Stock = input.Stock,
+	//		ImageUrls = input.ImageUrls,
+	//		Tags = input.Tags,
+	//		Sizes = sizes,
+	//		Materials = materials,
+	//		Type = input.Detail.Type.ToString()
+	//	};
+	//}
 }

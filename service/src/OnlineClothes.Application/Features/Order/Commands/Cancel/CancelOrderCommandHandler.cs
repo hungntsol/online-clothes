@@ -1,7 +1,4 @@
-﻿using OnlineClothes.Domain.Entities;
-using OnlineClothes.Support.Builders.Predicate;
-
-namespace OnlineClothes.Application.Features.Order.Commands.Cancel;
+﻿namespace OnlineClothes.Application.Features.Order.Commands.Cancel;
 
 public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, JsonApiResponse<EmptyUnitResponse>>
 {
@@ -36,21 +33,21 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Jso
 		throw new NotImplementedException();
 	}
 
-	private FilterBuilder<OrderProduct> PrepareFilterBuilder(CancelOrderCommand request)
-	{
-		//if (!Enum.TryParse(_userContext.GetRole(), true, out AccountRole role))
-		//{
-		//	throw new InvalidOperationException($"Invalid role {role}");
-		//}
+	//private FilterBuilder<OrderProduct> PrepareFilterBuilder(CancelOrderCommand request)
+	//{
+	//if (!Enum.TryParse(_userContext.GetRole(), true, out AccountRole role))
+	//{
+	//	throw new InvalidOperationException($"Invalid role {role}");
+	//}
 
-		//var fb = new FilterBuilder<OrderProduct>(q => q.Id == request.OrderId);
+	//var fb = new FilterBuilder<OrderProduct>(q => q.Id == request.OrderId);
 
-		//if (role == AccountRole.Client)
-		//{
-		//	fb.And(q => q.CustomerId == _userContext.GetNameIdentifier());
-		//}
+	//if (role == AccountRole.Client)
+	//{
+	//	fb.And(q => q.CustomerId == _userContext.GetNameIdentifier());
+	//}
 
-		//return fb;
-		throw new NotImplementedException();
-	}
+	//return fb;
+	//throw new NotImplementedException();
+	//}
 }

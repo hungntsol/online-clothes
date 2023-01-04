@@ -1,8 +1,6 @@
-﻿using OnlineClothes.Domain.Entities;
+﻿namespace OnlineClothes.Application.Features.Order.Queries.Detail;
 
-namespace OnlineClothes.Application.Features.Order.Queries.Detail;
-
-public class OrderDetailQuery : IRequest<JsonApiResponse<OrderProduct>>
+public class OrderDetailQuery : IRequest<JsonApiResponse<object>>
 {
 	public OrderDetailQuery(string orderId)
 	{

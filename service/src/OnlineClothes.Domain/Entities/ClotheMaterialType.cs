@@ -1,5 +1,4 @@
 ﻿using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Support.Entity;
 
 namespace OnlineClothes.Domain.Entities;
 

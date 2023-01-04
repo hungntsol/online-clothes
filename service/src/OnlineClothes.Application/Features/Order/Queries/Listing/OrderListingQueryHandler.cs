@@ -1,6 +1,4 @@
-﻿using OnlineClothes.Domain.Entities;
-using OnlineClothes.Domain.Paging;
-using OnlineClothes.Support.Builders.Predicate;
+﻿using OnlineClothes.Domain.Paging;
 
 namespace OnlineClothes.Application.Features.Order.Queries.Listing;
 
@@ -44,21 +42,21 @@ public class
 		throw new NotImplementedException();
 	}
 
-	private FilterBuilder<OrderProduct> PreparePredicate()
-	{
-		//if (!Enum.TryParse(_userContext.GetRole(), true, out AccountRole role))
-		//{
-		//	throw new InvalidOperationException($"Invalid role {role}");
-		//}
+	//private FilterBuilder<OrderProduct> PreparePredicate()
+	//{
+	//	//if (!Enum.TryParse(_userContext.GetRole(), true, out AccountRole role))
+	//	//{
+	//	//	throw new InvalidOperationException($"Invalid role {role}");
+	//	//}
 
-		//var fb = new FilterBuilder<OrderProduct>();
+	//	//var fb = new FilterBuilder<OrderProduct>();
 
-		//if (role != AccountRole.Admin)
-		//{
-		//	fb = fb.And(q => q.CustomerId == _userContext.GetNameIdentifier());
-		//}
+	//	//if (role != AccountRole.Admin)
+	//	//{
+	//	//	fb = fb.And(q => q.CustomerId == _userContext.GetNameIdentifier());
+	//	//}
 
-		//return fb;
-		throw new NotImplementedException();
-	}
+	//	//return fb;
+	//	throw new NotImplementedException();
+	//}
 }

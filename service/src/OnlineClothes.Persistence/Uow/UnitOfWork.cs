@@ -9,15 +9,13 @@ public class UnitOfWork : IUnitOfWork
 {
 	private readonly AppDbContext _dbContext;
 	private readonly ILogger<UnitOfWork> _logger;
-	private readonly IServiceProvider _serviceProvider;
 	private bool _disposed;
 	private IDbContextTransaction _transaction = null!;
 
-	public UnitOfWork(ILogger<UnitOfWork> logger, AppDbContext dbContext, IServiceProvider serviceProvider)
+	public UnitOfWork(ILogger<UnitOfWork> logger, AppDbContext dbContext)
 	{
 		_logger = logger;
 		_dbContext = dbContext;
-		_serviceProvider = serviceProvider;
 	}
 
 	public void Dispose()

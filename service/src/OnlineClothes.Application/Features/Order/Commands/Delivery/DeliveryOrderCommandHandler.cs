@@ -1,6 +1,4 @@
-﻿using OnlineClothes.Domain.Entities;
-
-namespace OnlineClothes.Application.Features.Order.Commands.Delivery;
+﻿namespace OnlineClothes.Application.Features.Order.Commands.Delivery;
 
 public class DeliveryOrderCommandHandler : IRequestHandler<DeliveryOrderCommand, JsonApiResponse<EmptyUnitResponse>>
 {
@@ -42,22 +40,22 @@ public class DeliveryOrderCommandHandler : IRequestHandler<DeliveryOrderCommand,
 	}
 
 
-	private async Task PostActionDeliveryOrder(OrderProduct order)
-	{
-		//var tasks = new List<Task>();
-		//var orderIdQuantity = order.Items.ToDictionary(q => q.ProductId, q => q.Quantity);
-		//var orderItemIds = orderIdQuantity.Select(q => q.Key).ToList();
-		//var products = (await _productRepository.FindAsync(
-		//		FilterBuilder<ProductClothe>.Where(q => orderItemIds.Contains(q.Id))))
-		//	.ToList();
+	//private async Task PostActionDeliveryOrder(OrderProduct order)
+	//{
+	//	//var tasks = new List<Task>();
+	//	//var orderIdQuantity = order.Items.ToDictionary(q => q.ProductId, q => q.Quantity);
+	//	//var orderItemIds = orderIdQuantity.Select(q => q.Key).ToList();
+	//	//var products = (await _productRepository.FindAsync(
+	//	//		FilterBuilder<ProductClothe>.Where(q => orderItemIds.Contains(q.Id))))
+	//	//	.ToList();
 
-		//foreach (var productClothe in products)
-		//{
-		//	productClothe.Stock -= orderIdQuantity[productClothe.Id];
-		//	tasks.Add(_productRepository.UpdateOneAsync(productClothe.Id,
-		//		update => update.Set(q => q.Stock, productClothe.Stock)));
-		//}
+	//	//foreach (var productClothe in products)
+	//	//{
+	//	//	productClothe.Stock -= orderIdQuantity[productClothe.Id];
+	//	//	tasks.Add(_productRepository.UpdateOneAsync(productClothe.Id,
+	//	//		update => update.Set(q => q.Stock, productClothe.Stock)));
+	//	//}
 
-		//await Task.WhenAll(tasks);
-	}
+	//	//await Task.WhenAll(tasks);
+	//}
 }
