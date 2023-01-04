@@ -8,6 +8,6 @@ public class EntityOrderItemConfigure : IEntityTypeConfiguration<OrderItem>
 {
 	public void Configure(EntityTypeBuilder<OrderItem> builder)
 	{
-		builder.HasKey(q => new { q.OrderId, q.ProductId });
+		builder.HasKey(q => new { q.OrderId, q.ProductSku });
 	}
 }

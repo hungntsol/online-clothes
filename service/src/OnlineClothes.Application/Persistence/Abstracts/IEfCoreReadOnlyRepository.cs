@@ -7,7 +7,7 @@ namespace OnlineClothes.Application.Persistence.Abstracts;
 public interface IEfCoreReadOnlyRepository<TEntity, TKey>
 	where TEntity : class, IEntity<TKey>, new()
 {
-	IQueryable AsQueryable(bool noTracking = true);
+	IQueryable<TEntity> AsQueryable(bool noTracking = true);
 
 	#region FindOne
 

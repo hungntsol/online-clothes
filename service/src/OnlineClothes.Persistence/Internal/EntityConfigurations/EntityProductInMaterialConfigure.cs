@@ -8,6 +8,6 @@ public class EntityProductInMaterialConfigure : IEntityTypeConfiguration<Product
 {
 	public void Configure(EntityTypeBuilder<ProductInMaterial> builder)
 	{
-		builder.HasKey(q => new { q.ClotheDetailId, q.MaterialId });
+		builder.HasKey(q => new { q.MaterialId, q.ProductSku });
 	}
 }

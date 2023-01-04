@@ -12,8 +12,8 @@ using OnlineClothes.Persistence.Context;
 namespace OnlineClothes.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230104101906_init")]
-    partial class init
+    [Migration("20230104173800_v1.4")]
+    partial class v14
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,19 +24,19 @@ namespace OnlineClothes.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ClotheCategoryProductInfo", b =>
+            modelBuilder.Entity("ClotheCategoryProductSerial", b =>
                 {
                     b.Property<int>("ClotheCategoriesId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ProductsSku")
-                        .HasColumnType("text");
+                    b.Property<int>("ProductSerialsId")
+                        .HasColumnType("integer");
 
-                    b.HasKey("ClotheCategoriesId", "ProductsSku");
+                    b.HasKey("ClotheCategoriesId", "ProductSerialsId");
 
-                    b.HasIndex("ProductsSku");
+                    b.HasIndex("ProductSerialsId");
 
-                    b.ToTable("ClotheCategoryProductInfo");
+                    b.ToTable("ClotheCategoryProductSerial");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.AccountCart", b =>
@@ -154,6 +154,82 @@ namespace OnlineClothes.Persistence.Migrations
                     b.ToTable("AccountUsers");
                 });
 
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.ClotheBrand", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContactEmail")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClotheBrands");
+                });
+
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.ClotheCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClotheCategories");
+                });
+
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.MaterialType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MaterialType");
+                });
+
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -189,41 +265,73 @@ namespace OnlineClothes.Persistence.Migrations
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.Product", b =>
                 {
+                    b.Property<string>("Sku")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int>("InStock")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<int?>("SerialId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SizeType")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Sku");
+
+                    b.HasIndex("SerialId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.ProductSerial", b =>
+                {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("BrandId")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("InStock")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("MaterialTypeId")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("ProductSku")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("SizeType")
+                    b.Property<int?>("Type")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaterialTypeId");
+                    b.HasIndex("BrandId");
 
-                    b.HasIndex("ProductSku");
-
-                    b.ToTable("Product");
+                    b.ToTable("ProductSerials");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.CartItem", b =>
@@ -242,89 +350,13 @@ namespace OnlineClothes.Persistence.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.ClotheBrand", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ContactEmail")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClotheBrands");
-                });
-
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.ClotheCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClotheCategories");
-                });
-
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.ClotheMaterialType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("MaterialName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClotheMaterialTypes");
-                });
-
             modelBuilder.Entity("OnlineClothes.Domain.Entities.OrderItem", b =>
                 {
                     b.Property<int>("OrderId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
+                    b.Property<string>("ProductSku")
+                        .HasColumnType("text");
 
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
@@ -332,89 +364,54 @@ namespace OnlineClothes.Persistence.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.HasKey("OrderId", "ProductId");
+                    b.HasKey("OrderId", "ProductSku");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductSku");
 
                     b.ToTable("OrderItem");
                 });
 
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.ProductInCategory", b =>
-                {
-                    b.Property<string>("ProductSku")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ClotheCategoryId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ProductSku", "ClotheCategoryId");
-
-                    b.HasIndex("ClotheCategoryId");
-
-                    b.ToTable("ProductInCategories");
-                });
-
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.ProductInfo", b =>
-                {
-                    b.Property<string>("Sku")
-                        .HasColumnType("text");
-
-                    b.Property<string>("BrandId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Sku");
-
-                    b.HasIndex("BrandId");
-
-                    b.HasIndex("Sku")
-                        .IsUnique();
-
-                    b.ToTable("ProductInfo");
-                });
-
             modelBuilder.Entity("OnlineClothes.Domain.Entities.ProductInMaterial", b =>
                 {
-                    b.Property<int>("ClotheDetailId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("MaterialId")
                         .HasColumnType("integer");
 
-                    b.HasKey("ClotheDetailId", "MaterialId");
+                    b.Property<string>("ProductSku")
+                        .HasColumnType("text");
 
-                    b.HasIndex("MaterialId");
+                    b.HasKey("MaterialId", "ProductSku");
 
-                    b.ToTable("ProductInMaterials");
+                    b.HasIndex("ProductSku");
+
+                    b.ToTable("ProductInMaterial");
                 });
 
-            modelBuilder.Entity("ClotheCategoryProductInfo", b =>
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.SerialInCategory", b =>
                 {
-                    b.HasOne("OnlineClothes.Domain.Entities.ClotheCategory", null)
+                    b.Property<int>("SerialId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("SerialId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("SerialInCategories");
+                });
+
+            modelBuilder.Entity("ClotheCategoryProductSerial", b =>
+                {
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ClotheCategory", null)
                         .WithMany()
                         .HasForeignKey("ClotheCategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineClothes.Domain.Entities.ProductInfo", null)
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ProductSerial", null)
                         .WithMany()
-                        .HasForeignKey("ProductsSku")
+                        .HasForeignKey("ProductSerialsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -443,19 +440,20 @@ namespace OnlineClothes.Persistence.Migrations
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.Product", b =>
                 {
-                    b.HasOne("OnlineClothes.Domain.Entities.ClotheMaterialType", "MaterialType")
-                        .WithMany("ProductDetails")
-                        .HasForeignKey("MaterialTypeId");
-
-                    b.HasOne("OnlineClothes.Domain.Entities.ProductInfo", "ProductInfo")
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ProductSerial", "ProductSerial")
                         .WithMany()
-                        .HasForeignKey("ProductSku")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SerialId");
 
-                    b.Navigation("MaterialType");
+                    b.Navigation("ProductSerial");
+                });
 
-                    b.Navigation("ProductInfo");
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.ProductSerial", b =>
+                {
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ClotheBrand", "Brand")
+                        .WithMany("Products")
+                        .HasForeignKey("BrandId");
+
+                    b.Navigation("Brand");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.CartItem", b =>
@@ -479,7 +477,7 @@ namespace OnlineClothes.Persistence.Migrations
 
                     b.HasOne("OnlineClothes.Domain.Entities.Aggregate.Product", "Product")
                         .WithMany("OrderItems")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductSku")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -488,58 +486,52 @@ namespace OnlineClothes.Persistence.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.ProductInCategory", b =>
-                {
-                    b.HasOne("OnlineClothes.Domain.Entities.ClotheCategory", "ClotheCategory")
-                        .WithMany()
-                        .HasForeignKey("ClotheCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineClothes.Domain.Entities.ProductInfo", "ProductInfo")
-                        .WithMany()
-                        .HasForeignKey("ProductSku")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ClotheCategory");
-
-                    b.Navigation("ProductInfo");
-                });
-
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.ProductInfo", b =>
-                {
-                    b.HasOne("OnlineClothes.Domain.Entities.ClotheBrand", "Brand")
-                        .WithMany("Products")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Brand");
-                });
-
             modelBuilder.Entity("OnlineClothes.Domain.Entities.ProductInMaterial", b =>
                 {
-                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.Product", "Detail")
-                        .WithMany()
-                        .HasForeignKey("ClotheDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineClothes.Domain.Entities.ClotheMaterialType", "MaterialType")
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.MaterialType", "Material")
                         .WithMany()
                         .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Detail");
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductSku")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("MaterialType");
+                    b.Navigation("Material");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.SerialInCategory", b =>
+                {
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ClotheCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ProductSerial", "ProductSerial")
+                        .WithMany()
+                        .HasForeignKey("SerialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("ProductSerial");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.AccountCart", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.ClotheBrand", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.Order", b =>
@@ -550,16 +542,6 @@ namespace OnlineClothes.Persistence.Migrations
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.Product", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.ClotheBrand", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.ClotheMaterialType", b =>
-                {
-                    b.Navigation("ProductDetails");
                 });
 #pragma warning restore 612, 618
         }

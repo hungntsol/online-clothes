@@ -7,8 +7,8 @@ public class OrderItem
 	[ForeignKey("OrderId")] public Order Order { get; set; } = null!;
 	public int OrderId { get; set; }
 
-	[ForeignKey("ProductId")] public Product Product { get; set; } = null!;
-	public int ProductId { get; set; }
+	[ForeignKey("ProductSku")] public Product Product { get; set; } = null!;
+	public string ProductSku { get; set; } = null!;
 
 	public int Quantity { get; set; }
 

@@ -1,7 +1,6 @@
 ﻿using Mapster;
 using Newtonsoft.Json;
 using OnlineClothes.Application.Persistence;
-using OnlineClothes.Domain.Entities;
 
 namespace OnlineClothes.Application.Features.Brand.Commands.Create;
 

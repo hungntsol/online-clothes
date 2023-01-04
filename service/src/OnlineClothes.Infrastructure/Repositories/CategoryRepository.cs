@@ -1,5 +1,4 @@
 ﻿using OnlineClothes.Application.Persistence;
-using OnlineClothes.Domain.Entities;
 
 namespace OnlineClothes.Infrastructure.Repositories;
 

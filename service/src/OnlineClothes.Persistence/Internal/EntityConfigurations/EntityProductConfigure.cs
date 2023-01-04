@@ -1,14 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OnlineClothes.Domain.Entities;
+using OnlineClothes.Domain.Entities.Aggregate;
 
 namespace OnlineClothes.Persistence.Internal.EntityConfigurations;
 
-public class EntityProductConfigure : IEntityTypeConfiguration<ProductInfo>
+public class EntityProductConfigure : IEntityTypeConfiguration<Product>
 {
-	public void Configure(EntityTypeBuilder<ProductInfo> builder)
+	public void Configure(EntityTypeBuilder<Product> builder)
 	{
-		builder.HasIndex(q => q.Sku)
-			.IsUnique();
 	}
 }

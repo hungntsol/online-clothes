@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OnlineClothes.Persistence.Context;
@@ -11,9 +12,10 @@ using OnlineClothes.Persistence.Context;
 namespace OnlineClothes.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230104171632_v1.3")]
+    partial class v13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,7 +300,7 @@ namespace OnlineClothes.Persistence.Migrations
 
                     b.HasIndex("SerialId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.ProductSerial", b =>
@@ -329,7 +331,7 @@ namespace OnlineClothes.Persistence.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("ProductSerials");
+                    b.ToTable("ProductSerial");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.CartItem", b =>
@@ -396,7 +398,7 @@ namespace OnlineClothes.Persistence.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("SerialInCategories");
+                    b.ToTable("ProductInCategories");
                 });
 
             modelBuilder.Entity("ClotheCategoryProductSerial", b =>

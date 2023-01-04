@@ -1,17 +1,21 @@
 SHELL := /bin/bash
 SLN_NAME = OnlineClothes
+CONTEXT_EXECUTE_MIGRATE = -p ./$(SLN_NAME).Persistence/ -s ./$(SLN_NAME).Api/
 
 migrate:
-	cd ./$(SLN_NAME).Persistence && dotnet ef migrations add $(name) -s ../$(SLN_NAME).Api/
-	
-update-db:
-	cd ./$(SLN_NAME).Persistence && dotnet ef database update -s ../$(SLN_NAME).Api/
-	
-remove-migrate:
-	cd ./$(SLN_NAME).Persistence && dotnet ef migrations remove  -s ../$(SLN_NAME).Api/
-	
+	dotnet ef migrations add $(name) $(CONTEXT_EXECUTE_MIGRATE)
+
+migrate-list:
+	dotnet ef migrations list $(CONTEXT_EXECUTE_MIGRATE)
+
+migrate-apply:
+	dotnet ef database update $(CONTEXT_EXECUTE_MIGRATE)
+
+migrate-remove:
+	dotnet ef migrations remove $(CONTEXT_EXECUTE_MIGRATE)
+
 compose-up:
-	docker-compose -f docker-compose.dev.yaml -p oop_src up -d --remove-orphans 
-	
+	docker-compose -f docker-compose.dev.yaml -p oop_src up -d --remove-orphans
+
 compose-down:
-	docker-compose -f docker-compose.dev.yaml -p oop_src down 
+	docker-compose -f docker-compose.dev.yaml -p oop_src down

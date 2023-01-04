@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using OnlineClothes.Domain.Entities;
 
 namespace OnlineClothes.Application.Features.Brand.Commands.Edit;
 

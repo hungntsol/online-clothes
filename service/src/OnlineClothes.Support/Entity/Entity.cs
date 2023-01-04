@@ -21,7 +21,6 @@ public abstract class EntityBase<TKey> : SupportDomainEvent, IEntity<TKey>
 
 public interface IEntity<TKey> : IEntityDatetimeSupport, ISupportDomainEvent
 {
-	TKey Id { get; set; }
 }
 
 public interface IEntity : IEntity<int>

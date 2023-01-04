@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using OnlineClothes.Api.ServiceExtensions;
+using OnlineClothes.Api.Extensions;
 using OnlineClothes.Application.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
 	});
 }
 
-app.UseCors(StartupServiceExtensions.CorsAnyOrigin);
+app.UseCors(StartupExtension.CorsAnyOrigin);
 app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();

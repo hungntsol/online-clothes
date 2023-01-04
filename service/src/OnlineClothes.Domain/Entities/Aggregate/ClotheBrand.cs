@@ -1,4 +1,4 @@
-﻿namespace OnlineClothes.Domain.Entities;
+﻿namespace OnlineClothes.Domain.Entities.Aggregate;
 
 public class ClotheBrand : EntityBase<string>
 {
@@ -20,5 +20,5 @@ public class ClotheBrand : EntityBase<string>
 
 	public string? ContactEmail { get; set; }
 
-	public ICollection<ProductInfo> Products { get; set; } = new List<ProductInfo>();
+	public ICollection<ProductSerial> Products { get; set; } = new List<ProductSerial>();
 }

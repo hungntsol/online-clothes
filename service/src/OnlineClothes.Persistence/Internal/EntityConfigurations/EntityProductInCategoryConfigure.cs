@@ -4,10 +4,10 @@ using OnlineClothes.Domain.Entities;
 
 namespace OnlineClothes.Persistence.Internal.EntityConfigurations;
 
-public class EntityProductInCategoryConfigure : IEntityTypeConfiguration<ProductInCategory>
+public class EntityProductInCategoryConfigure : IEntityTypeConfiguration<SerialInCategory>
 {
-	public void Configure(EntityTypeBuilder<ProductInCategory> builder)
+	public void Configure(EntityTypeBuilder<SerialInCategory> builder)
 	{
-		builder.HasKey(q => new { ProductId = q.ProductSku, q.ClotheCategoryId });
+		builder.HasKey(q => new { q.SerialId, q.CategoryId });
 	}
 }

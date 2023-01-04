@@ -8,9 +8,9 @@ using OnlineClothes.Infrastructure;
 using OnlineClothes.Persistence;
 using OnlineClothes.Support.Mapping;
 
-namespace OnlineClothes.Api.ServiceExtensions;
+namespace OnlineClothes.Api.Extensions;
 
-public static class StartupServiceExtensions
+public static class StartupExtension
 {
 	public const string CorsAnyOrigin = "AnyOrigin";
 

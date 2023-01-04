@@ -9,6 +9,7 @@ namespace OnlineClothes.Persistence.Context;
 
 public class AppDbContext : DbContext
 {
+	// TODO: logger executing time
 	private static readonly ILoggerFactory LoggerFactInstance = LoggerFactory.Create(
 		builder =>
 		{
@@ -64,11 +65,11 @@ public class AppDbContext : DbContext
 	public DbSet<AccountTokenCode> AccountTokens { get; set; } = null!;
 	public DbSet<AccountCart> AccountCarts { get; set; } = null!;
 	public DbSet<CartItem> CartItems { get; set; } = null!;
-	public DbSet<ClotheMaterialType> ClotheMaterialTypes { get; set; } = null!;
-	public DbSet<ProductInMaterial> ProductInMaterials { get; set; } = null!;
-	public DbSet<ClotheCategory> ClotheCategories { get; set; } = null!;
-	public DbSet<ProductInCategory> ProductInCategories { get; set; } = null!;
 	public DbSet<ClotheBrand> ClotheBrands { get; set; } = null!;
+	public DbSet<ClotheCategory> ClotheCategories { get; set; } = null!;
+	public DbSet<Product> Products { get; set; }
+	public DbSet<ProductSerial> ProductSerials { get; set; }
+	public DbSet<SerialInCategory> SerialInCategories { get; set; } = null!;
 
 	#endregion
 }

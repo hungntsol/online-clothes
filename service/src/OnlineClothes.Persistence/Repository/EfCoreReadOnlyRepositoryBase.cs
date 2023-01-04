@@ -21,7 +21,7 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 		DbSet = dbContext.Set<TEntity>();
 	}
 
-	public IQueryable AsQueryable(bool noTracking = true)
+	public IQueryable<TEntity> AsQueryable(bool noTracking = true)
 	{
 		return noTracking ? DbSet.AsNoTracking() : DbSet.AsQueryable();
 	}
@@ -142,14 +142,6 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 	public virtual async Task<TEntity> GetByKey(string key, CancellationToken cancellationToken = default)
 	{
 		var entry = await FindOneAsync(new object[] { key }, cancellationToken);
-		NullValueReferenceException.ThrowIfNull(entry);
-
-		return entry;
-	}
-
-	public virtual async Task<TEntity> GetByIdAsync(TKey key, CancellationToken cancellationToken = default)
-	{
-		var entry = await FindOneAsync(q => q.Id!.Equals(key), cancellationToken);
 		NullValueReferenceException.ThrowIfNull(entry);
 
 		return entry;
