@@ -21,6 +21,8 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 		DbSet = dbContext.Set<TEntity>();
 	}
 
+	public DbSet<TEntity> Table => DbSet;
+
 	public IQueryable<TEntity> AsQueryable(bool noTracking = true)
 	{
 		return noTracking ? DbSet.AsNoTracking() : DbSet.AsQueryable();

@@ -43,6 +43,7 @@ public class UnitOfWork : IUnitOfWork
 		}
 		catch (Exception ex)
 		{
+			_transaction.Rollback();
 			_logger.LogError(ex, "{message}", ex.Message);
 			return false;
 		}
@@ -56,6 +57,7 @@ public class UnitOfWork : IUnitOfWork
 		}
 		catch (Exception ex)
 		{
+			await _transaction.RollbackAsync(cancellationToken);
 			_logger.LogError(ex, "{message}", ex.Message);
 			throw new Exception(ex.Message);
 		}

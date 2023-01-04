@@ -69,7 +69,6 @@ public class AppDbContext : DbContext
 	public DbSet<ClotheCategory> ClotheCategories { get; set; } = null!;
 	public DbSet<Product> Products { get; set; }
 	public DbSet<ProductSerial> ProductSerials { get; set; }
-	public DbSet<SerialInCategory> SerialInCategories { get; set; } = null!;
 
 	#endregion
 }

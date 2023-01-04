@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Entity;
 
@@ -7,6 +8,8 @@ namespace OnlineClothes.Application.Persistence.Abstracts;
 public interface IEfCoreReadOnlyRepository<TEntity, TKey>
 	where TEntity : class, IEntity<TKey>, new()
 {
+	DbSet<TEntity> Table { get; }
+
 	IQueryable<TEntity> AsQueryable(bool noTracking = true);
 
 	#region FindOne

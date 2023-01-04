@@ -384,21 +384,6 @@ namespace OnlineClothes.Persistence.Migrations
                     b.ToTable("ProductInMaterial");
                 });
 
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.SerialInCategory", b =>
-                {
-                    b.Property<int>("SerialId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("SerialId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("SerialInCategories");
-                });
-
             modelBuilder.Entity("ClotheCategoryProductSerial", b =>
                 {
                     b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ClotheCategory", null)
@@ -501,25 +486,6 @@ namespace OnlineClothes.Persistence.Migrations
                     b.Navigation("Material");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("OnlineClothes.Domain.Entities.SerialInCategory", b =>
-                {
-                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ClotheCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ProductSerial", "ProductSerial")
-                        .WithMany()
-                        .HasForeignKey("SerialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("ProductSerial");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.AccountCart", b =>

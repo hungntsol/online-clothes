@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace OnlineClothes.Domain.Entities.Aggregate;
 
@@ -22,5 +23,5 @@ public class ProductSerial : EntityBase
 
 	public ClotheType? Type { get; set; }
 
-	public virtual ICollection<ClotheCategory> ClotheCategories { get; set; } = new List<ClotheCategory>();
+	[JsonIgnore] public virtual ICollection<ClotheCategory> ClotheCategories { get; set; } = new List<ClotheCategory>();
 }
