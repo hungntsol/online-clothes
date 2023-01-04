@@ -18,9 +18,7 @@ internal sealed class
 	public async Task<JsonApiResponse<FetchInformationQueryResult>> Handle(FetchInformationQuery request,
 		CancellationToken cancellationToken)
 	{
-		var account =
-			await _accountRepository.GetOneAsync(new object[] { int.Parse(_userContext.GetNameIdentifier()) },
-				cancellationToken);
+		var account = await _accountRepository.GetByIntKey(_userContext.GetNameIdentifier(), cancellationToken);
 
 		return JsonApiResponse<FetchInformationQueryResult>.Success(data: FetchInformationQueryResult.ToModel(account));
 	}

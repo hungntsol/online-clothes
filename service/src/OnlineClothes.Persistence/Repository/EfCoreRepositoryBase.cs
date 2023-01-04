@@ -62,7 +62,7 @@ public abstract class EfCoreRepositoryBase<TEntity, TKey> : EfCoreReadOnlyReposi
 		return true;
 	}
 
-	public virtual bool Update(TEntity entity,
+	public virtual void Update(TEntity entity,
 		bool notify = true)
 	{
 		ArgumentNullException.ThrowIfNull(entity);
@@ -72,11 +72,9 @@ public abstract class EfCoreRepositoryBase<TEntity, TKey> : EfCoreReadOnlyReposi
 		{
 			//await _mediator.Publish(DomainEvent<TEntity>.Create(DomainEventAction.Updated, entity), cancellationToken);
 		}
-
-		return true;
 	}
 
-	public virtual bool UpdateOneField(TEntity entity,
+	public virtual void UpdateOneField(TEntity entity,
 		Expression<Func<TEntity, object>> updateDef,
 		bool notify = true)
 	{
@@ -89,11 +87,9 @@ public abstract class EfCoreRepositoryBase<TEntity, TKey> : EfCoreReadOnlyReposi
 		{
 			//await _mediator.Publish(DomainEvent<TEntity>.Create(DomainEventAction.Updated, entity), cancellationToken);
 		}
-
-		return true;
 	}
 
-	public virtual bool Delete(TEntity entity,
+	public virtual void Delete(TEntity entity,
 		bool notify = true)
 	{
 		ArgumentNullException.ThrowIfNull(entity);
@@ -104,11 +100,9 @@ public abstract class EfCoreRepositoryBase<TEntity, TKey> : EfCoreReadOnlyReposi
 		{
 			//await _mediator.Publish(DomainEvent<TEntity>.Create(DomainEventAction.Deleted, entity), cancellationToken);
 		}
-
-		return true;
 	}
 
-	public virtual bool DeleteBatch(FilterBuilder<TEntity> filterBuilder,
+	public virtual void DeleteBatch(FilterBuilder<TEntity> filterBuilder,
 		bool notify = true)
 	{
 		DbSet.RemoveRange(DbSet.Where(filterBuilder.Statement).ToList());
@@ -119,7 +113,5 @@ public abstract class EfCoreRepositoryBase<TEntity, TKey> : EfCoreReadOnlyReposi
 			//	DomainEvent<TEntity>.Create($"Batch{nameof(TEntity)}", DomainEventAction.Deleted),
 			//	cancellationToken);
 		}
-
-		return true;
 	}
 }

@@ -7,16 +7,14 @@ internal sealed class
 	ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, JsonApiResponse<EmptyUnitResponse>>
 {
 	private readonly IAccountRepository _accountRepository;
-	private readonly ILogger<ChangePasswordCommandHandler> _logger;
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly IUserContext _userContext;
 
-	public ChangePasswordCommandHandler(ILogger<ChangePasswordCommandHandler> logger,
+	public ChangePasswordCommandHandler(
 		IUserContext userContext,
 		IUnitOfWork unitOfWork,
 		IAccountRepository accountRepository)
 	{
-		_logger = logger;
 		_userContext = userContext;
 		_unitOfWork = unitOfWork;
 		_accountRepository = accountRepository;
@@ -26,16 +24,14 @@ internal sealed class
 		CancellationToken cancellationToken)
 	{
 		var account =
-			await _accountRepository.FindOneAsync(
-				new object?[] { _userContext.GetNameIdentifier() }, cancellationToken);
+			await _accountRepository.GetByIntKey(_userContext.GetNameIdentifier(), cancellationToken);
 
-		if (account != null && !account.VerifyPassword(request.CurrentPassword))
+		if (!account.VerifyPassword(request.CurrentPassword))
 		{
 			return JsonApiResponse<EmptyUnitResponse>.Fail("Mật khẩu hiện tại không chính xác");
 		}
 
-		var newHashPassword = PasswordHasher.Hash(request.NewPassword);
-		account!.HashedPassword = newHashPassword;
+		account.SetPassword(request.NewPassword);
 		_accountRepository.UpdateOneField(
 			account,
 			p => p.HashedPassword);

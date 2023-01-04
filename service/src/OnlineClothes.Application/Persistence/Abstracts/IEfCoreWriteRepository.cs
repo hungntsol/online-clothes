@@ -54,7 +54,7 @@ public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IE
 	/// <param name="entity"></param>
 	/// <param name="notify"></param>
 	/// <returns></returns>
-	bool Update(TEntity entity,
+	void Update(TEntity entity,
 		bool notify = true);
 
 	/// <summary>
@@ -64,7 +64,7 @@ public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IE
 	/// <param name="updateDef"></param>
 	/// <param name="notify"></param>
 	/// <returns></returns>
-	bool UpdateOneField(
+	void UpdateOneField(
 		TEntity entity,
 		Expression<Func<TEntity, object>> updateDef,
 		bool notify = true);
@@ -79,7 +79,7 @@ public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IE
 	/// <param name="entity"></param>
 	/// <param name="notify"></param>
 	/// <returns></returns>
-	bool Delete(TEntity entity,
+	void Delete(TEntity entity,
 		bool notify = true);
 
 	/// <summary>
@@ -88,7 +88,7 @@ public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IE
 	/// <param name="filterBuilder"></param>
 	/// <param name="notify"></param>
 	/// <returns></returns>
-	bool DeleteBatch(FilterBuilder<TEntity> filterBuilder,
+	void DeleteBatch(FilterBuilder<TEntity> filterBuilder,
 		bool notify = true);
 
 	#endregion

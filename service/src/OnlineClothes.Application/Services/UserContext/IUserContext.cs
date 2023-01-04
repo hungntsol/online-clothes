@@ -2,7 +2,7 @@
 
 public interface IUserContext
 {
-	string GetNameIdentifier();
+	int GetNameIdentifier();
 
 	string GetAccountEmail();
 
