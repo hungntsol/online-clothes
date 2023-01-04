@@ -1,8 +1,10 @@
-﻿namespace OnlineClothes.Support.Entity.Event;
+﻿using Newtonsoft.Json;
+
+namespace OnlineClothes.Support.Entity.Event;
 
 public class SupportDomainEvent : ISupportDomainEvent
 {
-	public List<KeyValuePair<string, object?>> PayloadEvents { get; } = new();
+	[JsonIgnore] public List<KeyValuePair<string, object?>> PayloadEvents { get; } = new();
 
 	public void AppendPayloadEvent(string payloadEventName, object? eventPayload = null)
 	{

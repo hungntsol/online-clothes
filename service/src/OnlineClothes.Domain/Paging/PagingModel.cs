@@ -16,7 +16,14 @@ public class PagingModel<T>
 
 	public ICollection<T>? Items { get; set; }
 
-	public int Pages => (int)(total / itemCount);
+	public int Pages
+	{
+		get
+		{
+			if (itemCount == 0) return 1;
+			return (int)(total / itemCount);
+		}
+	}
 
 	public int PageIndex { get; set; }
 

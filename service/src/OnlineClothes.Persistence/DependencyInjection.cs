@@ -14,11 +14,12 @@ public static class DependencyInjection
 	{
 		services.AddDbContext<AppDbContext>(options =>
 		{
-			var connectionString = configuration.GetConnectionString("AppContext");
+			var connectionString = configuration.GetConnectionString("PgBouncer");
 			options.UseNpgsql(connectionString,
-				optionsBuilder =>
+				npgsqlDbContextOptionsBuilder =>
 				{
-					optionsBuilder.MigrationsAssembly("OnlineClothes.Persistence"); // TODO: remove hard-code
+					npgsqlDbContextOptionsBuilder.MigrationsAssembly(
+						"OnlineClothes.Persistence"); // TODO: remove hard-code
 				});
 		});
 
