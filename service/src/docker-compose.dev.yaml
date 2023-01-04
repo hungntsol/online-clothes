@@ -1,22 +1,20 @@
 version: '3.8'
 
 services:
-  # mysql
-  mysql-db:
-    image: mysql:debian
-    hostname: mysql-db
+  # database
+  postgresql-db:
+    image: postgres:alpine
     networks:
       - oop-infra
     volumes:
-      - app-data:/var/lib/mysql
+      - app-data:/var/lib/postgresql/data
     ports:
-      - "3306:3306"
+      - "5432:5432"
     environment:
-      - MYSQL_ROOT_PASSWORD=mysql@123
+      - POSTGRES_PASSWORD=postgres@123
 
   mail-server-smtp:
     image: marcopas/docker-mailslurper
-    hostname: mail-server-smtp
     networks:
       - oop-infra
     ports:

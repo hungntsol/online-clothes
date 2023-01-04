@@ -14,4 +14,4 @@ compose-up:
 	docker-compose -f docker-compose.dev.yaml -p oop_src up -d --remove-orphans 
 	
 compose-down:
-	docker-compose -f docker-compose.dev.yaml down -p oop_src
+	docker-compose -f docker-compose.dev.yaml -p oop_src down 

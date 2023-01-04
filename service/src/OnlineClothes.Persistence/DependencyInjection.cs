@@ -15,10 +15,10 @@ public static class DependencyInjection
 		services.AddDbContext<AppDbContext>(options =>
 		{
 			var connectionString = configuration.GetConnectionString("AppContext");
-			options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 31)),
-				mySqlOption =>
+			options.UseNpgsql(connectionString,
+				optionsBuilder =>
 				{
-					mySqlOption.MigrationsAssembly("OnlineClothes.Persistence"); // TODO: remove hard-code
+					optionsBuilder.MigrationsAssembly("OnlineClothes.Persistence"); // TODO: remove hard-code
 				});
 		});
 
