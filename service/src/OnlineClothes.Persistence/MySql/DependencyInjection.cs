@@ -25,8 +25,8 @@ public static class DependencyInjection
 		});
 
 		services.AddScoped<IUnitOfWork, UnitOfWork>()
-			.AddTransient<IAccountUserRepository, AccountUserRepository>()
-			.AddTransient<IAccountTokenRepository, AccountTokenRepository>();
+			.AddTransient<IAccountRepository, AccountRepository>()
+			.AddTransient<ITokenRepository, TokenRepository>();
 
 		return services;
 	}

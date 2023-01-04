@@ -3,7 +3,6 @@ using OnlineClothes.Domain.Entities.Aggregate;
 
 namespace OnlineClothes.Application.Apply.Persistence;
 
-public interface IAccountUserRepository : IEfCoreRepository<AccountUser, int>
+public interface ITokenRepository : IEfCoreRepository<AccountTokenCode, int>
 {
-	Task<AccountUser?> GetByEmail(string email, CancellationToken cancellationToken = default);
 }

@@ -1,8 +1,7 @@
 ﻿using MediatR;
+using OnlineClothes.Application.Apply.Persistence;
 using OnlineClothes.Application.Apply.Persistence.Abstracts;
 using OnlineClothes.Application.Apply.Services.Auth;
-using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Accounts.Commands.SignIn;
@@ -12,22 +11,23 @@ internal sealed class
 {
 	private const string ErrorLoginFailMessage = "Email hoặc mật khẩu không chính xác";
 	private const string ErrorAccountNotActivateMessage = "Tài khoảng chưa được kích hoạt";
+	private readonly IAccountRepository _accountRepository;
 
 	private readonly IAuthorizeService _authorizeService;
 	private readonly IUnitOfWork _unitOfWork;
 
-	public SignInCommandHandler(IAuthorizeService authorizeService, IUnitOfWork unitOfWork)
+	public SignInCommandHandler(IAuthorizeService authorizeService, IUnitOfWork unitOfWork,
+		IAccountRepository accountRepository)
 	{
 		_unitOfWork = unitOfWork;
+		_accountRepository = accountRepository;
 		_authorizeService = authorizeService;
 	}
 
 	public async Task<JsonApiResponse<SignInCommandResult>> Handle(SignInCommand request,
 		CancellationToken cancellationToken)
 	{
-		var account =
-			await _unitOfWork.AccountUserRepository.FindOneAsync(
-				FilterBuilder<AccountUser>.Where(q => q.Email.Equals(request.Email)), cancellationToken);
+		var account = await _accountRepository.GetByEmail(request.Email, cancellationToken);
 
 		if (account is null || !account.VerifyPassword(request.Password))
 		{

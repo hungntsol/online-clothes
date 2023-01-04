@@ -5,9 +5,9 @@ using OnlineClothes.Persistence.MySql.Context;
 
 namespace OnlineClothes.Persistence.MySql.Repositories;
 
-public class AccountUserRepository : EfCoreRepositoryBase<AccountUser, int>, IAccountUserRepository
+public class AccountRepository : EfCoreRepositoryBase<AccountUser, int>, IAccountRepository
 {
-	public AccountUserRepository(AppDbContext dbContext) : base(dbContext)
+	public AccountRepository(AppDbContext dbContext) : base(dbContext)
 	{
 	}
 

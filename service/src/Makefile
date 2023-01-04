@@ -11,4 +11,7 @@ remove-migrate:
 	cd ./$(SLN_NAME).Persistence && dotnet ef migrations remove  -s ../$(SLN_NAME).Api/
 	
 compose-up:
-	docker-compose -f docker-compose.dev.yaml up --remove-orphans -d
+	docker-compose -f docker-compose.dev.yaml -p oop_src up -d --remove-orphans 
+	
+compose-down:
+	docker-compose -f docker-compose.dev.yaml down -p oop_src

@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using OnlineClothes.Application.Apply.Persistence;
 using OnlineClothes.Application.Apply.Persistence.Abstracts;
 using OnlineClothes.Persistence.MySql.Context;
 
@@ -99,14 +97,4 @@ public class UnitOfWork : IUnitOfWork
 
 		_disposed = true;
 	}
-
-	#region Repos
-
-	public IAccountUserRepository AccountUserRepository =>
-		_serviceProvider.GetRequiredService<IAccountUserRepository>();
-
-	public IAccountTokenRepository AccountTokenRepository =>
-		_serviceProvider.GetRequiredService<IAccountTokenRepository>();
-
-	#endregion
 }

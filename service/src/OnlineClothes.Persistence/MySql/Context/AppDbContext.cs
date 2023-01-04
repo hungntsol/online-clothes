@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OnlineClothes.Domain.Entities;
@@ -18,11 +17,8 @@ public class AppDbContext : DbContext
 				.AddConsole();
 		});
 
-	private readonly IMediator _mediator;
-
-	public AppDbContext(DbContextOptions options, IMediator mediator) : base(options)
+	public AppDbContext(DbContextOptions options) : base(options)
 	{
-		_mediator = mediator;
 	}
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

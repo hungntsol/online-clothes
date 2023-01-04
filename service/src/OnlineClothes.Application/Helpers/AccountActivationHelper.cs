@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using OnlineClothes.Application.Apply.Persistence;
 using OnlineClothes.Application.Apply.Persistence.Abstracts;
 using OnlineClothes.Application.Apply.Services.Mailing.Models;
 using OnlineClothes.Domain.Entities.Aggregate;
@@ -13,17 +14,20 @@ public class AccountActivationHelper
 	private readonly AccountActivationConfiguration _accountActivationConfiguration;
 	private readonly AppDomainConfiguration _domainConfiguration;
 	private readonly IMailingService _mailingService;
+	private readonly ITokenRepository _tokenRepository;
 	private readonly IUnitOfWork _unitOfWork;
 
 	public AccountActivationHelper(IOptions<AppDomainConfiguration> domainConfigurationOption,
 		IOptions<AccountActivationConfiguration> accountActivationConfigurationOption,
 		IMailingService mailingService,
-		IUnitOfWork unitOfWork)
+		IUnitOfWork unitOfWork,
+		ITokenRepository tokenRepository)
 	{
 		_accountActivationConfiguration = accountActivationConfigurationOption.Value;
 		_domainConfiguration = domainConfigurationOption.Value;
 		_mailingService = mailingService;
 		_unitOfWork = unitOfWork;
+		_tokenRepository = tokenRepository;
 	}
 
 	public async Task<AccountActivationResult> StartNewAccount(AccountUser account,
@@ -45,7 +49,7 @@ public class AccountActivationHelper
 		CancellationToken cancellationToken)
 	{
 		var newTokenCode = new AccountTokenCode(account.Email, AccountTokenType.Verification, TimeSpan.FromMinutes(15));
-		await _unitOfWork.AccountTokenRepository.InsertAsync(newTokenCode, cancellationToken: cancellationToken);
+		await _tokenRepository.InsertAsync(newTokenCode, cancellationToken: cancellationToken);
 		await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 		return newTokenCode;

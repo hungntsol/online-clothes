@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OnlineClothes.Application.Apply.Persistence;
 using OnlineClothes.Application.Apply.Persistence.Abstracts;
 using OnlineClothes.Application.Apply.Services.Mailing.Models;
 using OnlineClothes.Domain.Entities.Aggregate;
@@ -15,24 +16,30 @@ namespace OnlineClothes.Application.Features.Accounts.Commands.Reset;
 
 internal sealed class ResetCommandHandler : IRequestHandler<ResetCommand, JsonApiResponse<EmptyUnitResponse>>
 {
+	private readonly IAccountRepository _accountRepository;
 	private readonly AppDomainConfiguration _domainConfiguration;
 	private readonly ILogger<ResetCommand> _logger;
 	private readonly IMailingService _mailingService;
+	private readonly ITokenRepository _tokenRepository;
 	private readonly IUnitOfWork _unitOfWork;
 
 	public ResetCommandHandler(ILogger<ResetCommand> logger,
-		IOptions<AppDomainConfiguration> appDomainOptions, IMailingService mailingService, IUnitOfWork unitOfWork)
+		IOptions<AppDomainConfiguration> appDomainOptions,
+		IMailingService mailingService,
+		IUnitOfWork unitOfWork,
+		IAccountRepository accountRepository)
 	{
 		_logger = logger;
 		_mailingService = mailingService;
 		_unitOfWork = unitOfWork;
+		_accountRepository = accountRepository;
 		_domainConfiguration = appDomainOptions.Value;
 	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(ResetCommand request,
 		CancellationToken cancellationToken)
 	{
-		var account = await _unitOfWork.AccountUserRepository.FindOneAsync(
+		var account = await _accountRepository.FindOneAsync(
 			FilterBuilder<AccountUser>.Where(acc => acc.Email.Equals(request.Email)), cancellationToken);
 
 		NullValueReferenceException.ThrowIfNull(account, nameof(account));
@@ -40,8 +47,22 @@ internal sealed class ResetCommandHandler : IRequestHandler<ResetCommand, JsonAp
 		var recoveryCode =
 			new AccountTokenCode(account.Email, AccountTokenType.ResetPassword, TimeSpan.FromMinutes(15));
 
-		await _unitOfWork.AccountTokenRepository.InsertAsync(recoveryCode, cancellationToken: cancellationToken);
+		await _tokenRepository.InsertAsync(recoveryCode, cancellationToken: cancellationToken);
 
+		var saves = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+		if (saves)
+		{
+			await SendResetAccountEmail(cancellationToken, account, recoveryCode);
+			return JsonApiResponse<EmptyUnitResponse>.Success();
+		}
+
+		return JsonApiResponse<EmptyUnitResponse>.Fail();
+	}
+
+	private async Task SendResetAccountEmail(CancellationToken cancellationToken, AccountUser account,
+		AccountTokenCode recoveryCode)
+	{
 		var mail = new MailingTemplate(account.Email, "Recovery account", EmailTemplateNames.ResetPassword,
 			new
 			{
@@ -51,7 +72,5 @@ internal sealed class ResetCommandHandler : IRequestHandler<ResetCommand, JsonAp
 		await _mailingService.SendEmailAsync(mail, cancellationToken);
 
 		_logger.LogInformation("Account {Email} request for resetting password", account.Email);
-
-		return JsonApiResponse<EmptyUnitResponse>.Success();
 	}
 }

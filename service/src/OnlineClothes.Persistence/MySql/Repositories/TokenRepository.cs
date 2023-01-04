@@ -4,9 +4,9 @@ using OnlineClothes.Persistence.MySql.Context;
 
 namespace OnlineClothes.Persistence.MySql.Repositories;
 
-public class AccountTokenRepository : EfCoreRepositoryBase<AccountTokenCode, int>, IAccountTokenRepository
+public class TokenRepository : EfCoreRepositoryBase<AccountTokenCode, int>, ITokenRepository
 {
-	public AccountTokenRepository(AppDbContext dbContext) : base(dbContext)
+	public TokenRepository(AppDbContext dbContext) : base(dbContext)
 	{
 	}
 }

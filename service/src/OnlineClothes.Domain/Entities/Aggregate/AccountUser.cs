@@ -63,6 +63,11 @@ public class AccountUser : EntityBase
 		};
 	}
 
+	public void SetPassword(string providePassword)
+	{
+		HashedPassword = PasswordHasher.Hash(providePassword);
+	}
+
 	public void Activate()
 	{
 		IsActivated = true;

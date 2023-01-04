@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using OnlineClothes.Application.Apply.Persistence;
 using OnlineClothes.Application.Apply.Persistence.Abstracts;
 using OnlineClothes.Domain.Entities.Aggregate;
 using OnlineClothes.Support.Builders.Predicate;
@@ -10,19 +11,26 @@ namespace OnlineClothes.Application.Features.Accounts.Queries.Activate;
 
 internal sealed class ActivateQueryHandler : IRequestHandler<ActivateQuery, JsonApiResponse<EmptyUnitResponse>>
 {
+	private readonly IAccountRepository _accountRepository;
 	private readonly ILogger<ActivateQueryHandler> _logger;
+	private readonly ITokenRepository _tokenRepository;
 	private readonly IUnitOfWork _unitOfWork;
 
-	public ActivateQueryHandler(ILogger<ActivateQueryHandler> logger, IUnitOfWork unitOfWork)
+	public ActivateQueryHandler(ILogger<ActivateQueryHandler> logger,
+		IUnitOfWork unitOfWork,
+		ITokenRepository tokenRepository,
+		IAccountRepository accountRepository)
 	{
 		_logger = logger;
 		_unitOfWork = unitOfWork;
+		_tokenRepository = tokenRepository;
+		_accountRepository = accountRepository;
 	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(ActivateQuery request,
 		CancellationToken cancellationToken)
 	{
-		var tokenCode = await _unitOfWork.AccountTokenRepository.FindOneAsync(FilterBuilder<AccountTokenCode>.Where(x =>
+		var tokenCode = await _tokenRepository.FindOneAsync(FilterBuilder<AccountTokenCode>.Where(x =>
 			x.TokenCode == request.Token && x.TokenType == AccountTokenType.Verification), cancellationToken);
 
 		NullValueReferenceException.ThrowIfNull(tokenCode, nameof(tokenCode));
@@ -33,8 +41,7 @@ internal sealed class ActivateQueryHandler : IRequestHandler<ActivateQuery, Json
 		}
 
 		var account =
-			await _unitOfWork.AccountUserRepository.FindOneAsync(q => q.Email.Equals(tokenCode.Email),
-				cancellationToken);
+			await _accountRepository.GetByEmail(tokenCode.Email, cancellationToken);
 
 		NullValueReferenceException.ThrowIfNull(account);
 
@@ -42,13 +49,13 @@ internal sealed class ActivateQueryHandler : IRequestHandler<ActivateQuery, Json
 		await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
 		account.Activate();
-		_unitOfWork.AccountUserRepository.Update(account);
+		_accountRepository.Update(account);
 
 		var updateResult = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 		if (updateResult)
 		{
-			_unitOfWork.AccountTokenRepository.Delete(tokenCode);
+			_tokenRepository.Delete(tokenCode);
 			await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 			_logger.LogInformation("Account {Email} is activated", tokenCode.Email);

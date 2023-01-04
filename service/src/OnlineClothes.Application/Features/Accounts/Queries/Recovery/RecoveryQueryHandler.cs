@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using OnlineClothes.Application.Apply.Persistence;
 using OnlineClothes.Application.Apply.Persistence.Abstracts;
 using OnlineClothes.Domain.Common;
 using OnlineClothes.Domain.Entities.Aggregate;
@@ -12,22 +13,29 @@ namespace OnlineClothes.Application.Features.Accounts.Queries.Recovery;
 
 internal sealed class RecoveryQueryHandler : IRequestHandler<RecoveryQuery, JsonApiResponse<RecoveryQueryResult>>
 {
+	private readonly IAccountRepository _accountRepository;
 	private readonly ILogger<RecoveryQueryHandler> _logger;
 	private readonly IMailingService _mailingService;
+	private readonly ITokenRepository _tokenRepository;
 	private readonly IUnitOfWork _unitOfWork;
 
 	public RecoveryQueryHandler(ILogger<RecoveryQueryHandler> logger,
-		IMailingService mailingService, IUnitOfWork unitOfWork)
+		IMailingService mailingService,
+		IUnitOfWork unitOfWork,
+		ITokenRepository tokenRepository,
+		IAccountRepository accountRepository)
 	{
 		_logger = logger;
 		_mailingService = mailingService;
 		_unitOfWork = unitOfWork;
+		_tokenRepository = tokenRepository;
+		_accountRepository = accountRepository;
 	}
 
 	public async Task<JsonApiResponse<RecoveryQueryResult>> Handle(RecoveryQuery request,
 		CancellationToken cancellationToken)
 	{
-		var tokenCode = await _unitOfWork.AccountTokenRepository.FindOneAsync(
+		var tokenCode = await _tokenRepository.FindOneAsync(
 			FilterBuilder<AccountTokenCode>.Where(code =>
 				code.TokenCode == request.Token && code.TokenType == AccountTokenType.ResetPassword),
 			cancellationToken);
@@ -39,12 +47,11 @@ internal sealed class RecoveryQueryHandler : IRequestHandler<RecoveryQuery, Json
 			return JsonApiResponse<RecoveryQueryResult>.Fail();
 		}
 
+		var account = await _accountRepository.GetByEmail(tokenCode.Email, cancellationToken);
 		var newPassword = PasswordHasher.RandomPassword(6);
-		var account =
-			await _unitOfWork.AccountUserRepository.FindOneAsync(q => q.Email.Equals(tokenCode.Email),
-				cancellationToken);
+		account!.SetPassword(newPassword);
 
-		_unitOfWork.AccountUserRepository.Update(account!);
+		_accountRepository.Update(account);
 		var updatedResult = await _unitOfWork.SaveChangesAsync(cancellationToken);
 		if (updatedResult)
 		{

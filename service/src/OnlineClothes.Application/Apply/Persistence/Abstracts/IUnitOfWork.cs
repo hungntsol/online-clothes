@@ -4,11 +4,6 @@ namespace OnlineClothes.Application.Apply.Persistence.Abstracts;
 
 public interface IUnitOfWork : IDisposable
 {
-	// Repositories
-	IAccountUserRepository AccountUserRepository { get; }
-	IAccountTokenRepository AccountTokenRepository { get; }
-
-	// Unit
 	void BeginTransaction();
 	Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
 	bool SaveChanges();
