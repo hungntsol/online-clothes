@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using OnlineClothes.Application.Persistence;
-using OnlineClothes.Application.Persistence.Abstracts;
 using OnlineClothes.Application.Services.Mailing;
 using OnlineClothes.Application.Services.Mailing.Models;
 using OnlineClothes.Application.StandaloneConfigurations;
-using OnlineClothes.Domain.Entities.Aggregate;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Exceptions;
 
@@ -23,12 +21,14 @@ internal sealed class ResetCommandHandler : IRequestHandler<ResetCommand, JsonAp
 		IOptions<AppDomainConfiguration> appDomainOptions,
 		IMailingService mailingService,
 		IUnitOfWork unitOfWork,
-		IAccountRepository accountRepository)
+		IAccountRepository accountRepository,
+		ITokenRepository tokenRepository)
 	{
 		_logger = logger;
 		_mailingService = mailingService;
 		_unitOfWork = unitOfWork;
 		_accountRepository = accountRepository;
+		_tokenRepository = tokenRepository;
 		_domainConfiguration = appDomainOptions.Value;
 	}
 

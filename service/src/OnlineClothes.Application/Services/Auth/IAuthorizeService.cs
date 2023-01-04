@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using OnlineClothes.Domain.Entities.Aggregate;
 
 namespace OnlineClothes.Application.Services.Auth;
 

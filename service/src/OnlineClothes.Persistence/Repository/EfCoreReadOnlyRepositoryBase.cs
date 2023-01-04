@@ -4,6 +4,7 @@ using OnlineClothes.Application.Persistence.Abstracts;
 using OnlineClothes.Persistence.Context;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Entity;
+using OnlineClothes.Support.Exceptions;
 using OnlineClothes.Support.Utilities.Extensions;
 
 namespace OnlineClothes.Persistence.Repository;
@@ -45,40 +46,78 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 	}
 
 	public virtual Task<TEntity?> FindOneAsync(FilterBuilder<TEntity> filterBuilder,
-		List<string> includes,
+		List<string>? includes,
 		CancellationToken cancellationToken = default)
 	{
 		return FindOneAsync(filterBuilder, includes, true, cancellationToken);
 	}
 
 	public virtual Task<TEntity?> FindOneAsync(FilterBuilder<TEntity> filterBuilder,
-		List<string> includes,
-		bool asTracking,
+		List<string>? includes,
+		bool noTracking = true,
 		CancellationToken cancellationToken = default)
 	{
-		return FindOneAsync(filterBuilder, includes, asTracking, default, cancellationToken);
+		return FindOneAsync(filterBuilder, includes, noTracking, default, cancellationToken);
 	}
 
 	public virtual Task<TEntity?> FindOneAsync(FilterBuilder<TEntity> filterBuilder,
-		List<string> includes,
-		bool asTracking,
+		List<string>? includes,
+		bool noTracking = true,
 		bool ignoreQueryFilters = true,
 		CancellationToken cancellationToken = default)
 	{
-		return FindOneAsync(filterBuilder, p => p, includes, asTracking, ignoreQueryFilters, cancellationToken);
+		return FindOneAsync(filterBuilder, p => p, includes, noTracking, ignoreQueryFilters, cancellationToken);
 	}
 
 	public virtual async Task<TProject?> FindOneAsync<TProject>(FilterBuilder<TEntity> filterBuilder,
 		Expression<Func<TEntity, TProject>> selector,
-		List<string> includes,
-		bool asTracking,
+		List<string>? includes,
+		bool noTracking = true,
 		bool ignoreQueryFilters = true,
 		CancellationToken cancellationToken = default)
 	{
-		return await BuildIQueryable(DbSet, includes, asTracking, ignoreQueryFilters)
+		return await BuildIQueryable(DbSet, includes, noTracking, ignoreQueryFilters)
 			.Where(filterBuilder.Statement)
 			.Select(selector)
 			.FirstOrDefaultAsync(cancellationToken);
+	}
+
+	public virtual async Task<TEntity> GetOneAsync(object?[]? keyValues, CancellationToken cancellationToken = default)
+	{
+		var entry = await FindOneAsync(keyValues, cancellationToken);
+		NullValueReferenceException.ThrowIfNull(entry);
+
+		return entry;
+	}
+
+	public virtual async Task<TEntity> GetOneAsync(FilterBuilder<TEntity> filterBuilder,
+		CancellationToken cancellationToken = default)
+	{
+		var entry = await FindOneAsync(filterBuilder, cancellationToken);
+		NullValueReferenceException.ThrowIfNull(entry);
+
+		return entry;
+	}
+
+	public virtual async Task<TEntity> GetOneAsync(FilterBuilder<TEntity> filterBuilder,
+		List<string>? includes,
+		CancellationToken cancellationToken = default)
+	{
+		var entry = await FindOneAsync(filterBuilder, includes, cancellationToken);
+		NullValueReferenceException.ThrowIfNull(entry);
+
+		return entry;
+	}
+
+	public virtual async Task<TProject> GetOneAsync<TProject>(FilterBuilder<TEntity> filterBuilder,
+		Expression<Func<TEntity, TProject>> selector,
+		List<string>? includes,
+		CancellationToken cancellationToken = default)
+	{
+		var entry = await FindOneAsync(filterBuilder, selector, includes, default, default, cancellationToken);
+		NullValueReferenceException.ThrowIfNull(entry);
+
+		return entry;
 	}
 
 	public virtual async Task<long> CountAsync(CancellationToken cancellationToken = default)
@@ -94,19 +133,19 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 
 	private static IQueryable<TEntity> BuildIQueryable(
 		IQueryable<TEntity> queryable,
-		List<string> includes,
-		bool asTracking,
-		bool ignoreFilter
+		List<string>? includes,
+		bool noTracking = true,
+		bool ignoreFilter = true
 	)
 	{
 		// tracking
-		if (!asTracking)
+		if (noTracking)
 		{
 			queryable = queryable.AsNoTracking();
 		}
 
 		// include
-		if (!includes.IsEmpty())
+		if (includes is not null && !includes.IsEmpty())
 		{
 			foreach (var include in includes)
 			{

@@ -1,6 +1,4 @@
 ﻿using OnlineClothes.Application.Persistence;
-using OnlineClothes.Application.Persistence.Abstracts;
-using OnlineClothes.Domain.Entities.Aggregate;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Exceptions;
 

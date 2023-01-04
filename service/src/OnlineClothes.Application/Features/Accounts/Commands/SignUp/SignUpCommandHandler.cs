@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using OnlineClothes.Application.Helpers;
 using OnlineClothes.Application.Persistence;
-using OnlineClothes.Application.Persistence.Abstracts;
-using OnlineClothes.Domain.Entities.Aggregate;
 
 namespace OnlineClothes.Application.Features.Accounts.Commands.SignUp;
 

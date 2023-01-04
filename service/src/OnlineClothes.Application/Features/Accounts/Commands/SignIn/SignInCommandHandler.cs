@@ -1,5 +1,4 @@
 ﻿using OnlineClothes.Application.Persistence;
-using OnlineClothes.Application.Persistence.Abstracts;
 using OnlineClothes.Application.Services.Auth;
 
 namespace OnlineClothes.Application.Features.Accounts.Commands.SignIn;

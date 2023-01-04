@@ -1,7 +1,4 @@
-﻿using OnlineClothes.Application.Persistence.Abstracts;
-using OnlineClothes.Domain.Entities.Aggregate;
-
-namespace OnlineClothes.Application.Persistence;
+﻿namespace OnlineClothes.Application.Persistence;
 
 public interface IAccountRepository : IEfCoreRepository<AccountUser, int>
 {

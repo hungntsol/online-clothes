@@ -26,13 +26,13 @@ public interface IEfCoreReadOnlyRepository<TEntity, TKey> where TEntity : class,
 	Task<TEntity?> FindOneAsync(
 		FilterBuilder<TEntity> filterBuilder,
 		List<string> includes,
-		bool asTracking,
+		bool noTracking = true,
 		CancellationToken cancellationToken = default);
 
 	Task<TEntity?> FindOneAsync(
 		FilterBuilder<TEntity> filterBuilder,
 		List<string> includes,
-		bool asTracking,
+		bool noTracking = true,
 		bool ignoreQueryFilters = true,
 		CancellationToken cancellationToken = default);
 
@@ -40,8 +40,25 @@ public interface IEfCoreReadOnlyRepository<TEntity, TKey> where TEntity : class,
 		FilterBuilder<TEntity> filterBuilder,
 		Expression<Func<TEntity, TProject>> selector,
 		List<string> includes,
-		bool asTracking,
+		bool noTracking = true,
 		bool ignoreQueryFilters = true,
+		CancellationToken cancellationToken = default);
+
+	#endregion
+
+	#region GetOne
+
+	Task<TEntity> GetOneAsync(object?[]? keyValues, CancellationToken cancellationToken = default);
+
+	Task<TEntity> GetOneAsync(FilterBuilder<TEntity> filterBuilder, CancellationToken cancellationToken = default);
+
+	Task<TEntity> GetOneAsync(FilterBuilder<TEntity> filterBuilder,
+		List<string>? includes,
+		CancellationToken cancellationToken = default);
+
+	Task<TProject> GetOneAsync<TProject>(FilterBuilder<TEntity> filterBuilder,
+		Expression<Func<TEntity, TProject>> selector,
+		List<string>? includes,
 		CancellationToken cancellationToken = default);
 
 	#endregion
