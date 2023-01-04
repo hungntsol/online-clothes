@@ -1,6 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Domain.Paging;
-using OnlineClothes.Support.HttpResponse;
+﻿using OnlineClothes.Domain.Paging;
 
 namespace OnlineClothes.Application.Features.Order.Queries.Listing;
 

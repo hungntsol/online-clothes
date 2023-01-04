@@ -1,9 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using OnlineClothes.Application.Apply.Persistence;
-using OnlineClothes.Application.Apply.Persistence.Abstracts;
-using OnlineClothes.Application.Helpers;
-using OnlineClothes.Support.HttpResponse;
+﻿using OnlineClothes.Application.Helpers;
 
 namespace OnlineClothes.Application.Features.Accounts.Queries.ResendActivation;
 

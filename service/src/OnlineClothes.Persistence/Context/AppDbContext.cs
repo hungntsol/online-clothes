@@ -5,7 +5,7 @@ using OnlineClothes.Domain.Entities;
 using OnlineClothes.Domain.Entities.Aggregate;
 using OnlineClothes.Support.Entity;
 
-namespace OnlineClothes.Persistence.MySql.Context;
+namespace OnlineClothes.Persistence.Context;
 
 public class AppDbContext : DbContext
 {

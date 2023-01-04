@@ -1,12 +1,12 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using OnlineClothes.Application.Apply.Repositories.Abstracts;
-using OnlineClothes.Persistence.MySql.Context;
+using OnlineClothes.Persistence.Context;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Entity;
 using OnlineClothes.Support.Utilities.Extensions;
 
-namespace OnlineClothes.Persistence.MySql.Repositories;
+namespace OnlineClothes.Persistence.Repositories;
 
 public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadOnlyRepository<TEntity, TKey>
 	where TEntity : class, IEntity<TKey>, new()

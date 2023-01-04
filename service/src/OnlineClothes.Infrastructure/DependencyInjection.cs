@@ -6,10 +6,11 @@ using OnlineClothes.Application.Apply.Services.Auth;
 using OnlineClothes.Application.Apply.Services.Mailing;
 using OnlineClothes.Application.Apply.Services.Mailing.Engine;
 using OnlineClothes.Application.Apply.Services.Mailing.Models;
+using OnlineClothes.Application.Apply.Services.ObjectStorage;
+using OnlineClothes.Application.Apply.Services.ObjectStorage.Models;
 using OnlineClothes.Infrastructure.Services.Auth;
 using OnlineClothes.Infrastructure.Services.Mailing;
 using OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
-using OnlineClothes.Infrastructure.Services.Storage.Abstracts;
 using OnlineClothes.Infrastructure.Services.Storage.AwsS3;
 using OnlineClothes.Infrastructure.Services.UserContext;
 using OnlineClothes.Infrastructure.Services.UserContext.Abstracts;
@@ -58,7 +59,7 @@ public static class DependencyInjection
 	}
 
 	/// <summary>
-	///     Cache raw html email template to memory
+	/// Cache raw html email template to memory
 	/// </summary>
 	/// <param name="services"></param>
 	private static void CacheEmailTemplateInMemory(this IServiceCollection services)

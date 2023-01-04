@@ -1,7 +1,5 @@
-﻿using MediatR;
-using OnlineClothes.Domain.Entities;
+﻿using OnlineClothes.Domain.Entities;
 using OnlineClothes.Support.Builders.Predicate;
-using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Order.Commands.Cancel;
 

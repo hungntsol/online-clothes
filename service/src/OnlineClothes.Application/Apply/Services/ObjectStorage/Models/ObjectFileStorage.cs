@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using OnlineClothes.Application;
 using OnlineClothes.Support.Utilities;
 
-namespace OnlineClothes.Infrastructure.Services.Storage.Models;
+namespace OnlineClothes.Application.Apply.Services.ObjectStorage.Models;
 
 public class ObjectFileStorage
 {

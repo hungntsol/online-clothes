@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Order.Commands.Delivery;
+﻿namespace OnlineClothes.Application.Features.Order.Commands.Delivery;
 
 public class DeliveryOrderCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {

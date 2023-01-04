@@ -1,8 +1,8 @@
 ﻿using OnlineClothes.Application.Apply.Persistence;
 using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Persistence.MySql.Context;
+using OnlineClothes.Persistence.Context;
 
-namespace OnlineClothes.Persistence.MySql.Repositories;
+namespace OnlineClothes.Persistence.Repositories;
 
 public class TokenRepository : EfCoreRepositoryBase<AccountTokenCode, int>, ITokenRepository
 {

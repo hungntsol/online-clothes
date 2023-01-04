@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Product.Commands.Delete;
+﻿namespace OnlineClothes.Application.Features.Product.Commands.Delete;
 
 public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, JsonApiResponse<EmptyUnitResponse>>
 {

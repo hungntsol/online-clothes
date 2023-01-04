@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Http;
-using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Product.Commands.UploadImage;
 

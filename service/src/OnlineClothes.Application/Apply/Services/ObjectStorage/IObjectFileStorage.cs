@@ -1,6 +1,6 @@
-﻿using OnlineClothes.Infrastructure.Services.Storage.Models;
+﻿using OnlineClothes.Application.Apply.Services.ObjectStorage.Models;
 
-namespace OnlineClothes.Infrastructure.Services.Storage.Abstracts;
+namespace OnlineClothes.Application.Apply.Services.ObjectStorage;
 
 public interface IObjectFileStorage
 {

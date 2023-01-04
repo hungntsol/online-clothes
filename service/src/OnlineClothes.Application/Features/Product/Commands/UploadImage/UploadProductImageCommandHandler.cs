@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Product.Commands.UploadImage;
+﻿namespace OnlineClothes.Application.Features.Product.Commands.UploadImage;
 
 public sealed class
 	UploadProductImageCommandHandler : IRequestHandler<UploadProductImageCommand, JsonApiResponse<EmptyUnitResponse>>

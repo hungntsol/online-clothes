@@ -1,5 +1,4 @@
-﻿using OnlineClothes.Domain.Common;
-using OnlineClothes.Domain.Entities.Aggregate;
+﻿using OnlineClothes.Domain.Entities.Aggregate;
 
 namespace OnlineClothes.Application.Features.Profile.Queries.FetchInformation;
 

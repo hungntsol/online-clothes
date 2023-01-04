@@ -1,6 +1,4 @@
-﻿using OnlineClothes.Domain.Common;
-
-namespace OnlineClothes.Application.Features.Order.Queries.Listing;
+﻿namespace OnlineClothes.Application.Features.Order.Queries.Listing;
 
 public class OrderListingQueryViewModel
 {

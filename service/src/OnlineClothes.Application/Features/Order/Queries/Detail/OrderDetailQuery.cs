@@ -1,6 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Domain.Entities;
-using OnlineClothes.Support.HttpResponse;
+﻿using OnlineClothes.Domain.Entities;
 
 namespace OnlineClothes.Application.Features.Order.Queries.Detail;
 

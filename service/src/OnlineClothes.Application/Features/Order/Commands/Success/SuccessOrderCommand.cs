@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Order.Commands.Success;
+﻿namespace OnlineClothes.Application.Features.Order.Commands.Success;
 
 public class SuccessOrderCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {

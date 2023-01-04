@@ -3,11 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineClothes.Application.Apply.Persistence;
 using OnlineClothes.Application.Apply.Persistence.Abstracts;
-using OnlineClothes.Persistence.MySql.Context;
-using OnlineClothes.Persistence.MySql.Repositories;
-using OnlineClothes.Persistence.MySql.Uow;
+using OnlineClothes.Persistence.Context;
+using OnlineClothes.Persistence.Repositories;
+using OnlineClothes.Persistence.Uow;
 
-namespace OnlineClothes.Persistence.MySql;
+namespace OnlineClothes.Persistence;
 
 public static class DependencyInjection
 {

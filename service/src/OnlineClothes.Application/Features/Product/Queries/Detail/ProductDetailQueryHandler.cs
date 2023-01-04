@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Product.Queries.Detail;
+﻿namespace OnlineClothes.Application.Features.Product.Queries.Detail;
 
 public class
 	ProductDetailQueryHandler : IRequestHandler<ProductDetailQuery, JsonApiResponse<ProductDetailQueryViewModel>>

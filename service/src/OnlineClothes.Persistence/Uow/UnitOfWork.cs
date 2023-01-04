@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using OnlineClothes.Application.Apply.Persistence.Abstracts;
-using OnlineClothes.Persistence.MySql.Context;
+using OnlineClothes.Persistence.Context;
 
-namespace OnlineClothes.Persistence.MySql.Uow;
+namespace OnlineClothes.Persistence.Uow;
 
 public class UnitOfWork : IUnitOfWork
 {

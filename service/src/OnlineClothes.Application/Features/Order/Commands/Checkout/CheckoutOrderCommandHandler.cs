@@ -1,8 +1,6 @@
 ﻿using System.Text;
-using MediatR;
 using OnlineClothes.Domain.Entities;
 using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Order.Commands.Checkout;
 

@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Order.Commands.Cancel;
+﻿namespace OnlineClothes.Application.Features.Order.Commands.Cancel;
 
 public class CancelOrderCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {

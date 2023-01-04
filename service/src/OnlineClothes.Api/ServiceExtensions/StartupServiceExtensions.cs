@@ -5,8 +5,7 @@ using Microsoft.OpenApi.Models;
 using OnlineClothes.Application;
 using OnlineClothes.Application.Apply.Services.Auth.Models;
 using OnlineClothes.Infrastructure;
-using OnlineClothes.Persistence.Context;
-using OnlineClothes.Persistence.MySql;
+using OnlineClothes.Persistence;
 
 namespace OnlineClothes.Api.ServiceExtensions;
 
@@ -20,7 +19,6 @@ public static class StartupServiceExtensions
 		services.ConfigAuth(configuration);
 		services.ConfigCors();
 
-		services.UseMongoDb(config => configuration.GetSection("MongoDb").Bind(config));
 		services.RegisterPersistenceLayer(configuration);
 
 		services.RegisterApplicationLayer(configuration);

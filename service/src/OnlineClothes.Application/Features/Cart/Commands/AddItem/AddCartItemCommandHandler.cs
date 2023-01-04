@@ -1,5 +1,5 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
+﻿
+
 //using OnlineClothes.Infrastructure.Repositories.Abstracts;
 
 namespace OnlineClothes.Application.Features.Cart.Commands.AddItem;

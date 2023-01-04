@@ -1,6 +1,6 @@
 ﻿using OnlineClothes.Infrastructure.StandaloneConfigurations;
 
-namespace OnlineClothes.Infrastructure.Services.Storage.AwsS3;
+namespace OnlineClothes.Application.Apply.Services.ObjectStorage.Models;
 
 public class AwsS3Configuration
 {

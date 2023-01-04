@@ -1,8 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using OnlineClothes.Application.Apply.Persistence;
-using OnlineClothes.Application.Apply.Persistence.Abstracts;
+﻿using Microsoft.Extensions.Options;
 using OnlineClothes.Application.Apply.Services.Mailing.Models;
 using OnlineClothes.Domain.Entities.Aggregate;
 using OnlineClothes.Infrastructure.Services.Mailing.Abstracts;
@@ -10,7 +6,6 @@ using OnlineClothes.Infrastructure.Services.Mailing.Models;
 using OnlineClothes.Infrastructure.StandaloneConfigurations;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Exceptions;
-using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Accounts.Commands.Reset;
 

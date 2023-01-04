@@ -1,11 +1,9 @@
-﻿using MediatR;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using OnlineClothes.Application.Commons;
 using OnlineClothes.Domain.Entities;
 using OnlineClothes.Domain.Paging;
 using OnlineClothes.Support.Builders.Predicate;
-using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Product.Queries.Listing;
 

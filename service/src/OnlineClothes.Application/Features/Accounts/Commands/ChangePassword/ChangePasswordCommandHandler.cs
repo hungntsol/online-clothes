@@ -1,12 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using OnlineClothes.Application.Apply.Persistence;
-using OnlineClothes.Application.Apply.Persistence.Abstracts;
-using OnlineClothes.Domain.Common;
-using OnlineClothes.Infrastructure.Services.UserContext.Abstracts;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Accounts.Commands.ChangePassword;
+﻿namespace OnlineClothes.Application.Features.Accounts.Commands.ChangePassword;
 
 internal sealed class
 	ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, JsonApiResponse<EmptyUnitResponse>>

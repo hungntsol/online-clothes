@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Cart.Queries.GetInfo;
+﻿namespace OnlineClothes.Application.Features.Cart.Queries.GetInfo;
 
 public class GetCartInfoQueryHandler : IRequestHandler<GetCartInfoQuery, JsonApiResponse<GetCartInfoQueryViewModel>>
 {

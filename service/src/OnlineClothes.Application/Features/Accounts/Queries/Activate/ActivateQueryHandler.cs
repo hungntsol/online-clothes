@@ -1,11 +1,6 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using OnlineClothes.Application.Apply.Persistence;
-using OnlineClothes.Application.Apply.Persistence.Abstracts;
-using OnlineClothes.Domain.Entities.Aggregate;
+﻿using OnlineClothes.Domain.Entities.Aggregate;
 using OnlineClothes.Support.Builders.Predicate;
 using OnlineClothes.Support.Exceptions;
-using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Accounts.Queries.Activate;
 

@@ -1,12 +1,6 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using OnlineClothes.Application.Apply.Persistence;
-using OnlineClothes.Application.Apply.Persistence.Abstracts;
+﻿using Microsoft.AspNetCore.Http;
 using OnlineClothes.Application.Helpers;
-using OnlineClothes.Domain.Common;
 using OnlineClothes.Domain.Entities.Aggregate;
-using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Accounts.Commands.SignUp;
 

@@ -1,8 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Application.Apply.Persistence;
-using OnlineClothes.Application.Apply.Persistence.Abstracts;
-using OnlineClothes.Application.Apply.Services.Auth;
-using OnlineClothes.Support.HttpResponse;
+﻿using OnlineClothes.Application.Apply.Services.Auth;
 
 namespace OnlineClothes.Application.Features.Accounts.Commands.SignIn;
 

@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Profile.Commands.EditAvatar;
+﻿namespace OnlineClothes.Application.Features.Profile.Commands.EditAvatar;
 
 internal sealed class EditAvatarCommandHandler : IRequestHandler<EditAvatarCommand, JsonApiResponse<EmptyUnitResponse>>
 {

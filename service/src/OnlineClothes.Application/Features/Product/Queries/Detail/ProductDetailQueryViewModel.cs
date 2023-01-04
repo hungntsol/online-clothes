@@ -1,5 +1,4 @@
-﻿using OnlineClothes.Domain.Common;
-using OnlineClothes.Domain.Entities;
+﻿using OnlineClothes.Domain.Entities;
 
 namespace OnlineClothes.Application.Features.Product.Queries.Detail;
 

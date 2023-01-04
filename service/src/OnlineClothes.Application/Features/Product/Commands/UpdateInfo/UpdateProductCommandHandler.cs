@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Product.Commands.UpdateInfo;
+﻿namespace OnlineClothes.Application.Features.Product.Commands.UpdateInfo;
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, JsonApiResponse<EmptyUnitResponse>>
 {

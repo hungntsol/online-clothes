@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Profile.Commands.EditInformation;
+﻿namespace OnlineClothes.Application.Features.Profile.Commands.EditInformation;
 
 public class EditInformationCommandHandler : IRequestHandler<EditInformationCommand, JsonApiResponse<EmptyUnitResponse>>
 {

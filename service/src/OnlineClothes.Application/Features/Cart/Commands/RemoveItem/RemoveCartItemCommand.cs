@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Cart.Commands.RemoveItem;
+﻿namespace OnlineClothes.Application.Features.Cart.Commands.RemoveItem;
 
 public class RemoveCartItemCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {

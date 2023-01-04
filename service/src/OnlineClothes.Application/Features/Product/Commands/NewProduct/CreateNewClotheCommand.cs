@@ -1,7 +1,4 @@
 ﻿using FluentValidation;
-using MediatR;
-using OnlineClothes.Domain.Common;
-using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Application.Features.Product.Commands.NewProduct;
 

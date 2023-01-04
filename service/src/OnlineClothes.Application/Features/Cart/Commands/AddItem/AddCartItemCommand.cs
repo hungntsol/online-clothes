@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Cart.Commands.AddItem;
+﻿namespace OnlineClothes.Application.Features.Cart.Commands.AddItem;
 
 public class AddCartItemCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {

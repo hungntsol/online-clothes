@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Product.Commands.NewProduct;
+﻿namespace OnlineClothes.Application.Features.Product.Commands.NewProduct;
 
 public sealed class
 	CreateNewClotheCommandHandler : IRequestHandler<CreateNewClotheCommand, JsonApiResponse<EmptyUnitResponse>>

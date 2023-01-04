@@ -1,7 +1,4 @@
-﻿using MediatR;
-using OnlineClothes.Support.HttpResponse;
-
-namespace OnlineClothes.Application.Features.Product.Commands.ImportProducts;
+﻿namespace OnlineClothes.Application.Features.Product.Commands.ImportProducts;
 
 public class
 	ImportProductStockCommandHandler : IRequestHandler<ImportProductStockCommand, JsonApiResponse<EmptyUnitResponse>>
