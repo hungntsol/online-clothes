@@ -9,16 +9,14 @@ public sealed class
 	private readonly AccountActivationHelper _accountActivationHelper;
 	private readonly IAccountRepository _accountRepository;
 	private readonly ILogger<ResendActivationQueryHandler> _logger;
-	private readonly IUnitOfWork _unitOfWork;
 
-	public ResendActivationQueryHandler(ILogger<ResendActivationQueryHandler> logger,
+	public ResendActivationQueryHandler(
+		ILogger<ResendActivationQueryHandler> logger,
 		AccountActivationHelper accountActivationHelper,
-		IUnitOfWork unitOfWork,
 		IAccountRepository accountRepository)
 	{
 		_logger = logger;
 		_accountActivationHelper = accountActivationHelper;
-		_unitOfWork = unitOfWork;
 		_accountRepository = accountRepository;
 	}
 

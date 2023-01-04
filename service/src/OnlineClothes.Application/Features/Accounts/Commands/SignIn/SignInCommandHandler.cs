@@ -11,12 +11,11 @@ internal sealed class
 	private readonly IAccountRepository _accountRepository;
 
 	private readonly IAuthorizeService _authorizeService;
-	private readonly IUnitOfWork _unitOfWork;
 
-	public SignInCommandHandler(IAuthorizeService authorizeService, IUnitOfWork unitOfWork,
+	public SignInCommandHandler(
+		IAuthorizeService authorizeService,
 		IAccountRepository accountRepository)
 	{
-		_unitOfWork = unitOfWork;
 		_accountRepository = accountRepository;
 		_authorizeService = authorizeService;
 	}
