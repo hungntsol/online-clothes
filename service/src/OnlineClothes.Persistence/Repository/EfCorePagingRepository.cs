@@ -1,5 +1,4 @@
-﻿using Mapster;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OnlineClothes.Application.Persistence.Abstracts;
 using OnlineClothes.Domain.Paging;
 using OnlineClothes.Persistence.Context;
@@ -19,39 +18,49 @@ public class EfCorePagingRepository<TEntity, TKey> : EfCoreReadOnlyRepositoryBas
 	public virtual async Task<PagingModel<TProject>> PagingAsync<TProject>(
 		FilterBuilder<TEntity> filterBuilder,
 		PagingRequest pageRequest,
-		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderFunc,
+		Func<IQueryable<TEntity>, IQueryable<TProject>> selectorFunc,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderFunc = null,
+		CancellationToken cancellationToken = default)
+	{
+		var total = await CountAsync(filterBuilder, cancellationToken);
+		var entriesQueryable = BuildPreEntryQueryable(filterBuilder, pageRequest, orderFunc, cancellationToken);
+
+		var result = await selectorFunc(entriesQueryable).ToListAsync(cancellationToken);
+		return PagingModel<TProject>.ToPages(total, result, pageRequest.PageSize);
+	}
+
+	public virtual async Task<PagingModel<TEntity>> PagingAsync(
+		FilterBuilder<TEntity> filterBuilder,
+		PagingRequest pageRequest,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderFunc = null,
+		CancellationToken cancellationToken = default)
+	{
+		var total = await CountAsync(filterBuilder, cancellationToken);
+		var entriesQueryable = BuildPreEntryQueryable(filterBuilder, pageRequest, orderFunc, cancellationToken);
+
+		var result = await entriesQueryable.ToListAsync(cancellationToken);
+		return PagingModel<TEntity>.ToPages(total, result, pageRequest.PageSize);
+	}
+
+	private IQueryable<TEntity> BuildPreEntryQueryable(
+		FilterBuilder<TEntity> filterBuilder,
+		PagingRequest pageRequest,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderFunc = null,
 		CancellationToken cancellationToken = default)
 	{
 		var offset = (pageRequest.PageIndex - 1) * pageRequest.PageSize;
-
-		var total = await CountAsync(filterBuilder, cancellationToken);
-
 		var query = DbSet.Where(filterBuilder.Statement);
+
 
 		if (orderFunc is not null)
 		{
 			query = orderFunc(query);
 		}
 
-		var entries = await query
+		var entriesQueryable = query
 			.Skip(offset)
-			.Take(pageRequest.PageSize)
-			.AsQueryable()
-			.ProjectToType<TProject>()
-			.ToListAsync(cancellationToken);
+			.Take(pageRequest.PageSize);
 
-		//var entries = await DbSet
-		//	.AsNoTracking()
-		//	.Where(filterBuilder.Statement)
-		//	.AsEnumerable()
-		//	.OrderBy(orderSelector)
-		//	.Skip(offset)
-		//	.Take(pageRequest.PageSize)
-		//	.AsQueryable()
-		//	.ProjectToType<TProject>()
-		//	.ToListAsync(cancellationToken);
-
-
-		return PagingModel<TProject>.ToPages(total, entries, pageRequest.PageIndex);
+		return entriesQueryable;
 	}
 }

@@ -10,6 +10,13 @@ public interface IEfCorePagingRepository<TEntity, TKey> : IEfCoreReadOnlyReposit
 	Task<PagingModel<TProject>> PagingAsync<TProject>(
 		FilterBuilder<TEntity> filterBuilder,
 		PagingRequest pageRequest,
-		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderFunc,
+		Func<IQueryable<TEntity>, IQueryable<TProject>> selectorFunc,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderFunc = null,
+		CancellationToken cancellationToken = default);
+
+	Task<PagingModel<TEntity>> PagingAsync(
+		FilterBuilder<TEntity> filterBuilder,
+		PagingRequest pageRequest,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderFunc = null,
 		CancellationToken cancellationToken = default);
 }

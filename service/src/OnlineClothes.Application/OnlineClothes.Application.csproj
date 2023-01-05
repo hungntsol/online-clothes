@@ -26,8 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\MaterialType\Commands\Delete\" />
-    <Folder Include="Features\MaterialType\Queries\" />
     <Folder Include="Features\Serial\Commands\Create\" />
     <Folder Include="Features\Serial\Commands\Edit\" />
     <Folder Include="Features\Serial\Commands\Delete\" />

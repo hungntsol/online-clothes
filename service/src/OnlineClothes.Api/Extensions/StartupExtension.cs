@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
 using System.Text;
-using Mapster;
-using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -9,7 +7,6 @@ using OnlineClothes.Application;
 using OnlineClothes.Application.Services.Auth.Models;
 using OnlineClothes.Infrastructure;
 using OnlineClothes.Persistence;
-using OnlineClothes.Support;
 
 namespace OnlineClothes.Api.Extensions;
 
@@ -22,15 +19,13 @@ public static class StartupExtension
 		services.ConfigSwagger();
 		services.ConfigAuth(configuration);
 		services.ConfigCors();
-		services.ConfigMapping();
+		services.ConfigAutoMapper();
 
 		services.RegisterPersistenceLayer(configuration);
 		services.RegisterApplicationLayer(configuration);
 		services.RegisterInfrastructureLayer(configuration);
 
 		services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-
-		TypeAdapterConfig.GlobalSettings.Scan(ApplicationLayerAssembly.ExecutingAssembly);
 	}
 
 	/// <summary>
@@ -111,24 +106,12 @@ public static class StartupExtension
 		});
 	}
 
-	private static void ConfigMapping(this IServiceCollection services)
+	private static void ConfigAutoMapper(this IServiceCollection services)
 	{
-		var config = new TypeAdapterConfig
-		{
-			RequireExplicitMapping = false,
-			RequireDestinationMemberSource = false,
-			Compiler = exp => exp.Compile()
-		};
-
-		config.Scan(
+		services.AddAutoMapper(
 			Assembly.GetExecutingAssembly(),
-			ApplicationLayerAssembly.ExecutingAssembly,
 			InfrastructureAssembly.ExecutingAssembly,
-			PersistenceAssembly.ExecutingAssembly,
-			SupportLayerAssembly.ExecutingAssembly);
-
-		var mapper = new Mapper(config);
-
-		services.AddSingleton<IMapper>(mapper);
+			ApplicationLayerAssembly.ExecutingAssembly,
+			PersistenceAssembly.ExecutingAssembly);
 	}
 }

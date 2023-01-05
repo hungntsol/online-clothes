@@ -1,6 +1,6 @@
 ﻿namespace OnlineClothes.Application.Features.Brand.Queries.Single;
 
-public class GetSingleBrandQuery : IRequest<JsonApiResponse<GetSingleBrandQueryResultModel>>
+public class GetSingleBrandQuery : IRequest<JsonApiResponse<BrandDto>>
 {
 	public GetSingleBrandQuery(string id)
 	{

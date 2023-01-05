@@ -1,4 +1,4 @@
-﻿using Mapster;
+﻿using AutoMapper;
 using Newtonsoft.Json;
 using OnlineClothes.Application.Persistence;
 
@@ -8,14 +8,18 @@ public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Jso
 {
 	private readonly IBrandRepository _brandRepository;
 	private readonly ILogger<CreateBrandCommandHandler> _logger;
+	private readonly IMapper _mapper;
 	private readonly IUnitOfWork _unitOfWork;
 
-	public CreateBrandCommandHandler(IUnitOfWork unitOfWork, IBrandRepository brandRepository,
-		ILogger<CreateBrandCommandHandler> logger)
+	public CreateBrandCommandHandler(IUnitOfWork unitOfWork,
+		IBrandRepository brandRepository,
+		ILogger<CreateBrandCommandHandler> logger,
+		IMapper mapper)
 	{
 		_unitOfWork = unitOfWork;
 		_brandRepository = brandRepository;
 		_logger = logger;
+		_mapper = mapper;
 	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(CreateBrandCommand request,
@@ -28,7 +32,7 @@ public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Jso
 			return JsonApiResponse<EmptyUnitResponse>.Fail("Brand đã tồn tại");
 		}
 
-		var brand = request.Adapt<Domain.Entities.Aggregate.Brand>();
+		var brand = _mapper.Map<Domain.Entities.Aggregate.Brand>(request);
 		await _brandRepository.AddAsync(brand, cancellationToken: cancellationToken);
 
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);

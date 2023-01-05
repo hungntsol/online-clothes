@@ -2,6 +2,10 @@
 
 public class PagingModel<T>
 {
+	public PagingModel()
+	{
+	}
+
 	public PagingModel(long totalCount, ICollection<T> items, int pageIndex)
 	{
 		total = totalCount;

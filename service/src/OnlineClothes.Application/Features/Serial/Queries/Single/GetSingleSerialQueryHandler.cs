@@ -1,5 +1,4 @@
-﻿using MapsterMapper;
-using OnlineClothes.Application.Mapping.Dto;
+﻿using AutoMapper;
 using OnlineClothes.Application.Persistence;
 
 namespace OnlineClothes.Application.Features.Serial.Queries.Single;
@@ -21,10 +20,8 @@ public class
 		CancellationToken cancellationToken)
 	{
 		var entry = await _serialRepository.GetByIntKey(request.Id, cancellationToken);
-
 		var viewModel = _mapper.Map<Domain.Entities.Aggregate.Serial, SerialDto>(entry);
 
-		return JsonApiResponse<SerialDto>.Success(
-			data: viewModel);
+		return JsonApiResponse<SerialDto>.Success(data: viewModel);
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace OnlineClothes.Application.Features.Category.Queries.Single;
 
-public class GetSingleCategoryQuery : IRequest<JsonApiResponse<GetSingleCategoryQueryResultModel>>
+public class GetSingleCategoryQuery : IRequest<JsonApiResponse<CategoryDto>>
 {
 	public GetSingleCategoryQuery(int id)
 	{
