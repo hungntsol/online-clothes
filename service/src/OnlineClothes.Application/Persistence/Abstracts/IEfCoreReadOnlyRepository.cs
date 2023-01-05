@@ -5,7 +5,7 @@ using OnlineClothes.Support.Entity;
 
 namespace OnlineClothes.Application.Persistence.Abstracts;
 
-public interface IEfCoreReadOnlyRepository<TEntity, TKey>
+public interface IEfCoreReadOnlyRepository<TEntity, TKey> : IDisposable
 	where TEntity : class, IEntity<TKey>, new()
 {
 	DbSet<TEntity> Table { get; }

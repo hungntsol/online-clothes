@@ -39,12 +39,13 @@ public class UnitOfWork : IUnitOfWork
 	{
 		try
 		{
+			_dbContext.ChangeTracker.AutoDetectChangesEnabled = true;
 			return _dbContext.SaveChanges() > 0;
 		}
 		catch (Exception ex)
 		{
-			_transaction.Rollback();
 			_logger.LogError(ex, "{message}", ex.Message);
+			Rollback();
 			return false;
 		}
 	}
@@ -53,13 +54,14 @@ public class UnitOfWork : IUnitOfWork
 	{
 		try
 		{
+			_dbContext.ChangeTracker.AutoDetectChangesEnabled = true;
 			return await _dbContext.SaveChangesAsync(cancellationToken) > 0;
 		}
 		catch (Exception ex)
 		{
-			await _transaction.RollbackAsync(cancellationToken);
 			_logger.LogError(ex, "{message}", ex.Message);
-			throw new Exception(ex.Message);
+			await RollbackAsync(cancellationToken);
+			return false;
 		}
 	}
 

@@ -12,7 +12,7 @@ public class ProductSerial : EntityBase
 	public ProductSerial(string name, string? brandId, ClotheType? type)
 	{
 		Name = name;
-		BrandId = brandId;
+		BrandId = string.IsNullOrEmpty(brandId?.Trim()) ? null : brandId;
 		Type = type;
 	}
 
@@ -24,4 +24,14 @@ public class ProductSerial : EntityBase
 	public ClotheType? Type { get; set; }
 
 	[JsonIgnore] public virtual ICollection<ClotheCategory> ClotheCategories { get; set; } = new List<ClotheCategory>();
+
+	public void SetName(string name)
+	{
+		Name = name;
+	}
+
+	public void SetBrandId(string? brandId = null)
+	{
+		BrandId = string.IsNullOrEmpty(brandId?.Trim()) ? null : brandId;
+	}
 }

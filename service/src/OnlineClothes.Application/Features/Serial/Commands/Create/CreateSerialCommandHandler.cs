@@ -29,19 +29,13 @@ public class CreateSerialCommandHandler : IRequestHandler<CreateSerialCommand, J
 		// Begin tx
 		await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
-		//var categories = await _categoryRepository.AsQueryable()
-		//	.Where(q => request.CategoryIds.Contains(q.Id))
-		//	.ToListAsync(cancellationToken);
-
-		var categories = request.CategoryIds.Select(q => new ClotheCategory { Id = q, Name = string.Empty })
+		var categories = request.CategoryIds
+			.Select(q => new ClotheCategory { Id = q, Name = string.Empty })
 			.ToList();
-
 		_categoryRepository.Table.AttachRange(categories);
 
 		newSerial.ClotheCategories = _categoryRepository.Table.Local.ToList();
-
 		await _serialRepository.InsertAsync(newSerial, cancellationToken: cancellationToken);
-
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 		if (!save)

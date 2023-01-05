@@ -12,15 +12,16 @@ public static class DependencyInjection
 	public static IServiceCollection RegisterPersistenceLayer(this IServiceCollection services,
 		IConfiguration configuration)
 	{
-		services.AddDbContext<AppDbContext>(options =>
+		services.AddDbContext<AppDbContext>(contextOptionsBuilder =>
 		{
 			var connectionString = configuration.GetConnectionString("PgBouncer");
-			options.UseNpgsql(connectionString,
-				npgsqlDbContextOptionsBuilder =>
+			contextOptionsBuilder.UseNpgsql(connectionString,
+				npgsqlOptionsBuilder =>
 				{
-					npgsqlDbContextOptionsBuilder.MigrationsAssembly(
-						"OnlineClothes.Persistence"); // TODO: remove hard-code
+					// TODO: remove hard-code
+					npgsqlOptionsBuilder.MigrationsAssembly("OnlineClothes.Persistence");
 				});
+			contextOptionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 		});
 
 		services.AddScoped<IUnitOfWork, UnitOfWork>();

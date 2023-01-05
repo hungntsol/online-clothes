@@ -14,6 +14,7 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly DbSet<TEntity> DbSet;
+	private bool _disposed;
 
 	protected EfCoreReadOnlyRepositoryBase(AppDbContext dbContext)
 	{
@@ -147,6 +148,25 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 		NullValueReferenceException.ThrowIfNull(entry);
 
 		return entry;
+	}
+
+	public void Dispose()
+	{
+		Dispose(true);
+		GC.SuppressFinalize(this);
+	}
+
+	protected virtual void Dispose(bool disposing)
+	{
+		if (!_disposed)
+		{
+			if (disposing)
+			{
+				DbContext.Dispose();
+			}
+		}
+
+		_disposed = true;
 	}
 
 	private static IQueryable<TEntity> BuildIQueryable(

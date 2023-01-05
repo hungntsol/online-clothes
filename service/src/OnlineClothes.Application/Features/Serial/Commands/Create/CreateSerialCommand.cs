@@ -2,7 +2,7 @@
 
 public class CreateSerialCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {
-	public CreateSerialCommand(string name, string brandId, ClotheType clotheType, IList<int> categoryIds)
+	public CreateSerialCommand(string name, string brandId, ClotheType clotheType, ISet<int> categoryIds)
 	{
 		Name = name;
 		BrandId = brandId;
@@ -16,5 +16,5 @@ public class CreateSerialCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 
 	public ClotheType? ClotheType { get; init; }
 
-	public ICollection<int> CategoryIds { get; init; }
+	public ISet<int> CategoryIds { get; init; }
 }
