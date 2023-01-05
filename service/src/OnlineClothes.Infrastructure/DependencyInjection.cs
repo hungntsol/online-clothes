@@ -37,7 +37,8 @@ public static class DependencyInjection
 			.AddTransient<ITokenRepository, TokenRepository>()
 			.AddTransient<ICategoryRepository, CategoryRepository>()
 			.AddTransient<IBrandRepository, BrandRepository>()
-			.AddTransient<ISerialRepository, SerialRepository>();
+			.AddTransient<ICartRepository, CartRepository>()
+			.AddTransient<IOrderRepository, OrderRepository>();
 	}
 
 	public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)

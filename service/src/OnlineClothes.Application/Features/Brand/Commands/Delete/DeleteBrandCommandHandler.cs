@@ -20,7 +20,7 @@ public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand, Jso
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(DeleteBrandCommand request,
 		CancellationToken cancellationToken)
 	{
-		var brand = await _brandRepository.GetByKey(request.Id, cancellationToken);
+		var brand = await _brandRepository.GetByIntKey(request.Id, cancellationToken);
 		_brandRepository.Delete(brand);
 
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Serial\Commands\Create\" />
-    <Folder Include="Features\Serial\Commands\Edit\" />
-    <Folder Include="Features\Serial\Commands\Delete\" />
-    <Folder Include="Features\Serial\Queries\Paging\" />
     <Folder Include="Mapping\Dto\" />
   </ItemGroup>
 </Project>

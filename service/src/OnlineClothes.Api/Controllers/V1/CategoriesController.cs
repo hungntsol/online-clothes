@@ -30,10 +30,10 @@ public class CategoriesController : ApiV1ControllerBase
 		return HandleApiResponse(await Mediator.Send(request));
 	}
 
-	[HttpPut("{id:int}")]
-	public async Task<IActionResult> EditCategory([FromBody] EditCategoryCommand.Content requestContent, int id)
+	[HttpPut]
+	public async Task<IActionResult> EditCategory([FromBody] EditCategoryCommand request)
 	{
-		return HandleApiResponse(await Mediator.Send(new EditCategoryCommand(id, requestContent)));
+		return HandleApiResponse(await Mediator.Send(request));
 	}
 
 	[HttpDelete("{id:int}")]

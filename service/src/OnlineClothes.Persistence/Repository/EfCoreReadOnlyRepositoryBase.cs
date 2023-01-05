@@ -88,7 +88,7 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 	public virtual async Task<TEntity> GetOneAsync(object?[]? keyValues, CancellationToken cancellationToken = default)
 	{
 		var entry = await FindOneAsync(keyValues, cancellationToken);
-		NullValueReferenceException.ThrowIfNull(entry);
+		DataNotFoundException.ThrowIfNull(entry);
 
 		return entry;
 	}
@@ -97,7 +97,7 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 		CancellationToken cancellationToken = default)
 	{
 		var entry = await FindOneAsync(filterBuilder, cancellationToken);
-		NullValueReferenceException.ThrowIfNull(entry);
+		DataNotFoundException.ThrowIfNull(entry);
 
 		return entry;
 	}
@@ -107,7 +107,7 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 		CancellationToken cancellationToken = default)
 	{
 		var entry = await FindOneAsync(filterBuilder, includes, cancellationToken);
-		NullValueReferenceException.ThrowIfNull(entry);
+		DataNotFoundException.ThrowIfNull(entry);
 
 		return entry;
 	}
@@ -118,7 +118,7 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 		CancellationToken cancellationToken = default)
 	{
 		var entry = await FindOneAsync(filterBuilder, selector, includes, default, default, cancellationToken);
-		NullValueReferenceException.ThrowIfNull(entry);
+		DataNotFoundException.ThrowIfNull(entry);
 
 		return entry;
 	}
@@ -137,7 +137,7 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 	public virtual async Task<TEntity> GetByIntKey(int key, CancellationToken cancellationToken = default)
 	{
 		var entry = await FindOneAsync(new object[] { key }, cancellationToken);
-		NullValueReferenceException.ThrowIfNull(entry);
+		DataNotFoundException.ThrowIfNull(entry);
 
 		return entry;
 	}
@@ -145,7 +145,7 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 	public virtual async Task<TEntity> GetByKey(string key, CancellationToken cancellationToken = default)
 	{
 		var entry = await FindOneAsync(new object[] { key }, cancellationToken);
-		NullValueReferenceException.ThrowIfNull(entry);
+		DataNotFoundException.ThrowIfNull(entry);
 
 		return entry;
 	}

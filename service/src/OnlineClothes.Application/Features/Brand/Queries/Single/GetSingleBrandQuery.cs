@@ -2,10 +2,10 @@
 
 public class GetSingleBrandQuery : IRequest<JsonApiResponse<BrandDto>>
 {
-	public GetSingleBrandQuery(string id)
+	public GetSingleBrandQuery(int id)
 	{
 		Id = id;
 	}
 
-	public string Id { get; init; }
+	public int Id { get; init; }
 }

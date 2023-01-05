@@ -17,7 +17,7 @@ public class Category : EntityBase
 	public string Name { get; set; } = null!;
 	public string? Description { get; set; }
 
-	[JsonIgnore] public virtual ICollection<SerialCategory> SerialCategories { get; set; } = new List<SerialCategory>();
+	[JsonIgnore] public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
 	public void Update(string newName, string? newDesc)
 	{

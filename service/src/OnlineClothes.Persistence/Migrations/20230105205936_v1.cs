@@ -54,6 +54,23 @@ namespace OnlineClothes.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Brands",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    ContactEmail = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Brands", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
@@ -67,22 +84,6 @@ namespace OnlineClothes.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ClotheBrands",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    ContactEmail = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClotheBrands", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -131,24 +132,31 @@ namespace OnlineClothes.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Serials",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Sku = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    BrandId = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Price = table.Column<double>(type: "double precision", nullable: false),
+                    InStock = table.Column<int>(type: "integer", nullable: false),
+                    BrandId = table.Column<int>(type: "integer", nullable: true),
+                    Size = table.Column<int>(type: "integer", nullable: true),
                     Type = table.Column<int>(type: "integer", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Serials", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.UniqueConstraint("AK_Products_Sku", x => x.Sku);
                     table.ForeignKey(
-                        name: "FK_Serials_ClotheBrands_BrandId",
+                        name: "FK_Products_Brands_BrandId",
                         column: x => x.BrandId,
-                        principalTable: "ClotheBrands",
+                        principalTable: "Brands",
                         principalColumn: "Id");
                 });
 
@@ -169,53 +177,34 @@ namespace OnlineClothes.Persistence.Migrations
                         principalTable: "AccountCarts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Products_ProductDetailId",
+                        column: x => x.ProductDetailId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "CategoryProduct",
                 columns: table => new
                 {
-                    Sku = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    SerialId = table.Column<int>(type: "integer", nullable: true),
-                    Price = table.Column<double>(type: "double precision", nullable: false),
-                    InStock = table.Column<int>(type: "integer", nullable: false),
-                    SizeType = table.Column<int>(type: "integer", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CategoriesId = table.Column<int>(type: "integer", nullable: false),
+                    ProductsId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Sku);
+                    table.PrimaryKey("PK_CategoryProduct", x => new { x.CategoriesId, x.ProductsId });
                     table.ForeignKey(
-                        name: "FK_Products_Serials_SerialId",
-                        column: x => x.SerialId,
-                        principalTable: "Serials",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SerialCategories",
-                columns: table => new
-                {
-                    SerialId = table.Column<int>(type: "integer", nullable: false),
-                    CategoryId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SerialCategories", x => new { x.SerialId, x.CategoryId });
-                    table.ForeignKey(
-                        name: "FK_SerialCategories_Categories_CategoryId",
-                        column: x => x.CategoryId,
+                        name: "FK_CategoryProduct_Categories_CategoriesId",
+                        column: x => x.CategoriesId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SerialCategories_Serials_SerialId",
-                        column: x => x.SerialId,
-                        principalTable: "Serials",
+                        name: "FK_CategoryProduct_Products_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -252,6 +241,16 @@ namespace OnlineClothes.Persistence.Migrations
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CartItems_ProductDetailId",
+                table: "CartItems",
+                column: "ProductDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoryProduct_ProductsId",
+                table: "CategoryProduct",
+                column: "ProductsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Order_AccountId",
                 table: "Order",
                 column: "AccountId");
@@ -262,19 +261,15 @@ namespace OnlineClothes.Persistence.Migrations
                 column: "ProductSku");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_SerialId",
+                name: "IX_Products_BrandId",
                 table: "Products",
-                column: "SerialId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SerialCategories_CategoryId",
-                table: "SerialCategories",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Serials_BrandId",
-                table: "Serials",
                 column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_Sku",
+                table: "Products",
+                column: "Sku",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -286,13 +281,16 @@ namespace OnlineClothes.Persistence.Migrations
                 name: "CartItems");
 
             migrationBuilder.DropTable(
+                name: "CategoryProduct");
+
+            migrationBuilder.DropTable(
                 name: "OrderItem");
 
             migrationBuilder.DropTable(
-                name: "SerialCategories");
+                name: "AccountCarts");
 
             migrationBuilder.DropTable(
-                name: "AccountCarts");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Order");
@@ -301,16 +299,10 @@ namespace OnlineClothes.Persistence.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Categories");
-
-            migrationBuilder.DropTable(
                 name: "AccountUsers");
 
             migrationBuilder.DropTable(
-                name: "Serials");
-
-            migrationBuilder.DropTable(
-                name: "ClotheBrands");
+                name: "Brands");
         }
     }
 }

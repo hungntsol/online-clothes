@@ -24,13 +24,12 @@ public class CartItem
 		Cart = cart;
 	}
 
-	[ForeignKey("CartId")] public AccountCart Cart { get; set; } = null!;
 	public int CartId { get; set; }
-
-	[ForeignKey("ProductDetailId")] private Product Product { get; set; } = null!;
 	public int ProductDetailId { get; set; }
-
 	public int Quantity { get; set; }
+
+	[ForeignKey("CartId")] public AccountCart Cart { get; set; } = null!;
+	[ForeignKey("ProductDetailId")] public Product Product { get; set; } = null!;
 
 	public void Increase(int number)
 	{

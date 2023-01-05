@@ -23,9 +23,12 @@ public sealed class
 	{
 		var category = new Domain.Entities.Aggregate.Category(request.Name, request.Description);
 		await _categoryRepository.AddAsync(category, cancellationToken: cancellationToken);
-		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-		if (!save) return JsonApiResponse<EmptyUnitResponse>.Fail();
+		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
+		if (!save)
+		{
+			return JsonApiResponse<EmptyUnitResponse>.Fail();
+		}
 
 		_logger.LogInformation("Create category: {object}", JsonSerializer.Serialize(category));
 		return JsonApiResponse<EmptyUnitResponse>.Success();

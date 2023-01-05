@@ -16,10 +16,11 @@ public class AccountCart : EntityBase
 		AccountId = accountId;
 	}
 
-	[ForeignKey("AccountId")] public AccountUser Account { get; set; } = null!;
 	public int AccountId { get; set; }
 
-	public ICollection<CartItem> Items { get; set; } = new List<CartItem>();
+	[ForeignKey("AccountId")] public AccountUser Account { get; set; } = null!;
+
+	public virtual ICollection<CartItem> Items { get; set; } = new List<CartItem>();
 
 	public void IncreaseItem(int productId, int number)
 	{

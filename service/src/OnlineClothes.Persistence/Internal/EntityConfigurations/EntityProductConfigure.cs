@@ -8,5 +8,7 @@ public class EntityProductConfigure : IEntityTypeConfiguration<Product>
 {
 	public void Configure(EntityTypeBuilder<Product> builder)
 	{
+		builder.HasIndex(q => q.Sku)
+			.IsUnique();
 	}
 }

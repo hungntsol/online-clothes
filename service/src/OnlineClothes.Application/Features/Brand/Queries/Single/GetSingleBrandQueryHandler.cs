@@ -18,7 +18,7 @@ public class
 	public async Task<JsonApiResponse<BrandDto>> Handle(GetSingleBrandQuery request,
 		CancellationToken cancellationToken)
 	{
-		var entry = await _brandRepository.GetByKey(request.Id, cancellationToken);
+		var entry = await _brandRepository.GetByIntKey(request.Id, cancellationToken);
 
 		return JsonApiResponse<BrandDto>.Success(data: _mapper.Map<BrandDto>(entry));
 	}

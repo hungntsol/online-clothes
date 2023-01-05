@@ -25,9 +25,7 @@ public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Jso
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(CreateBrandCommand request,
 		CancellationToken cancellationToken)
 	{
-		var existedBrand = await _brandRepository.FindOneAsync(new object?[] { request.Id }, cancellationToken);
-
-		if (existedBrand is not null)
+		if (await _brandRepository.IsNameExistedAsync(request.Name, cancellationToken))
 		{
 			return JsonApiResponse<EmptyUnitResponse>.Fail("Brand đã tồn tại");
 		}
@@ -36,7 +34,6 @@ public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Jso
 		await _brandRepository.AddAsync(brand, cancellationToken: cancellationToken);
 
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
-
 		if (!save)
 		{
 			return JsonApiResponse<EmptyUnitResponse>.Fail();
