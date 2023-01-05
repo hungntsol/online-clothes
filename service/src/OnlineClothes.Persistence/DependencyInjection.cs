@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineClothes.Application.Persistence.Abstracts;
@@ -28,4 +29,9 @@ public static class DependencyInjection
 
 		return services;
 	}
+}
+
+public static class PersistenceAssembly
+{
+	public static Assembly ExecutingAssembly => Assembly.GetExecutingAssembly();
 }

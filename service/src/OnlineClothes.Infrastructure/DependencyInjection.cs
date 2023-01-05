@@ -75,3 +75,8 @@ public static class DependencyInjection
 		renderer.LoadTemplateToMemory();
 	}
 }
+
+public static class InfrastructureAssembly
+{
+	public static Assembly ExecutingAssembly => Assembly.GetExecutingAssembly();
+}

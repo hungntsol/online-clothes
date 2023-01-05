@@ -32,6 +32,6 @@
     <Folder Include="Features\Serial\Commands\Edit\" />
     <Folder Include="Features\Serial\Commands\Delete\" />
     <Folder Include="Features\Serial\Queries\Paging\" />
-    <Folder Include="Features\Serial\Queries\Single\" />
+    <Folder Include="Mapping\Dto\" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using OnlineClothes.Api.Extensions;
 using OnlineClothes.Application.Middlewares;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,10 +24,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
-	app.UseSwaggerUI(c =>
+	app.UseSwaggerUI(swaggerUiOptions =>
 	{
-		c.DisplayOperationId();
-		c.DisplayRequestDuration();
+		swaggerUiOptions.DisplayOperationId();
+		swaggerUiOptions.DisplayRequestDuration();
+		swaggerUiOptions.DocExpansion(DocExpansion.None);
 	});
 }
 

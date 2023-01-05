@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OnlineClothes.Application.Persistence;
+﻿using OnlineClothes.Application.Persistence;
+using OnlineClothes.Application.Persistence.Schemas.Serials;
 
 namespace OnlineClothes.Application.Features.Serial.Commands.Edit;
 
@@ -20,19 +20,11 @@ public class EditSerialCommandHandler : IRequestHandler<EditSerialCommand, JsonA
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(EditSerialCommand request,
 		CancellationToken cancellationToken)
 	{
-		var serial = await _serialRepository
-			.AsQueryable()
-			.Include(q => q.SerialCategories)
-			.FirstAsync(q => q.Id.Equals(request.Id), cancellationToken: cancellationToken);
-
-		_serialRepository.Update(serial);
-
 		// Begin tx
 		await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
-		serial.AssignCategoryNavigation(request.CategoryIds);
-		serial.SetName(request.Name);
-		serial.SetBrandId(request.BrandId);
+		var serial = await _serialRepository.UpdateCategoryNavigationAsync(request.Id,
+			new UpdateCategoryNavigationRequest(request.Name, request.BrandId, request.Type, request.CategoryIds));
 
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
 

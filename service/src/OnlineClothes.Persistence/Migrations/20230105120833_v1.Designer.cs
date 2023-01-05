@@ -12,7 +12,7 @@ using OnlineClothes.Persistence.Context;
 namespace OnlineClothes.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230105082754_v1")]
+    [Migration("20230105120833_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
