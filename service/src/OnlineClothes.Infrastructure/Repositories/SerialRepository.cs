@@ -2,7 +2,7 @@
 
 namespace OnlineClothes.Infrastructure.Repositories;
 
-internal class SerialRepository : EfCoreRepositoryBase<ProductSerial, int>, ISerialRepository
+internal class SerialRepository : EfCoreRepositoryBase<Serial, int>, ISerialRepository
 {
 	public SerialRepository(AppDbContext dbContext) : base(dbContext)
 	{

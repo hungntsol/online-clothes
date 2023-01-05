@@ -28,8 +28,8 @@ public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Jso
 			return JsonApiResponse<EmptyUnitResponse>.Fail("Brand đã tồn tại");
 		}
 
-		var brand = request.Adapt<ClotheBrand>();
-		await _brandRepository.InsertAsync(brand, cancellationToken: cancellationToken);
+		var brand = request.Adapt<Domain.Entities.Aggregate.Brand>();
+		await _brandRepository.AddAsync(brand, cancellationToken: cancellationToken);
 
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
 

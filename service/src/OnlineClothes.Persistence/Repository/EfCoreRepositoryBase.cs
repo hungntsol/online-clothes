@@ -29,7 +29,7 @@ public abstract class EfCoreRepositoryBase<TEntity, TKey> : EfCorePagingReposito
 		return entry;
 	}
 
-	public virtual async Task<TEntity?> InsertAsync(TEntity entity,
+	public virtual async Task<TEntity?> AddAsync(TEntity entity,
 		bool notify = true,
 		CancellationToken cancellationToken = default)
 	{
@@ -45,7 +45,7 @@ public abstract class EfCoreRepositoryBase<TEntity, TKey> : EfCorePagingReposito
 		return entity;
 	}
 
-	public virtual async Task<bool> InsertBatchAsync(IList<TEntity> entities,
+	public virtual async Task<bool> AddBatchAsync(IList<TEntity> entities,
 		bool notify = true,
 		CancellationToken cancellationToken = default)
 	{

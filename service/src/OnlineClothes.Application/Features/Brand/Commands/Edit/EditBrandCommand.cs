@@ -27,7 +27,7 @@ public class EditBrandCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 		public string Description { get; init; }
 		public string ContactEmail { get; init; }
 
-		public void Map(ClotheBrand brand)
+		public void Map(Domain.Entities.Aggregate.Brand brand)
 		{
 			brand.ContactEmail = ContactEmail;
 			brand.Name = Name;

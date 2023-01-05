@@ -30,7 +30,7 @@ public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IE
 	/// <param name="notify"></param>
 	/// <param name="cancellationToken"></param>
 	/// <returns></returns>
-	Task<TEntity?> InsertAsync(TEntity entity,
+	Task<TEntity?> AddAsync(TEntity entity,
 		bool notify = true,
 		CancellationToken cancellationToken = default);
 
@@ -41,7 +41,7 @@ public interface IEfCoreWriteRepository<TEntity, TKey> where TEntity : class, IE
 	/// <param name="notify"></param>
 	/// <param name="cancellationToken"></param>
 	/// <returns></returns>
-	Task<bool> InsertBatchAsync(IList<TEntity> entities, bool notify = true,
+	Task<bool> AddBatchAsync(IList<TEntity> entities, bool notify = true,
 		CancellationToken cancellationToken = default);
 
 	#endregion

@@ -1,5 +1,5 @@
 ﻿namespace OnlineClothes.Application.Persistence;
 
-public interface ICategoryRepository : IEfCoreRepository<ClotheCategory, int>
+public interface ICategoryRepository : IEfCoreRepository<Category, int>
 {
 }

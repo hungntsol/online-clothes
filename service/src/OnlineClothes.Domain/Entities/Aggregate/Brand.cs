@@ -1,12 +1,12 @@
 ﻿namespace OnlineClothes.Domain.Entities.Aggregate;
 
-public class ClotheBrand : EntityBase<string>
+public class Brand : EntityBase<string>
 {
-	public ClotheBrand()
+	public Brand()
 	{
 	}
 
-	public ClotheBrand(string id, string name, string? description, string? contactEmail)
+	public Brand(string id, string name, string? description, string? contactEmail)
 	{
 		Id = id;
 		Name = name;
@@ -20,5 +20,5 @@ public class ClotheBrand : EntityBase<string>
 
 	public string? ContactEmail { get; set; }
 
-	public ICollection<ProductSerial> Products { get; set; } = new List<ProductSerial>();
+	public virtual ICollection<Serial> Serials { get; set; } = new List<Serial>();
 }

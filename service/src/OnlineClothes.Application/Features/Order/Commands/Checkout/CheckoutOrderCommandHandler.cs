@@ -78,7 +78,7 @@ public class
 
 	//private async Task CreateOrderTransactionAsync(OrderProduct order, CancellationToken cancellationToken = default)
 	//{
-	//	//await _orderRepository.InsertAsync(order, cancellationToken);
+	//	//await _orderRepository.AddAsync(order, cancellationToken);
 	//	//_logger.LogInformation("Order created id: {Id}", order.Id);
 	//}
 

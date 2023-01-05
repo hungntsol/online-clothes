@@ -3,13 +3,13 @@ using Newtonsoft.Json;
 
 namespace OnlineClothes.Domain.Entities.Aggregate;
 
-public class ProductSerial : EntityBase
+public class Serial : EntityBase
 {
-	public ProductSerial()
+	public Serial()
 	{
 	}
 
-	public ProductSerial(string name, string? brandId, ClotheType? type)
+	public Serial(string name, string? brandId, ClotheType? type)
 	{
 		Name = name;
 		BrandId = string.IsNullOrEmpty(brandId?.Trim()) ? null : brandId;
@@ -18,12 +18,12 @@ public class ProductSerial : EntityBase
 
 	[Required] public string Name { get; set; } = null!;
 
-	[ForeignKey("BrandId")] public ClotheBrand? Brand { get; set; } = null!;
+	[ForeignKey("BrandId")] public Brand? Brand { get; set; } = null!;
 	public string? BrandId { get; set; }
 
 	public ClotheType? Type { get; set; }
 
-	[JsonIgnore] public virtual ICollection<ClotheCategory> ClotheCategories { get; set; } = new List<ClotheCategory>();
+	[JsonIgnore] public virtual ICollection<SerialCategory> SerialCategories { get; set; } = new List<SerialCategory>();
 
 	public void SetName(string name)
 	{
@@ -33,5 +33,14 @@ public class ProductSerial : EntityBase
 	public void SetBrandId(string? brandId = null)
 	{
 		BrandId = string.IsNullOrEmpty(brandId?.Trim()) ? null : brandId;
+	}
+
+	public void AssignCategoryNavigation(IEnumerable<int> categoryIds)
+	{
+		SerialCategories.Clear();
+		var navigation = categoryIds
+			.Select(q => SerialCategory.ToModel(Id, q))
+			.ToList();
+		SerialCategories = navigation;
 	}
 }

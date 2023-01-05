@@ -19,7 +19,7 @@ public class GetPagingBrandQueryHandler : IRequestHandler<GetPagingBrandQuery,
 		CancellationToken cancellationToken)
 	{
 		var pagingModel = await _brandRepository.PagingAsync<GetSingleBrandQueryResultModel>(
-			FilterBuilder<ClotheBrand>.True(),
+			FilterBuilder<Domain.Entities.Aggregate.Brand>.True(),
 			new PagingRequest(request),
 			DefaultOrderByFunc(),
 			cancellationToken);
@@ -27,7 +27,8 @@ public class GetPagingBrandQueryHandler : IRequestHandler<GetPagingBrandQuery,
 		return JsonApiResponse<PagingModel<GetSingleBrandQueryResultModel>>.Fail(data: pagingModel);
 	}
 
-	private static Func<IQueryable<ClotheBrand>, IOrderedQueryable<ClotheBrand>> DefaultOrderByFunc()
+	private static Func<IQueryable<Domain.Entities.Aggregate.Brand>, IOrderedQueryable<Domain.Entities.Aggregate.Brand>>
+		DefaultOrderByFunc()
 	{
 		return brands => brands.OrderBy(q => q.Id);
 	}

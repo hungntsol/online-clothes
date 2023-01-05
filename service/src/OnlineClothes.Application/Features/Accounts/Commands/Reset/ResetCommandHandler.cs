@@ -43,7 +43,7 @@ internal sealed class ResetCommandHandler : IRequestHandler<ResetCommand, JsonAp
 		var recoveryCode =
 			new AccountTokenCode(account.Email, AccountTokenType.ResetPassword, TimeSpan.FromMinutes(15));
 
-		await _tokenRepository.InsertAsync(recoveryCode, cancellationToken: cancellationToken);
+		await _tokenRepository.AddAsync(recoveryCode, cancellationToken: cancellationToken);
 
 		var saves = await _unitOfWork.SaveChangesAsync(cancellationToken);
 

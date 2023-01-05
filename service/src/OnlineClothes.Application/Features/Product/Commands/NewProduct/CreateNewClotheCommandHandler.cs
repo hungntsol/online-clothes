@@ -27,7 +27,7 @@ public sealed class
 
 		//try
 		//{
-		//	await _productRepository.InsertAsync(newProduct, cancellationToken);
+		//	await _productRepository.AddAsync(newProduct, cancellationToken);
 		//	return JsonApiResponse<EmptyUnitResponse>.Success(StatusCodes.Status201Created, "Thêm sản phẩm thành công");
 		//}
 		//catch (Exception e)

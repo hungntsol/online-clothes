@@ -38,7 +38,7 @@ public class Product : SupportDomainEvent, IEntity<string>
 
 	public string? Description { get; set; }
 
-	[ForeignKey("SerialId")] public ProductSerial? ProductSerial { get; set; }
+	[ForeignKey("SerialId")] public Serial? Serial { get; set; }
 	public int? SerialId { get; set; }
 
 	public double Price { get; set; }

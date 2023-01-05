@@ -37,7 +37,7 @@ internal sealed class
 			Fullname.Create(request.FirstName, request.LastName));
 
 		var activateResult = await _accountActivationHelper.StartNewAccount(newAccount, cancellationToken);
-		await _accountRepository.InsertAsync(newAccount, cancellationToken: cancellationToken);
+		await _accountRepository.AddAsync(newAccount, cancellationToken: cancellationToken);
 
 		await _unitOfWork.SaveChangesAsync(cancellationToken);
 

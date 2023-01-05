@@ -2,7 +2,7 @@
 
 namespace OnlineClothes.Infrastructure.Repositories;
 
-internal class BrandRepository : EfCoreRepositoryBase<ClotheBrand, string>, IBrandRepository
+internal class BrandRepository : EfCoreRepositoryBase<Brand, string>, IBrandRepository
 {
 	public BrandRepository(AppDbContext dbContext) : base(dbContext)
 	{

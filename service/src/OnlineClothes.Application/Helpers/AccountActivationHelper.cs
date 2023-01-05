@@ -46,7 +46,7 @@ public class AccountActivationHelper
 		CancellationToken cancellationToken)
 	{
 		var newTokenCode = new AccountTokenCode(account.Email, AccountTokenType.Verification, TimeSpan.FromMinutes(15));
-		await _tokenRepository.InsertAsync(newTokenCode, cancellationToken: cancellationToken);
+		await _tokenRepository.AddAsync(newTokenCode, cancellationToken: cancellationToken);
 		await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 		return newTokenCode;

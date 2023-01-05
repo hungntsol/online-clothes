@@ -22,27 +22,29 @@ public class EditSerialCommandHandler : IRequestHandler<EditSerialCommand, JsonA
 	{
 		var serial = await _serialRepository
 			.AsQueryable()
-			.Include(q => q.ClotheCategories)
+			.Include(q => q.SerialCategories)
 			.FirstAsync(q => q.Id.Equals(request.Id), cancellationToken: cancellationToken);
-		serial.SetName(request.Name);
-		serial.SetBrandId(request.BrandId);
+
+		_serialRepository.Update(serial);
 
 		// Begin tx
 		await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
-		var categories = await _categoryRepository.AsQueryable()
-			.Where(q => request.CategoryIds.Contains(q.Id))
-			.ToListAsync(cancellationToken);
-		_categoryRepository.Table.AttachRange(categories);
+		serial.AssignCategoryNavigation(request.CategoryIds);
+		serial.SetName(request.Name);
+		serial.SetBrandId(request.BrandId);
 
-		serial.ClotheCategories.Clear();
-		serial.ClotheCategories = categories;
-		_serialRepository.Update(serial);
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+		if (!save)
+		{
+			await _unitOfWork.RollbackAsync(cancellationToken);
+			return JsonApiResponse<EmptyUnitResponse>.Fail();
+		}
 
 		// Commit tx
 		await _unitOfWork.CommitAsync(cancellationToken);
 
-		return save ? JsonApiResponse<EmptyUnitResponse>.Success() : JsonApiResponse<EmptyUnitResponse>.Fail();
+		return JsonApiResponse<EmptyUnitResponse>.Success();
 	}
 }

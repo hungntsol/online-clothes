@@ -24,20 +24,15 @@ public class CreateSerialCommandHandler : IRequestHandler<CreateSerialCommand, J
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(CreateSerialCommand request,
 		CancellationToken cancellationToken)
 	{
-		var newSerial = new ProductSerial(request.Name, request.BrandId, request.ClotheType);
+		var newSerial = new Domain.Entities.Aggregate.Serial(request.Name, request.BrandId, request.ClotheType);
 
 		// Begin tx
 		await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
-		var categories = request.CategoryIds
-			.Select(q => new ClotheCategory { Id = q, Name = string.Empty })
-			.ToList();
-		_categoryRepository.Table.AttachRange(categories);
+		await _serialRepository.AddAsync(newSerial, cancellationToken: cancellationToken);
+		newSerial.AssignCategoryNavigation(request.CategoryIds);
 
-		newSerial.ClotheCategories = _categoryRepository.Table.Local.ToList();
-		await _serialRepository.InsertAsync(newSerial, cancellationToken: cancellationToken);
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
-
 		if (!save)
 		{
 			await _unitOfWork.RollbackAsync(cancellationToken);

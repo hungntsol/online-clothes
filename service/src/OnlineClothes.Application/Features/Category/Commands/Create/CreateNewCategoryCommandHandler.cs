@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using OnlineClothes.Application.Persistence;
-using OnlineClothes.Domain.Entities;
 
 namespace OnlineClothes.Application.Features.Category.Commands.Create;
 
@@ -22,8 +21,8 @@ public sealed class
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(CreateNewCategoryCommand request,
 		CancellationToken cancellationToken)
 	{
-		var category = new ClotheCategory(request.Name, request.Description);
-		await _categoryRepository.InsertAsync(category, cancellationToken: cancellationToken);
+		var category = new Domain.Entities.Aggregate.Category(request.Name, request.Description);
+		await _categoryRepository.AddAsync(category, cancellationToken: cancellationToken);
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
 		if (!save) return JsonApiResponse<EmptyUnitResponse>.Fail();

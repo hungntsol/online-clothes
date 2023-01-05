@@ -19,7 +19,7 @@ public class GetPagingCategoryQueryHandler : IRequestHandler<GetPagingCategoryQu
 		GetPagingCategoryQuery request, CancellationToken cancellationToken)
 	{
 		var paging = await _categoryRepository.PagingAsync<GetSingleCategoryQueryResultModel>(
-			FilterBuilder<ClotheCategory>.True(),
+			FilterBuilder<Domain.Entities.Aggregate.Category>.True(),
 			new PagingRequest(request.PageIndex, request.PageSize),
 			DefaultOrderByFunc(),
 			cancellationToken);
@@ -27,7 +27,9 @@ public class GetPagingCategoryQueryHandler : IRequestHandler<GetPagingCategoryQu
 		return JsonApiResponse<PagingModel<GetSingleCategoryQueryResultModel>>.Success(data: paging);
 	}
 
-	private static Func<IQueryable<ClotheCategory>, IOrderedQueryable<ClotheCategory>> DefaultOrderByFunc()
+	private static
+		Func<IQueryable<Domain.Entities.Aggregate.Category>, IOrderedQueryable<Domain.Entities.Aggregate.Category>>
+		DefaultOrderByFunc()
 	{
 		return category => category.OrderBy(q => q.Id);
 	}
