@@ -8,10 +8,12 @@ public class CreateProductCommand : PutProductInRepoObject, IRequest<JsonApiResp
 	// TODO: image
 }
 
-internal sealed class CreateNewClotheCommandValidation : AbstractValidator<CreateProductCommand>
+public sealed class CreateProductCommandValidation : AbstractValidator<CreateProductCommand>
 {
-	public CreateNewClotheCommandValidation()
+	public CreateProductCommandValidation()
 	{
+		RuleFor(q => q.Sku)
+			.Matches(@"([a-zA-Z0-9.-])\w+/g").WithMessage("Sku chỉ sử dụng các kí tự [a-z], [0-9] và `-`");
 		RuleFor(q => q.Name).NotEmpty();
 		RuleFor(q => q.Price).GreaterThanOrEqualTo(0);
 		RuleFor(q => q.InStock).GreaterThanOrEqualTo(0);
