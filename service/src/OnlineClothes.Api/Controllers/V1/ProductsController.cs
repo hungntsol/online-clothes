@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using OnlineClothes.Application.Features.Product.Commands.Create;
 using OnlineClothes.Application.Features.Product.Commands.Delete;
 using OnlineClothes.Application.Features.Product.Commands.ImportProducts;
-using OnlineClothes.Application.Features.Product.Commands.NewProduct;
 using OnlineClothes.Application.Features.Product.Commands.Restore;
 using OnlineClothes.Application.Features.Product.Commands.UpdateInfo;
 using OnlineClothes.Application.Features.Product.Commands.UploadImage;
@@ -32,9 +32,9 @@ public class ProductsController : ApiV1ControllerBase
 		return HandleApiResponse(await Mediator.Send(new ProductDetailQuery { ProductId = productId }));
 	}
 
-	[HttpPost("create-new")]
-	[Authorize(Roles = nameof(AccountRole.Admin))]
-	public async Task<IActionResult> CreateNew([FromBody] CreateNewClotheCommand command,
+	[HttpPost]
+	//[Authorize(Roles = nameof(AccountRole.Admin))]
+	public async Task<IActionResult> Create([FromBody] CreateProductCommand command,
 		CancellationToken cancellationToken = default)
 	{
 		return HandleApiResponse(await Mediator.Send(command, cancellationToken));

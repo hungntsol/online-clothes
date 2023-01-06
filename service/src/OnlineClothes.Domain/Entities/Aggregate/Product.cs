@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace OnlineClothes.Domain.Entities.Aggregate;
 
@@ -8,13 +9,13 @@ public class Product : EntityBase
 	{
 	}
 
-	public Product(string sku, string name, double price, int inStock, bool isDeleted = false)
+	public Product(string sku, string name, double price, int inStock, bool isPublish = false)
 	{
 		Sku = sku;
 		Name = name;
 		Price = price;
 		InStock = inStock;
-		IsDeleted = isDeleted;
+		IsPublish = isPublish;
 	}
 
 	public Product(
@@ -40,10 +41,10 @@ public class Product : EntityBase
 	public string? Description { get; set; }
 	public double Price { get; set; }
 	public int InStock { get; set; }
-	public int? BrandId { get; set; }
+	[DefaultValue(null)] public int? BrandId { get; set; }
 	public ClotheSizeType? Size { get; set; }
 	public ClotheType? Type { get; set; }
-	public bool IsDeleted { get; set; }
+	[DefaultValue(true)] public bool IsPublish { get; set; }
 
 	[ForeignKey("BrandId")] public Brand? Brand { get; set; }
 
