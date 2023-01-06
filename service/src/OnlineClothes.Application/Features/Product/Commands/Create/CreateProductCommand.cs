@@ -1,21 +1,11 @@
-﻿using System.ComponentModel;
-using FluentValidation;
+﻿using FluentValidation;
+using OnlineClothes.Application.Persistence.Schemas.Products;
 
 namespace OnlineClothes.Application.Features.Product.Commands.Create;
 
-public class CreateProductCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
+public class CreateProductCommand : CreateProductObjectSchema, IRequest<JsonApiResponse<EmptyUnitResponse>>
 {
-	public string Sku { get; set; } = null!;
-	public string Name { get; set; } = null!;
-	public string? Description { get; set; }
-	public double Price { get; set; }
-	public int InStock { get; set; }
-	public ClotheSizeType? SizeType { get; set; }
-	public ClotheType? Type { get; set; }
-	public int? BrandId { get; set; }
-	[DefaultValue(true)] public bool IsPublish { get; set; }
-
-	// TODO: categories, image
+	// TODO: image
 }
 
 internal sealed class CreateNewClotheCommandValidation : AbstractValidator<CreateProductCommand>

@@ -24,4 +24,9 @@ public class Category : EntityBase
 		Name = newName;
 		Description = newDesc;
 	}
+
+	public static Category ToProductNavigationModel(int cateId)
+	{
+		return new Category { Id = cateId, Name = string.Empty };
+	}
 }
