@@ -6,7 +6,7 @@ using OnlineClothes.Application.Features.Product.Commands.Restore;
 using OnlineClothes.Application.Features.Product.Commands.UpdateInfo;
 using OnlineClothes.Application.Features.Product.Commands.UploadImage;
 using OnlineClothes.Application.Features.Product.Queries.Detail;
-using OnlineClothes.Application.Features.Product.Queries.Listing;
+using OnlineClothes.Application.Features.Product.Queries.Paging;
 using OnlineClothes.Domain.Common;
 
 namespace OnlineClothes.Api.Controllers.V1;
@@ -20,14 +20,14 @@ public class ProductsController : ApiV1ControllerBase
 
 	[HttpGet]
 	[AllowAnonymous]
-	public async Task<IActionResult> Listing([FromQuery] ListingProductQuery query)
+	public async Task<IActionResult> GetPaging([FromQuery] GetPagingProductQuery query)
 	{
 		return HandleApiResponse(await Mediator.Send(query));
 	}
 
 	[HttpGet("{id:int}")]
 	[AllowAnonymous]
-	public async Task<IActionResult> Detail(int id)
+	public async Task<IActionResult> GetDetail(int id)
 	{
 		return HandleApiResponse(await Mediator.Send(new GetProductDetailQuery(id)));
 	}

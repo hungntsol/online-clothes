@@ -35,5 +35,8 @@ public class DefaultAutoMapperProfile : Profile
 				opt => opt.MapFrom(src => BrandDto.ToModel(src.Brand)))
 			.ForMember(dest => dest.Categories,
 				opt => opt.MapFrom(src => src.Categories.Select(CategoryDto.ToModel).ToList()));
+
+		// Dto
+		CreateMap<Product, ProductBasicDto>();
 	}
 }
