@@ -14,7 +14,8 @@ public class AccountActivationHelper
 	private readonly ITokenRepository _tokenRepository;
 	private readonly IUnitOfWork _unitOfWork;
 
-	public AccountActivationHelper(IOptions<AppDomainConfiguration> domainConfigurationOption,
+	public AccountActivationHelper(
+		IOptions<AppDomainConfiguration> domainConfigurationOption,
 		IOptions<AccountActivationConfiguration> accountActivationConfigurationOption,
 		IMailingService mailingService,
 		IUnitOfWork unitOfWork,
@@ -36,8 +37,10 @@ public class AccountActivationHelper
 			return AccountActivationResult.Activated;
 		}
 
-		var newTokenCode = await CreateVerificationTokenCode(account, cancellationToken);
-		await SendActivationMail(account, cancellationToken, newTokenCode);
+		await SendActivationMail(
+			account,
+			await CreateVerificationTokenCode(account, cancellationToken),
+			cancellationToken);
 
 		return AccountActivationResult.WaitConfirm;
 	}
@@ -52,8 +55,9 @@ public class AccountActivationHelper
 		return newTokenCode;
 	}
 
-	private async Task SendActivationMail(AccountUser account, CancellationToken cancellationToken,
-		AccountTokenCode newTokenCode)
+	private async Task SendActivationMail(AccountUser account,
+		AccountTokenCode newTokenCode,
+		CancellationToken cancellationToken = default)
 	{
 		var mail = new MailingTemplate(account.Email, "Verify Account", EmailTemplateNames.VerifyAccount,
 			new

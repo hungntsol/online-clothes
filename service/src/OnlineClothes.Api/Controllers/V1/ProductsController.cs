@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using OnlineClothes.Application.Features.Product.Commands.Create;
-using OnlineClothes.Application.Features.Product.Commands.Delete;
-using OnlineClothes.Application.Features.Product.Commands.ImportProducts;
-using OnlineClothes.Application.Features.Product.Commands.Restore;
-using OnlineClothes.Application.Features.Product.Commands.UpdateInfo;
-using OnlineClothes.Application.Features.Product.Commands.UploadImage;
-using OnlineClothes.Application.Features.Product.Queries.Detail;
-using OnlineClothes.Application.Features.Product.Queries.Paging;
+using OnlineClothes.Application.Features.Products.Commands.Create;
+using OnlineClothes.Application.Features.Products.Commands.Delete;
+using OnlineClothes.Application.Features.Products.Commands.ImportProducts;
+using OnlineClothes.Application.Features.Products.Commands.Restore;
+using OnlineClothes.Application.Features.Products.Commands.UpdateInfo;
+using OnlineClothes.Application.Features.Products.Commands.UploadImage;
+using OnlineClothes.Application.Features.Products.Queries.Detail;
+using OnlineClothes.Application.Features.Products.Queries.Paging;
 using OnlineClothes.Domain.Common;
 
 namespace OnlineClothes.Api.Controllers.V1;

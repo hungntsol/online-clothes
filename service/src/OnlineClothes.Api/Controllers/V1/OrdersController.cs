@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using OnlineClothes.Application.Features.Order.Commands.Cancel;
-using OnlineClothes.Application.Features.Order.Commands.Checkout;
-using OnlineClothes.Application.Features.Order.Commands.Delivery;
-using OnlineClothes.Application.Features.Order.Commands.Success;
-using OnlineClothes.Application.Features.Order.Queries.Detail;
+using OnlineClothes.Application.Features.Orders.Commands.Cancel;
+using OnlineClothes.Application.Features.Orders.Commands.Checkout;
+using OnlineClothes.Application.Features.Orders.Commands.Delivery;
+using OnlineClothes.Application.Features.Orders.Commands.Success;
+using OnlineClothes.Application.Features.Orders.Queries.Detail;
 using OnlineClothes.Domain.Common;
 
 namespace OnlineClothes.Api.Controllers.V1;

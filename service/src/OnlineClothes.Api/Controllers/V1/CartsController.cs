@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using OnlineClothes.Application.Features.Cart.Commands.AddItem;
-using OnlineClothes.Application.Features.Cart.Commands.RemoveItem;
-using OnlineClothes.Application.Features.Cart.Queries.GetInfo;
+using OnlineClothes.Application.Features.Carts.Commands.AddItem;
+using OnlineClothes.Application.Features.Carts.Commands.RemoveItem;
+using OnlineClothes.Application.Features.Carts.Queries.GetInfo;
 
 namespace OnlineClothes.Api.Controllers.V1;
 
@@ -18,8 +18,8 @@ public class CartsController : ApiV1ControllerBase
 		return HandleApiResponse(await Mediator.Send(new GetCartInfoQuery()));
 	}
 
-	[HttpPut("{productId}/add-item/{quantity}")]
-	public async Task<IActionResult> AddItem(string productId, int quantity)
+	[HttpPut("{productId:int}/add-item/{quantity:int}")]
+	public async Task<IActionResult> AddItem(int productId, int quantity = 1)
 	{
 		return HandleApiResponse(await Mediator.Send(new AddCartItemCommand
 		{

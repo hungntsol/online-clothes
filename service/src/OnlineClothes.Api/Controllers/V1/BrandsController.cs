@@ -1,8 +1,8 @@
-﻿using OnlineClothes.Application.Features.Brand.Commands.Create;
-using OnlineClothes.Application.Features.Brand.Commands.Delete;
-using OnlineClothes.Application.Features.Brand.Commands.Edit;
-using OnlineClothes.Application.Features.Brand.Queries.Paging;
-using OnlineClothes.Application.Features.Brand.Queries.Single;
+﻿using OnlineClothes.Application.Features.Brands.Commands.Create;
+using OnlineClothes.Application.Features.Brands.Commands.Delete;
+using OnlineClothes.Application.Features.Brands.Commands.Edit;
+using OnlineClothes.Application.Features.Brands.Queries.Paging;
+using OnlineClothes.Application.Features.Brands.Queries.Single;
 
 namespace OnlineClothes.Api.Controllers.V1;
 

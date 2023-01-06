@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using OnlineClothes.Application.Features.Brand.Commands.Create;
-using OnlineClothes.Application.Features.Brand.Commands.Edit;
-using OnlineClothes.Application.Features.Category.Commands.Edit;
-using OnlineClothes.Application.Features.Product.Commands.Create;
-using OnlineClothes.Application.Features.Product.Commands.UpdateInfo;
+using OnlineClothes.Application.Features.Brands.Commands.Create;
+using OnlineClothes.Application.Features.Brands.Commands.Edit;
+using OnlineClothes.Application.Features.Categories.Commands.Edit;
+using OnlineClothes.Application.Features.Products.Commands.Create;
+using OnlineClothes.Application.Features.Products.Commands.UpdateInfo;
 using OnlineClothes.Application.Mapping.ViewModels;
 using OnlineClothes.Application.Persistence.Schemas.Products;
 
