@@ -45,6 +45,7 @@ public class
 
 		AppendFilterKeyword(request, filterBuilder);
 		AppendFilterCategory(request, filterBuilder);
+		AppendFilterBrand(request, filterBuilder);
 
 		return filterBuilder;
 	}
@@ -64,6 +65,15 @@ public class
 		if (!string.IsNullOrEmpty(request.Keyword))
 		{
 			filterBuilder.And(product => product.Name.ToLower().Contains(request.Keyword.ToLower()));
+		}
+	}
+
+	private static void AppendFilterBrand(GetPagingProductQuery request,
+		FilterBuilder<Domain.Entities.Aggregate.Product> filterBuilder)
+	{
+		if (request.BrandId is not null && request.BrandId != 0)
+		{
+			filterBuilder.And(product => product.BrandId == request.BrandId);
 		}
 	}
 
