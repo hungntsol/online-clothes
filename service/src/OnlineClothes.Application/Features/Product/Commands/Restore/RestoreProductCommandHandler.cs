@@ -1,25 +1,36 @@
-﻿namespace OnlineClothes.Application.Features.Product.Commands.Restore;
+﻿using OnlineClothes.Application.Persistence;
+
+namespace OnlineClothes.Application.Features.Product.Commands.Restore;
 
 public class RestoreProductCommandHandler : IRequestHandler<RestoreProductCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	//private readonly IProductRepository _productRepository;
+	private readonly ILogger<RestoreProductCommandHandler> _logger;
+	private readonly IProductRepository _productRepository;
+	private readonly IUnitOfWork _unitOfWork;
 
-	//public RestoreProductCommandHandler(IProductRepository productRepository)
-	//{
-	//	_productRepository = productRepository;
-	//}
+	public RestoreProductCommandHandler(IProductRepository productRepository,
+		ILogger<RestoreProductCommandHandler> logger,
+		IUnitOfWork unitOfWork)
+	{
+		_productRepository = productRepository;
+		_logger = logger;
+		_unitOfWork = unitOfWork;
+	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(RestoreProductCommand request,
 		CancellationToken cancellationToken)
 	{
-		throw new NotImplementedException();
+		var product = await _productRepository.GetByIntKey(request.ProductId, cancellationToken);
+		var restore = product.Restore();
+		_productRepository.Update(product);
 
-		//var updatedResult = await _productRepository.UpdateOneAsync(
-		//	request.ProductId,
-		//	update => update.Set(q => q.IsDeleted, false), cancellationToken: cancellationToken);
+		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
+		if (!save && !restore)
+		{
+			return JsonApiResponse<EmptyUnitResponse>.Fail();
+		}
 
-		//return updatedResult.Any()
-		//	? JsonApiResponse<EmptyUnitResponse>.Success()
-		//	: JsonApiResponse<EmptyUnitResponse>.Fail();
+		_logger.LogInformation("Restore product {Id} successfully", request.ProductId);
+		return JsonApiResponse<EmptyUnitResponse>.Success();
 	}
 }

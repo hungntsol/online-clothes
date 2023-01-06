@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OnlineClothes.Application.Mapping.ViewModels;
 using OnlineClothes.Application.Persistence;
 using OnlineClothes.Domain.Paging;
 using OnlineClothes.Support.Builders.Predicate;
@@ -6,7 +7,7 @@ using OnlineClothes.Support.Builders.Predicate;
 namespace OnlineClothes.Application.Features.Category.Queries.Paging;
 
 public class GetPagingCategoryQueryHandler : IRequestHandler<GetPagingCategoryQuery,
-	JsonApiResponse<PagingModel<CategoryDto>>>
+	JsonApiResponse<PagingModel<CategoryViewModel>>>
 {
 	private readonly ICategoryRepository _categoryRepository;
 	private readonly IMapper _mapper;
@@ -17,7 +18,7 @@ public class GetPagingCategoryQueryHandler : IRequestHandler<GetPagingCategoryQu
 		_mapper = mapper;
 	}
 
-	public async Task<JsonApiResponse<PagingModel<CategoryDto>>> Handle(
+	public async Task<JsonApiResponse<PagingModel<CategoryViewModel>>> Handle(
 		GetPagingCategoryQuery request, CancellationToken cancellationToken)
 	{
 		var paging = await _categoryRepository.PagingAsync(
@@ -27,13 +28,13 @@ public class GetPagingCategoryQueryHandler : IRequestHandler<GetPagingCategoryQu
 			DefaultOrderByFunc(),
 			cancellationToken);
 
-		return JsonApiResponse<PagingModel<CategoryDto>>.Success(data: paging);
+		return JsonApiResponse<PagingModel<CategoryViewModel>>.Success(data: paging);
 	}
 
-	private Func<IQueryable<Domain.Entities.Aggregate.Category>, IQueryable<CategoryDto>>
+	private Func<IQueryable<Domain.Entities.Aggregate.Category>, IQueryable<CategoryViewModel>>
 		SelectorFunc()
 	{
-		return q => q.Select(item => _mapper.Map<CategoryDto>(item));
+		return q => q.Select(item => _mapper.Map<CategoryViewModel>(item));
 	}
 
 	private static

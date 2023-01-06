@@ -29,6 +29,30 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 		return noTracking ? DbSet.AsNoTracking() : DbSet.AsQueryable();
 	}
 
+	public virtual async Task<List<TEntity>> FindAsync(FilterBuilder<TEntity> filterBuilder,
+		int offset = 0,
+		int limit = 0,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderFunc = null,
+		CancellationToken cancellationToken = default)
+	{
+		var queryable = AsQueryable()
+			.Where(filterBuilder.Statement);
+
+		if (orderFunc is not null)
+		{
+			queryable = orderFunc(queryable);
+		}
+
+		queryable = queryable.Skip(offset);
+
+		if (limit != 0)
+		{
+			queryable = queryable.Take(limit);
+		}
+
+		return await queryable.ToListAsync(cancellationToken);
+	}
+
 	public virtual async Task<TEntity?> FindOneAsync(object?[]? keyValues,
 		CancellationToken cancellationToken = default)
 	{

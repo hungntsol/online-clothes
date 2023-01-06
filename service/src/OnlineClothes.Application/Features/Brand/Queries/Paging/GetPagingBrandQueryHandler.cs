@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OnlineClothes.Application.Mapping.ViewModels;
 using OnlineClothes.Application.Persistence;
 using OnlineClothes.Domain.Paging;
 using OnlineClothes.Support.Builders.Predicate;
@@ -6,7 +7,7 @@ using OnlineClothes.Support.Builders.Predicate;
 namespace OnlineClothes.Application.Features.Brand.Queries.Paging;
 
 public class GetPagingBrandQueryHandler : IRequestHandler<GetPagingBrandQuery,
-	JsonApiResponse<PagingModel<BrandDto>>>
+	JsonApiResponse<PagingModel<BrandViewModel>>>
 {
 	private readonly IBrandRepository _brandRepository;
 	private readonly IMapper _mapper;
@@ -17,7 +18,7 @@ public class GetPagingBrandQueryHandler : IRequestHandler<GetPagingBrandQuery,
 		_mapper = mapper;
 	}
 
-	public async Task<JsonApiResponse<PagingModel<BrandDto>>> Handle(GetPagingBrandQuery request,
+	public async Task<JsonApiResponse<PagingModel<BrandViewModel>>> Handle(GetPagingBrandQuery request,
 		CancellationToken cancellationToken)
 	{
 		var pagingModel = await _brandRepository.PagingAsync(
@@ -27,13 +28,13 @@ public class GetPagingBrandQueryHandler : IRequestHandler<GetPagingBrandQuery,
 			DefaultOrderByFunc(),
 			cancellationToken);
 
-		return JsonApiResponse<PagingModel<BrandDto>>.Fail(data: pagingModel);
+		return JsonApiResponse<PagingModel<BrandViewModel>>.Success(data: pagingModel);
 	}
 
-	private Func<IQueryable<Domain.Entities.Aggregate.Brand>, IQueryable<BrandDto>>
+	private Func<IQueryable<Domain.Entities.Aggregate.Brand>, IQueryable<BrandViewModel>>
 		SelectorFunc()
 	{
-		return q => q.Select(item => _mapper.Map<BrandDto>(item));
+		return q => q.Select(item => _mapper.Map<BrandViewModel>(item));
 	}
 
 	private static Func<IQueryable<Domain.Entities.Aggregate.Brand>, IOrderedQueryable<Domain.Entities.Aggregate.Brand>>

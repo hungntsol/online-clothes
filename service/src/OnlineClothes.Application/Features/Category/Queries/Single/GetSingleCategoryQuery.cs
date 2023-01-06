@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
+using OnlineClothes.Application.Mapping.ViewModels;
 
 namespace OnlineClothes.Application.Features.Category.Queries.Single;
 
-public class GetSingleCategoryQuery : IRequest<JsonApiResponse<CategoryDto>>
+public class GetSingleCategoryQuery : IRequest<JsonApiResponse<CategoryViewModel>>
 {
 	public GetSingleCategoryQuery(int id)
 	{

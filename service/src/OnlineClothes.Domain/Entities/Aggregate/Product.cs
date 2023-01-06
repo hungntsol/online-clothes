@@ -50,4 +50,36 @@ public class Product : EntityBase
 
 	[JsonIgnore] public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
 	[JsonIgnore] public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+	public void ImportStock(int number)
+	{
+		InStock += number;
+	}
+
+	public void ExportStock(int number)
+	{
+		InStock -= number;
+	}
+
+	public bool Delete()
+	{
+		if (!IsPublish)
+		{
+			return false;
+		}
+
+		IsPublish = false;
+		return true;
+	}
+
+	public bool Restore()
+	{
+		if (IsPublish)
+		{
+			return false;
+		}
+
+		IsPublish = true;
+		return true;
+	}
 }

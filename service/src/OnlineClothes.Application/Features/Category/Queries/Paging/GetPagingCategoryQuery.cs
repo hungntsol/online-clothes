@@ -1,8 +1,9 @@
-﻿using OnlineClothes.Domain.Paging;
+﻿using OnlineClothes.Application.Mapping.ViewModels;
+using OnlineClothes.Domain.Paging;
 
 namespace OnlineClothes.Application.Features.Category.Queries.Paging;
 
-public class GetPagingCategoryQuery : PagingRequest, IRequest<JsonApiResponse<PagingModel<CategoryDto>>>
+public class GetPagingCategoryQuery : PagingRequest, IRequest<JsonApiResponse<PagingModel<CategoryViewModel>>>
 {
 	public GetPagingCategoryQuery(int pageIndex, int pageSize) : base(pageIndex, pageSize)
 	{

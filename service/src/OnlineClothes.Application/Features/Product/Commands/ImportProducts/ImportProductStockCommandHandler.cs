@@ -1,27 +1,31 @@
-﻿namespace OnlineClothes.Application.Features.Product.Commands.ImportProducts;
+﻿using OnlineClothes.Application.Persistence;
+
+namespace OnlineClothes.Application.Features.Product.Commands.ImportProducts;
 
 public class
 	ImportProductStockCommandHandler : IRequestHandler<ImportProductStockCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	//private readonly IProductRepository _productRepository;
+	private readonly IProductRepository _productRepository;
+	private readonly IUnitOfWork _unitOfWork;
 
-	//public ImportProductStockCommandHandler(IProductRepository productRepository)
-	//{
-	//	_productRepository = productRepository;
-	//}
+	public ImportProductStockCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
+	{
+		_productRepository = productRepository;
+		_unitOfWork = unitOfWork;
+	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(ImportProductStockCommand request,
 		CancellationToken cancellationToken)
 	{
-		throw new NotImplementedException();
+		var product = await _productRepository.GetByIntKey(request.ProductId, cancellationToken);
 
-		//var updatedResult = await _productRepository.UpdateOneAsync(
-		//	request.ProductId,
-		//	update => update.Set(q => q.Stock, request.Quantity),
-		//	cancellationToken: cancellationToken);
+		product.ImportStock(request.Quantity);
 
-		//return updatedResult.Any()
-		//	? JsonApiResponse<EmptyUnitResponse>.Success(message: "Thêm hàng thành công")
-		//	: JsonApiResponse<EmptyUnitResponse>.Fail();
+		_productRepository.Update(product);
+
+
+		return await _unitOfWork.SaveChangesAsync(cancellationToken)
+			? JsonApiResponse<EmptyUnitResponse>.Success(message: "Thêm hàng thành công")
+			: JsonApiResponse<EmptyUnitResponse>.Fail();
 	}
 }

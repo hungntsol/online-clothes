@@ -2,7 +2,7 @@
 
 namespace OnlineClothes.Application.Persistence.Schemas.Products;
 
-public class CreateProductObjectSchema
+public class PutProductInRepoObject
 {
 	public string Sku { get; set; } = null!;
 	public string Name { get; set; } = null!;

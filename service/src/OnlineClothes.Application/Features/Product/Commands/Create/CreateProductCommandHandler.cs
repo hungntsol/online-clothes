@@ -9,8 +9,6 @@ namespace OnlineClothes.Application.Features.Product.Commands.Create;
 public sealed class
 	CreateProductCommandHandler : IRequestHandler<CreateProductCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	private readonly IBrandRepository _brandRepository;
-	private readonly ICategoryRepository _categoryRepository;
 	private readonly ILogger<CreateProductCommandHandler> _logger;
 	private readonly IMapper _mapper;
 	private readonly IProductRepository _productRepository;
@@ -20,16 +18,12 @@ public sealed class
 		ILogger<CreateProductCommandHandler> logger,
 		IProductRepository productRepository,
 		IUnitOfWork unitOfWork,
-		IBrandRepository brandRepository,
-		IMapper mapper,
-		ICategoryRepository categoryRepository)
+		IMapper mapper)
 	{
 		_logger = logger;
 		_productRepository = productRepository;
 		_unitOfWork = unitOfWork;
-		_brandRepository = brandRepository;
 		_mapper = mapper;
-		_categoryRepository = categoryRepository;
 	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(CreateProductCommand request,
@@ -40,7 +34,7 @@ public sealed class
 
 		var product =
 			await _productRepository.CreateOneAsync(
-				_mapper.Map<CreateProductCommand, CreateProductObjectSchema>(request), cancellationToken);
+				_mapper.Map<CreateProductCommand, PutProductInRepoObject>(request), cancellationToken);
 
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
 

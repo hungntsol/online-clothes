@@ -27,5 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Mapping\Dto\" />
+    <Folder Include="Mapping\ViewModels\" />
   </ItemGroup>
 </Project>

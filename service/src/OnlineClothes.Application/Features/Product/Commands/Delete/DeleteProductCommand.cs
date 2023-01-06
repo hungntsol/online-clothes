@@ -2,10 +2,10 @@
 
 public class DeleteProductCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {
-	public DeleteProductCommand(string productId)
+	public DeleteProductCommand(int productId)
 	{
 		ProductId = productId;
 	}
 
-	public string ProductId { get; set; }
+	public int ProductId { get; set; }
 }

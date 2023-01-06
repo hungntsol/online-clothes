@@ -1,22 +1,36 @@
-﻿namespace OnlineClothes.Application.Features.Product.Queries.Detail;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using OnlineClothes.Application.Mapping.ViewModels;
+using OnlineClothes.Application.Persistence;
 
-public class
-	ProductDetailQueryHandler : IRequestHandler<ProductDetailQuery, JsonApiResponse<ProductDetailQueryViewModel>>
+namespace OnlineClothes.Application.Features.Product.Queries.Detail;
+
+public class ProductDetailQueryHandler : IRequestHandler<GetProductDetailQuery, JsonApiResponse<ProductViewModel>>
 {
-	//private readonly IProductRepository _productRepository;
+	private readonly IMapper _mapper;
+	private readonly IProductRepository _productRepository;
 
-	//public ProductDetailQueryHandler(IProductRepository productRepository)
-	//{
-	//	_productRepository = productRepository;
-	//}
+	public ProductDetailQueryHandler(IProductRepository productRepository, IMapper mapper)
+	{
+		_productRepository = productRepository;
+		_mapper = mapper;
+	}
 
-	public async Task<JsonApiResponse<ProductDetailQueryViewModel>> Handle(ProductDetailQuery request,
+	public async Task<JsonApiResponse<ProductViewModel>> Handle(GetProductDetailQuery request,
 		CancellationToken cancellationToken)
 	{
-		throw new NotImplementedException();
+		var product = await _productRepository.AsQueryable()
+			.Include(q => q.Categories)
+			.Include(q => q.Brand)
+			.FirstOrDefaultAsync(q => q.Id.Equals(request.ProductId), cancellationToken);
 
-		//var product = await _productRepository.GetOneAsync(request.ProductId, cancellationToken);
-		//var viewModel = ProductDetailQueryViewModel.Create(product);
-		//return JsonApiResponse<ProductDetailQueryViewModel>.Success(data: viewModel);
+
+		if (product is null)
+		{
+			return JsonApiResponse<ProductViewModel>.Fail();
+		}
+
+		var viewModel = _mapper.Map<ProductViewModel>(product);
+		return JsonApiResponse<ProductViewModel>.Success(data: viewModel);
 	}
 }

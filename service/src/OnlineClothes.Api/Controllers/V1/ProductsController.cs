@@ -25,62 +25,48 @@ public class ProductsController : ApiV1ControllerBase
 		return HandleApiResponse(await Mediator.Send(query));
 	}
 
-	[HttpGet("{productId}")]
+	[HttpGet("{id:int}")]
 	[AllowAnonymous]
-	public async Task<IActionResult> Detail(string productId)
+	public async Task<IActionResult> Detail(int id)
 	{
-		return HandleApiResponse(await Mediator.Send(new ProductDetailQuery { ProductId = productId }));
+		return HandleApiResponse(await Mediator.Send(new GetProductDetailQuery(id)));
 	}
 
 	[HttpPost]
-	//[Authorize(Roles = nameof(AccountRole.Admin))]
-	public async Task<IActionResult> Create([FromBody] CreateProductCommand command,
+	public async Task<IActionResult> Create([FromBody] CreateProductCommand inRepoCommand,
 		CancellationToken cancellationToken = default)
 	{
-		return HandleApiResponse(await Mediator.Send(command, cancellationToken));
+		return HandleApiResponse(await Mediator.Send(inRepoCommand, cancellationToken));
 	}
 
-	[HttpPut("edit/{productId}")]
-	[Authorize(Roles = nameof(AccountRole.Admin))]
-	public async Task<IActionResult> Update(string productId,
-		[FromBody] UpdateProductCommand.UpdateProductCommandJsonBody command)
+	[HttpPut("edit")]
+	public async Task<IActionResult> Update([FromBody] EditProductCommand request)
 	{
-		return HandleApiResponse(await Mediator.Send(new UpdateProductCommand
-		{
-			ProductId = productId,
-			Body = command
-		}));
+		return HandleApiResponse(await Mediator.Send(request));
 	}
 
-	[HttpPut("import-stock/{productId}/{quantity}")]
-	[Authorize(Roles = nameof(AccountRole.Admin))]
-	public async Task<IActionResult> ImportStock(string productId, int quantity)
+	[HttpPut("import-stock")]
+	public async Task<IActionResult> ImportStock([FromBody] ImportProductStockCommand request)
 	{
-		return HandleApiResponse(await Mediator.Send(new ImportProductStockCommand
-		{
-			ProductId = productId,
-			Quantity = quantity
-		}));
+		return HandleApiResponse(await Mediator.Send(request));
 	}
 
-	[HttpPut("{productId}/upload-image")]
+	[HttpPut("{id}/upload-image")]
 	[Authorize(Roles = nameof(AccountRole.Admin))]
-	public async Task<IActionResult> UploadImage(string productId, [FromForm] IFormFile file)
+	public async Task<IActionResult> UploadImage(string id, [FromForm] IFormFile file)
 	{
-		return HandleApiResponse(await Mediator.Send(new UploadProductImageCommand(productId, file)));
+		return HandleApiResponse(await Mediator.Send(new UploadProductImageCommand(id, file)));
 	}
 
-	[HttpPut("{productId}/restore")]
-	[Authorize(Roles = nameof(AccountRole.Admin))]
-	public async Task<IActionResult> Restore(string productId)
+	[HttpPut("{id:int}/restore")]
+	public async Task<IActionResult> Restore(int id)
 	{
-		return HandleApiResponse(await Mediator.Send(new RestoreProductCommand(productId)));
+		return HandleApiResponse(await Mediator.Send(new RestoreProductCommand(id)));
 	}
 
-	[HttpDelete("{productId}")]
-	[Authorize(Roles = nameof(AccountRole.Admin))]
-	public async Task<IActionResult> Delete(string productId)
+	[HttpDelete("{id:int}")]
+	public async Task<IActionResult> Delete(int id)
 	{
-		return HandleApiResponse(await Mediator.Send(new DeleteProductCommand(productId)));
+		return HandleApiResponse(await Mediator.Send(new DeleteProductCommand(id)));
 	}
 }

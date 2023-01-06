@@ -12,6 +12,17 @@ public interface IEfCoreReadOnlyRepository<TEntity, TKey> : IDisposable
 
 	IQueryable<TEntity> AsQueryable(bool noTracking = true);
 
+	#region Find
+
+	Task<List<TEntity>> FindAsync(
+		FilterBuilder<TEntity> filterBuilder,
+		int offset = 0,
+		int limit = 0,
+		Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderFunc = null,
+		CancellationToken cancellationToken = default);
+
+	#endregion
+
 	#region FindOne
 
 	Task<TEntity?> FindOneAsync(object?[]? keyValues, CancellationToken cancellationToken = default);

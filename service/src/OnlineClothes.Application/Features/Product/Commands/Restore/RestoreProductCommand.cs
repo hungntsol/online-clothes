@@ -2,10 +2,10 @@
 
 public class RestoreProductCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {
-	public RestoreProductCommand(string productId)
+	public RestoreProductCommand(int productId)
 	{
 		ProductId = productId;
 	}
 
-	public string ProductId { get; set; }
+	public int ProductId { get; set; }
 }

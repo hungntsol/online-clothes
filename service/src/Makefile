@@ -3,6 +3,10 @@ SLN_NAME = OnlineClothes
 CONTEXT_EXECUTE_MIGRATE = -p ./$(SLN_NAME).Persistence/ -s ./$(SLN_NAME).Api/
 
 
+test:
+	ifeq (foo, $(filter foo,$(MAKECMDGOALS)))
+		@echo $foo
+	endif
 
 migrate:
 	dotnet ef migrations add $(name) $(CONTEXT_EXECUTE_MIGRATE)

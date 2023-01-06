@@ -3,7 +3,7 @@ using OnlineClothes.Application.Persistence.Schemas.Products;
 
 namespace OnlineClothes.Application.Features.Product.Commands.Create;
 
-public class CreateProductCommand : CreateProductObjectSchema, IRequest<JsonApiResponse<EmptyUnitResponse>>
+public class CreateProductCommand : PutProductInRepoObject, IRequest<JsonApiResponse<EmptyUnitResponse>>
 {
 	// TODO: image
 }
@@ -13,7 +13,7 @@ internal sealed class CreateNewClotheCommandValidation : AbstractValidator<Creat
 	public CreateNewClotheCommandValidation()
 	{
 		RuleFor(q => q.Name).NotEmpty();
-		RuleFor(q => q.Price).GreaterThan(0);
-		RuleFor(q => q.InStock).GreaterThan(0);
+		RuleFor(q => q.Price).GreaterThanOrEqualTo(0);
+		RuleFor(q => q.InStock).GreaterThanOrEqualTo(0);
 	}
 }

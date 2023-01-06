@@ -13,7 +13,8 @@ public class AppDbContext : DbContext
 	private static readonly ILoggerFactory LoggerFactInstance = LoggerFactory.Create(
 		builder =>
 		{
-			builder.AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Information)
+			builder
+				.AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Information)
 				.AddFilter(DbLoggerCategory.Query.Name, LogLevel.Warning)
 				.AddConsole();
 		});

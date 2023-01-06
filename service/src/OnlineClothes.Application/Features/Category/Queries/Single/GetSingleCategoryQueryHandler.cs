@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using OnlineClothes.Application.Mapping.ViewModels;
 using OnlineClothes.Application.Persistence;
 
 namespace OnlineClothes.Application.Features.Category.Queries.Single;
 
 public class
-	GetSingleCategoryQueryHandler : IRequestHandler<GetSingleCategoryQuery, JsonApiResponse<CategoryDto>>
+	GetSingleCategoryQueryHandler : IRequestHandler<GetSingleCategoryQuery, JsonApiResponse<CategoryViewModel>>
 {
 	private readonly ICategoryRepository _categoryRepository;
 	private readonly IMapper _mapper;
@@ -15,10 +16,10 @@ public class
 		_mapper = mapper;
 	}
 
-	public async Task<JsonApiResponse<CategoryDto>> Handle(GetSingleCategoryQuery request,
+	public async Task<JsonApiResponse<CategoryViewModel>> Handle(GetSingleCategoryQuery request,
 		CancellationToken cancellationToken)
 	{
 		var entry = await _categoryRepository.GetByIntKey(request.Id, cancellationToken);
-		return JsonApiResponse<CategoryDto>.Success(data: _mapper.Map<CategoryDto>(entry));
+		return JsonApiResponse<CategoryViewModel>.Success(data: _mapper.Map<CategoryViewModel>(entry));
 	}
 }

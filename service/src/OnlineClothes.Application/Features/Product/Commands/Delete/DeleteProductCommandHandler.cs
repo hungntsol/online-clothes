@@ -1,38 +1,36 @@
-﻿namespace OnlineClothes.Application.Features.Product.Commands.Delete;
+﻿using OnlineClothes.Application.Persistence;
+
+namespace OnlineClothes.Application.Features.Product.Commands.Delete;
 
 public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	//private readonly ILogger<DeleteProductCommandHandler> _logger;
-	//private readonly IProductRepository _productRepository;
+	private readonly ILogger<DeleteProductCommandHandler> _logger;
+	private readonly IProductRepository _productRepository;
+	private readonly IUnitOfWork _unitOfWork;
 
-	//public DeleteProductCommandHandler(IProductRepository productRepository,
-	//	ILogger<DeleteProductCommandHandler> logger)
-	//{
-	//	_productRepository = productRepository;
-	//	_logger = logger;
-	//}
+	public DeleteProductCommandHandler(IProductRepository productRepository,
+		ILogger<DeleteProductCommandHandler> logger,
+		IUnitOfWork unitOfWork)
+	{
+		_productRepository = productRepository;
+		_logger = logger;
+		_unitOfWork = unitOfWork;
+	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(DeleteProductCommand request,
 		CancellationToken cancellationToken)
 	{
-		throw new NotImplementedException();
+		var product = await _productRepository.GetByIntKey(request.ProductId, cancellationToken);
+		var delete = product.Delete();
+		_productRepository.Update(product);
 
-		//var isProductExisted = await _productRepository.IsExistAsync(request.ProductId, cancellationToken);
-		//if (!isProductExisted)
-		//{
-		//	return JsonApiResponse<EmptyUnitResponse>.Fail();
-		//}
+		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
+		if (!save && !delete)
+		{
+			return JsonApiResponse<EmptyUnitResponse>.Fail();
+		}
 
-		//var deleteResult = await _productRepository.UpdateOneAsync(
-		//	request.ProductId,
-		//	update => update.Set(q => q.IsDeleted, true), cancellationToken: cancellationToken);
-
-		//if (!deleteResult.Any())
-		//{
-		//	return JsonApiResponse<EmptyUnitResponse>.Fail();
-		//}
-
-		//_logger.LogInformation("Disable product {Id} successfully", request.ProductId);
-		//return JsonApiResponse<EmptyUnitResponse>.Success();
+		_logger.LogInformation("Disable product {Id} successfully", request.ProductId);
+		return JsonApiResponse<EmptyUnitResponse>.Success();
 	}
 }
