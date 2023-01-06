@@ -8,9 +8,9 @@ public class CartItem
 	{
 	}
 
-	public CartItem(int productDetailId, int quantity = 1) : this()
+	public CartItem(int productId, int quantity = 1) : this()
 	{
-		ProductDetailId = productDetailId;
+		ProductId = productId;
 		Quantity = quantity;
 	}
 
@@ -25,11 +25,11 @@ public class CartItem
 	}
 
 	public int CartId { get; set; }
-	public int ProductDetailId { get; set; }
+	public int ProductId { get; set; }
 	public int Quantity { get; set; }
 
 	[ForeignKey("CartId")] public AccountCart Cart { get; set; } = null!;
-	[ForeignKey("ProductDetailId")] public Product Product { get; set; } = null!;
+	[ForeignKey("ProductId")] public Product Product { get; set; } = null!;
 
 	public void Increase(int number)
 	{
@@ -39,15 +39,5 @@ public class CartItem
 	public void Decrease(int number)
 	{
 		Quantity -= number;
-	}
-
-	public static CartItem Create(AccountCart cart, int productId, int quantity)
-	{
-		return new CartItem(cart, productId, quantity);
-	}
-
-	public static CartItem Create(int cartId, int productId, int quantity)
-	{
-		return new CartItem(cartId, productId, quantity);
 	}
 }

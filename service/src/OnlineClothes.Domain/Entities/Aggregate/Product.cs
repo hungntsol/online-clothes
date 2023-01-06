@@ -53,7 +53,7 @@ public class Product : EntityBase
 
 	public bool IsAvailable()
 	{
-		return IsPublish && Categories.Count > 0;
+		return IsPublish && InStock > 0;
 	}
 
 

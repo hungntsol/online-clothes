@@ -2,4 +2,5 @@
 
 public interface ICartRepository : IEfCoreRepository<AccountCart, int>
 {
+	Task<AccountCart> GetCurrentCart();
 }

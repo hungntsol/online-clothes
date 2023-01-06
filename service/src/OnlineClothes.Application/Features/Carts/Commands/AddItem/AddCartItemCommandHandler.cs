@@ -1,24 +1,26 @@
 ﻿//using OnlineClothes.Infrastructure.Repositories.Abstracts;
 
 using OnlineClothes.Application.Persistence;
-using OnlineClothes.Application.Services.UserContext;
 
 namespace OnlineClothes.Application.Features.Carts.Commands.AddItem;
 
 public class AddCartItemCommandHandler : IRequestHandler<AddCartItemCommand, JsonApiResponse<EmptyUnitResponse>>
 {
+	private const string ProductNotAvailableError = "Sản phẩm đang không bày bán";
+	private const string ProductInStockNotEnoughError = "Số lượng tồn kho không đủ";
+
 	private readonly ICartRepository _cartRepository;
 	private readonly IProductRepository _productRepository;
-	private readonly IUserContext _userContext;
+	private readonly IUnitOfWork _unitOfWork;
 
 	public AddCartItemCommandHandler(
 		ICartRepository cartRepository,
-		IUserContext userContext,
-		IProductRepository productRepository)
+		IProductRepository productRepository,
+		IUnitOfWork unitOfWork)
 	{
 		_cartRepository = cartRepository;
-		_userContext = userContext;
 		_productRepository = productRepository;
+		_unitOfWork = unitOfWork;
 	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(AddCartItemCommand request,
@@ -28,34 +30,20 @@ public class AddCartItemCommandHandler : IRequestHandler<AddCartItemCommand, Jso
 
 		if (!product.IsAvailable())
 		{
-			return JsonApiResponse<EmptyUnitResponse>.Fail("Sản phẩm đang không bày bán");
+			return JsonApiResponse<EmptyUnitResponse>.Fail(ProductNotAvailableError);
 		}
 
 		if (product.InStock < request.Quantity)
 		{
-			return JsonApiResponse<EmptyUnitResponse>.Fail(message: "Số lượng tồn kho không đủ");
+			return JsonApiResponse<EmptyUnitResponse>.Fail(ProductInStockNotEnoughError);
 		}
 
-		//var cart = await _cartRepository.FindOneOrInsertAsync(
-		//	FilterBuilder<AccountCart>.Where(q => q.AccountId.tos == _userContext.GetNameIdentifier()),
-		//	new AccountCart
-		//	{
-		//		AccountId = _userContext.GetNameIdentifier(),
-		//		Items = new List<AccountCart.CartItem>()
-		//	},
-		//	selector: e => e,
-		//	cancellationToken: cancellationToken);
+		var cart = await _cartRepository.GetCurrentCart();
 
-		//cart.AddItem(product.Id, request.Quantity);
-		//var updatedResult = await _cartRepository.UpdateOneAsync(
-		//	cart.Id,
-		//	update => update.Set(q => q.Items, cart.Items),
-		//	cancellationToken: cancellationToken);
+		_cartRepository.Update(cart);
+		cart.IncreaseItem(request.ProductId, request.Quantity);
 
-		//return updatedResult.Any()
-		//	? JsonApiResponse<EmptyUnitResponse>.Success()
-		//	: JsonApiResponse<EmptyUnitResponse>.Fail();
-
-		throw new NotImplementedException();
+		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
+		return !save ? JsonApiResponse<EmptyUnitResponse>.Fail() : JsonApiResponse<EmptyUnitResponse>.Success();
 	}
 }

@@ -28,8 +28,8 @@ public class CartsController : ApiV1ControllerBase
 		}));
 	}
 
-	[HttpPut("{productId}/remove-item/{quantity}")]
-	public async Task<IActionResult> RemoveItem(string productId, int quantity)
+	[HttpPut("{productId:int}/remove-item/{quantity:int}")]
+	public async Task<IActionResult> RemoveItem(int productId, int quantity = 1)
 	{
 		return HandleApiResponse(await Mediator.Send(new RemoveCartItemCommand
 		{

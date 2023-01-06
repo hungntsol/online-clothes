@@ -1,35 +1,30 @@
-﻿namespace OnlineClothes.Application.Features.Carts.Commands.RemoveItem;
+﻿using OnlineClothes.Application.Persistence;
+
+namespace OnlineClothes.Application.Features.Carts.Commands.RemoveItem;
 
 public class RemoveCartItemCommandHandler : IRequestHandler<RemoveCartItemCommand, JsonApiResponse<EmptyUnitResponse>>
 {
-	//private readonly ICartRepository _cartRepository;
-	//private readonly IUserContext _userContext;
+	private readonly ICartRepository _cartRepository;
+	private readonly IUnitOfWork _unitOfWork;
 
-	//public RemoveCartItemCommandHandler(ICartRepository cartRepository, IUserContext userContext)
-	//{
-	//	_cartRepository = cartRepository;
-	//	_userContext = userContext;
-	//}
+	public RemoveCartItemCommandHandler(
+		ICartRepository cartRepository,
+		IUnitOfWork unitOfWork)
+	{
+		_cartRepository = cartRepository;
+		_unitOfWork = unitOfWork;
+	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(RemoveCartItemCommand request,
 		CancellationToken cancellationToken)
 	{
-		//var cart = await _cartRepository.FindOneAsync(
-		//	FilterBuilder<AccountCart>.Where(q => q.AccountId == _userContext.GetNameIdentifier()),
-		//	cancellationToken: cancellationToken);
-		//NullValueReferenceException.ThrowIfNull(cart, nameof(cart));
+		var cart = await _cartRepository.GetCurrentCart();
 
-		//cart.RemoveItem(request.ProductId, request.Quantity);
+		_cartRepository.Update(cart);
+		cart.DecreaseItem(request.ProductId, request.Quantity);
 
-		//var updatedResult = await _cartRepository.UpdateOneAsync(
-		//	cart.Id,
-		//	update => update.Set(q => q.Items, cart.Items),
-		//	cancellationToken: cancellationToken);
-
-		//return updatedResult.Any()
-		//	? JsonApiResponse<EmptyUnitResponse>.Success()
-		//	: JsonApiResponse<EmptyUnitResponse>.Fail();
-
-		throw new NotImplementedException();
+		return await _unitOfWork.SaveChangesAsync(cancellationToken)
+			? JsonApiResponse<EmptyUnitResponse>.Success()
+			: JsonApiResponse<EmptyUnitResponse>.Fail();
 	}
 }

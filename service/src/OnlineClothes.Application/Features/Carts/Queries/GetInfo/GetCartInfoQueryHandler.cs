@@ -1,25 +1,24 @@
-﻿namespace OnlineClothes.Application.Features.Carts.Queries.GetInfo;
+﻿using OnlineClothes.Application.Persistence;
+using OnlineClothes.Support.Utilities.Extensions;
 
-public class GetCartInfoQueryHandler : IRequestHandler<GetCartInfoQuery, JsonApiResponse<GetCartInfoQueryViewModel>>
+namespace OnlineClothes.Application.Features.Carts.Queries.GetInfo;
+
+public class GetCartInfoQueryHandler : IRequestHandler<GetCartInfoQuery, JsonApiResponse<List<CartItemDto>>>
 {
-	//private readonly ICartRepository _cartRepository;
+	private readonly ICartRepository _cartRepository;
 
-	//public GetCartInfoQueryHandler(ICartRepository cartRepository)
-	//{
-	//	_cartRepository = cartRepository;
-	//}
+	public GetCartInfoQueryHandler(ICartRepository cartRepository)
+	{
+		_cartRepository = cartRepository;
+	}
 
-	public async Task<JsonApiResponse<GetCartInfoQueryViewModel>> Handle(GetCartInfoQuery request,
+	public async Task<JsonApiResponse<List<CartItemDto>>> Handle(GetCartInfoQuery request,
 		CancellationToken cancellationToken)
 	{
-		//var cartInfo = await _cartRepository.GetItems(cancellationToken);
+		var cart = await _cartRepository.GetCurrentCart();
 
-		//var data = cartInfo?.Items.Select(GetCartInfoQueryViewModel.Item.Create).ToList();
+		var viewmodel = cart.Items.SelectList(CartItemDto.ToModel);
 
-		//var viewModel = new GetCartInfoQueryViewModel(data);
-
-		//return JsonApiResponse<GetCartInfoQueryViewModel>.Success(data: viewModel);
-
-		throw new NotImplementedException();
+		return JsonApiResponse<List<CartItemDto>>.Success(data: viewmodel);
 	}
 }

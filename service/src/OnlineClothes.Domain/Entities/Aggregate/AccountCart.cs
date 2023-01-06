@@ -28,7 +28,7 @@ public class AccountCart : EntityBase
 
 		if (item is null)
 		{
-			Items.Add(CartItem.Create(Id, productId, number));
+			Items.Add(new CartItem(Id, productId, number));
 			return;
 		}
 
@@ -51,7 +51,7 @@ public class AccountCart : EntityBase
 
 	private CartItem? FindItemInCart(int productId)
 	{
-		return Items.FirstOrDefault(q => q.ProductDetailId.Equals(productId));
+		return Items.FirstOrDefault(q => q.ProductId.Equals(productId));
 	}
 
 	private void PostCheck(CartItem item)

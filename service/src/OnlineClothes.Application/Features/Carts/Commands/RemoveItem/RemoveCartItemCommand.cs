@@ -2,6 +2,16 @@
 
 public class RemoveCartItemCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {
-	public string ProductId { get; init; } = null!;
+	public RemoveCartItemCommand()
+	{
+	}
+
+	public RemoveCartItemCommand(int productId, int quantity)
+	{
+		ProductId = productId;
+		Quantity = quantity;
+	}
+
+	public int ProductId { get; init; }
 	public int Quantity { get; init; } = 1;
 }
