@@ -11,29 +11,32 @@ public class AddCartItemCommandHandler : IRequestHandler<AddCartItemCommand, Jso
 
 	private readonly ICartRepository _cartRepository;
 	private readonly IProductRepository _productRepository;
+	private readonly ISkuRepository _skuRepository;
 	private readonly IUnitOfWork _unitOfWork;
 
 	public AddCartItemCommandHandler(
 		ICartRepository cartRepository,
 		IProductRepository productRepository,
-		IUnitOfWork unitOfWork)
+		IUnitOfWork unitOfWork,
+		ISkuRepository skuRepository)
 	{
 		_cartRepository = cartRepository;
 		_productRepository = productRepository;
 		_unitOfWork = unitOfWork;
+		_skuRepository = skuRepository;
 	}
 
 	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(AddCartItemCommand request,
 		CancellationToken cancellationToken)
 	{
-		var product = await _productRepository.GetByIntKey(request.ProductId, cancellationToken);
+		var productSku = await _skuRepository.GetSkuDetailBySkuAsync(request.ProductSku, cancellationToken);
 
-		if (!product.IsAvailable())
+		if (!productSku.Product.IsAvailable())
 		{
 			return JsonApiResponse<EmptyUnitResponse>.Fail(ProductNotAvailableError);
 		}
 
-		if (product.InStock < request.Quantity)
+		if (productSku.InStock < request.Quantity)
 		{
 			return JsonApiResponse<EmptyUnitResponse>.Fail(ProductInStockNotEnoughError);
 		}
@@ -41,7 +44,7 @@ public class AddCartItemCommandHandler : IRequestHandler<AddCartItemCommand, Jso
 		var cart = await _cartRepository.GetCurrentCart();
 
 		_cartRepository.Update(cart);
-		cart.IncreaseItem(request.ProductId, request.Quantity);
+		cart.PutItem(request.ProductSku, request.Quantity);
 
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
 		return !save ? JsonApiResponse<EmptyUnitResponse>.Fail() : JsonApiResponse<EmptyUnitResponse>.Success();

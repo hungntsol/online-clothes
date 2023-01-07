@@ -18,22 +18,22 @@ public class CartsController : ApiV1ControllerBase
 		return HandleApiResponse(await Mediator.Send(new GetCartInfoQuery()));
 	}
 
-	[HttpPut("{productId:int}/add-item/{quantity:int}")]
-	public async Task<IActionResult> AddItem(int productId, int quantity = 1)
+	[HttpPut("{productSku}/add-item/{quantity:int}")]
+	public async Task<IActionResult> AddItem(string productSku, int quantity = 1)
 	{
 		return HandleApiResponse(await Mediator.Send(new AddCartItemCommand
 		{
-			ProductId = productId,
+			ProductSku = productSku,
 			Quantity = quantity
 		}));
 	}
 
-	[HttpPut("{productId:int}/remove-item/{quantity:int}")]
-	public async Task<IActionResult> RemoveItem(int productId, int quantity = 1)
+	[HttpPut("{productId}/remove-item/{quantity:int}")]
+	public async Task<IActionResult> RemoveItem(string productId, int quantity = 1)
 	{
 		return HandleApiResponse(await Mediator.Send(new RemoveCartItemCommand
 		{
-			ProductId = productId,
+			ProductSku = productId,
 			Quantity = quantity
 		}));
 	}

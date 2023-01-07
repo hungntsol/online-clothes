@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using OnlineClothes.Application.Features.Products.Commands.Create;
+using OnlineClothes.Application.Features.Products.Commands.CreateNewSku;
 using OnlineClothes.Application.Features.Products.Commands.Delete;
 using OnlineClothes.Application.Features.Products.Commands.ImportProducts;
 using OnlineClothes.Application.Features.Products.Commands.Restore;
@@ -25,15 +25,15 @@ public class ProductsController : ApiV1ControllerBase
 		return HandleApiResponse(await Mediator.Send(query));
 	}
 
-	[HttpGet("{id:int}")]
+	[HttpGet("{sku}")]
 	[AllowAnonymous]
-	public async Task<IActionResult> GetDetail(int id)
+	public async Task<IActionResult> GetDetail(string sku)
 	{
-		return HandleApiResponse(await Mediator.Send(new GetProductDetailQuery(id)));
+		return HandleApiResponse(await Mediator.Send(new GetSkuDetailQuery(sku)));
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Create([FromBody] CreateProductCommand inRepoCommand,
+	public async Task<IActionResult> Create([FromBody] CreateSkuCommand inRepoCommand,
 		CancellationToken cancellationToken = default)
 	{
 		return HandleApiResponse(await Mediator.Send(inRepoCommand, cancellationToken));
@@ -46,7 +46,7 @@ public class ProductsController : ApiV1ControllerBase
 	}
 
 	[HttpPut("import-stock")]
-	public async Task<IActionResult> ImportStock([FromBody] ImportProductStockCommand request)
+	public async Task<IActionResult> ImportStock([FromBody] ImportSkuStockCommand request)
 	{
 		return HandleApiResponse(await Mediator.Send(request));
 	}
@@ -64,9 +64,9 @@ public class ProductsController : ApiV1ControllerBase
 		return HandleApiResponse(await Mediator.Send(new RestoreProductCommand(id)));
 	}
 
-	[HttpDelete("{id:int}")]
-	public async Task<IActionResult> Delete(int id)
+	[HttpDelete("{sku}")]
+	public async Task<IActionResult> Delete(string sku)
 	{
-		return HandleApiResponse(await Mediator.Send(new DeleteProductCommand(id)));
+		return HandleApiResponse(await Mediator.Send(new DisableSkuCommand(sku)));
 	}
 }

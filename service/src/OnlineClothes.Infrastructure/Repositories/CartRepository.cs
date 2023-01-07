@@ -16,9 +16,10 @@ public class CartRepository : EfCoreRepositoryBase<AccountCart, int>, ICartRepos
 	public async Task<AccountCart> GetCurrentCart()
 	{
 		var cart = await AsQueryable()
-			.Include(q => q.Items)
-			.ThenInclude(q => q.Product)
-			.FirstAsync(q => q.AccountId.Equals(_userContext.GetNameIdentifier()));
+			.Include(cart => cart.Items)
+			.ThenInclude(cartItem => cartItem.ProductSku)
+			.ThenInclude(productSku => productSku.Product)
+			.FirstAsync(cart => cart.AccountId.Equals(_userContext.GetNameIdentifier()));
 
 		return cart;
 	}

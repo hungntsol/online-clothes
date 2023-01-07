@@ -166,7 +166,7 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 		return entry;
 	}
 
-	public virtual async Task<TEntity> GetByKey(string key, CancellationToken cancellationToken = default)
+	public virtual async Task<TEntity> GetByStrKey(string key, CancellationToken cancellationToken = default)
 	{
 		var entry = await FindOneAsync(new object[] { key }, cancellationToken);
 		DataNotFoundException.ThrowIfNull(entry);

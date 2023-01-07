@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineClothes.Application.Persistence;
 using OnlineClothes.Application.Persistence.Schemas.Products;
-using OnlineClothes.Support.Builders.Predicate;
+using OnlineClothes.Domain.Entities;
 using OnlineClothes.Support.Utilities.Extensions;
 
 namespace OnlineClothes.Infrastructure.Repositories;
@@ -23,26 +23,27 @@ public class ProductRepository : EfCoreRepositoryBase<Product, int>, IProductRep
 
 	public async Task<Product> GetBySkuAsync(string sku, CancellationToken cancellationToken = default)
 	{
-		return await AsQueryable()
-			.FirstAsync(q => q.Sku.Equals(sku), cancellationToken: cancellationToken);
+		throw new NotImplementedException();
 	}
 
 	public async Task<Product?> CreateOneAsync(
 		PutProductInRepoObject @object,
 		CancellationToken cancellationToken = default)
 	{
-		var product = _mapper.Map<PutProductInRepoObject, Product>(@object);
+		//var product = _mapper.Map<PutProductInRepoObject, Product>(@object);
 
-		var navigationCategories = await _categoryRepository.FindAsync(
-			FilterBuilder<Category>.Where(q => @object.CategoryIds.Contains(q.Id)),
-			cancellationToken: cancellationToken);
+		//var navigationCategories = await _categoryRepository.FindAsync(
+		//	FilterBuilder<Category>.Where(q => @object.CategoryIds.Contains(q.Id)),
+		//	cancellationToken: cancellationToken);
 
-		_categoryRepository.Table.AttachRange(navigationCategories);
+		//_categoryRepository.Table.AttachRange(navigationCategories);
 
-		product.Categories = navigationCategories;
-		await AddAsync(product, cancellationToken: cancellationToken);
+		//product.Categories = navigationCategories;
+		//await AddAsync(product, cancellationToken: cancellationToken);
 
-		return product;
+		//return product;
+
+		throw new NotImplementedException();
 	}
 
 	public async Task EditOneAsync(
@@ -51,10 +52,10 @@ public class ProductRepository : EfCoreRepositoryBase<Product, int>, IProductRep
 		CancellationToken cancellationToken = default)
 	{
 		var product = await AsQueryable()
-			.Include(q => q.Categories)
-			.FirstAsync(q => q.Id == id, cancellationToken);
+			.Include(product => product.ProductCategories)
+			.FirstAsync(product => product.Id == id, cancellationToken);
 
-		var currentProductCategoryIds = product.Categories.SelectList(q => q.Id);
+		var currentProductCategoryIds = product.ProductCategories.SelectList(pc => pc.CategoryId);
 		var newIncomeCategoryIds = @object.CategoryIds.Except(currentProductCategoryIds).ToList();
 
 		Update(product);
@@ -65,15 +66,19 @@ public class ProductRepository : EfCoreRepositoryBase<Product, int>, IProductRep
 			return; // skip if no category change
 		}
 
-		var navigationCategories = await _categoryRepository.FindAsync(
-			FilterBuilder<Category>.Where(q => newIncomeCategoryIds.Contains(q.Id)),
-			cancellationToken: cancellationToken);
+		//var navigationCategories = await _categoryRepository
+		//	.FindAsync(
+		//	FilterBuilder<Category>.Where(q => newIncomeCategoryIds.Contains(q.Id)),
+		//	cancellationToken: cancellationToken);
 
-		var productCategoriesList = product.Categories.ToList();
-		productCategoriesList.RemoveAll(q => !@object.CategoryIds.Contains(q.Id));
+		var navigationCategories =
+			newIncomeCategoryIds.SelectList(x => new ProductCategory { ProductId = product.Id, CategoryId = x });
+
+		var productCategoriesList = product.ProductCategories.ToList();
+		productCategoriesList.RemoveAll(q => !@object.CategoryIds.Contains(q.CategoryId));
 		productCategoriesList.AddRange(navigationCategories);
 
 		// re-assign
-		product.Categories = productCategoriesList;
+		product.ProductCategories = productCategoriesList;
 	}
 }

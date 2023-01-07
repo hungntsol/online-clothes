@@ -28,7 +28,8 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Jso
 		// begin tx
 		await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
-		await _productRepository.EditOneAsync(request.Id, _mapper.Map<PutProductInRepoObject>(request),
+		await _productRepository.EditOneAsync(request.Id,
+			_mapper.Map<EditProductCommand, PutProductInRepoObject>(request),
 			cancellationToken);
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
 

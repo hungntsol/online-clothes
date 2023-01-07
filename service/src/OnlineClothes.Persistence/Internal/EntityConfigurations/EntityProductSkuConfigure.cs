@@ -4,11 +4,9 @@ using OnlineClothes.Domain.Entities.Aggregate;
 
 namespace OnlineClothes.Persistence.Internal.EntityConfigurations;
 
-public class EntityProductConfigure : IEntityTypeConfiguration<Product>
+public class EntityProductSkuConfigure : IEntityTypeConfiguration<ProductSku>
 {
-	public void Configure(EntityTypeBuilder<Product> builder)
+	public void Configure(EntityTypeBuilder<ProductSku> builder)
 	{
-		builder.HasIndex(q => q.Sku)
-			.IsUnique();
 	}
 }

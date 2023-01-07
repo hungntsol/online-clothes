@@ -65,7 +65,7 @@ public interface IEfCoreReadOnlyRepository<TEntity, TKey> : IDisposable
 
 	Task<TEntity> GetByIntKey(int key, CancellationToken cancellationToken = default);
 
-	Task<TEntity> GetByKey(string key, CancellationToken cancellationToken = default);
+	Task<TEntity> GetByStrKey(string key, CancellationToken cancellationToken = default);
 
 	Task<TEntity> GetOneAsync(object?[]? keyValues, CancellationToken cancellationToken = default);
 

@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using AutoMapper;
 using OnlineClothes.Application.Commons;
 using OnlineClothes.Application.Persistence;
 using OnlineClothes.Domain.Paging;
@@ -11,18 +10,11 @@ public class
 	GetPagingProductQueryHandler : IRequestHandler<GetPagingProductQuery,
 		JsonApiResponse<PagingModel<ProductBasicDto>>>
 {
-	private readonly ILogger<GetPagingProductQueryHandler> _logger;
-	private readonly IMapper _mapper;
 	private readonly IProductRepository _productRepository;
 
-	public GetPagingProductQueryHandler(
-		IProductRepository productRepository,
-		ILogger<GetPagingProductQueryHandler> logger,
-		IMapper mapper)
+	public GetPagingProductQueryHandler(IProductRepository productRepository)
 	{
 		_productRepository = productRepository;
-		_logger = logger;
-		_mapper = mapper;
 	}
 
 	public async Task<JsonApiResponse<PagingModel<ProductBasicDto>>> Handle(GetPagingProductQuery request,
@@ -41,7 +33,7 @@ public class
 	private static FilterBuilder<Product> PreSearchQueryable(GetPagingProductQuery request)
 	{
 		// default will query publish product
-		var filterBuilder = new FilterBuilder<Product>(q => q.IsPublish && q.InStock > 0);
+		var filterBuilder = new FilterBuilder<Product>(q => q.IsPublish);
 
 		AppendFilterKeyword(request, filterBuilder);
 		AppendFilterCategory(request, filterBuilder);
@@ -55,7 +47,7 @@ public class
 	{
 		if (request.CategoryId is not null && request.CategoryId != 0)
 		{
-			filterBuilder.And(product => product.Categories.Any(category => category.Id == request.CategoryId));
+			filterBuilder.And(product => product.ProductCategories.Any(pc => pc.CategoryId == request.CategoryId));
 		}
 	}
 

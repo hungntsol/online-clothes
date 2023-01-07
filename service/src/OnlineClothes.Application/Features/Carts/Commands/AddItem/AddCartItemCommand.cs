@@ -6,12 +6,12 @@ public class AddCartItemCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 	{
 	}
 
-	public AddCartItemCommand(int productId, int quantity = 1)
+	public AddCartItemCommand(string productSku, int quantity = 1)
 	{
-		ProductId = productId;
+		ProductSku = productSku;
 		Quantity = quantity;
 	}
 
-	public int ProductId { get; init; }
+	public string ProductSku { get; init; } = null!;
 	public int Quantity { get; init; } = 1;
 }

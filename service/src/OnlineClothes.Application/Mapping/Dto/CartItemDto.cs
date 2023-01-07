@@ -8,13 +8,13 @@ public class CartItemDto
 	{
 	}
 
-	public CartItemDto(ProductBasicDto product, int quantity)
+	public CartItemDto(ProductSkuBasicDto productSku, int quantity)
 	{
-		Product = product;
+		ProductSku = productSku;
 		Quantity = quantity;
 	}
 
-	public ProductBasicDto Product { get; set; } = null!;
+	public ProductSkuBasicDto ProductSku { get; set; } = null!;
 	public int Quantity { get; set; }
 
 	public static CartItemDto ToModel(CartItem entity)
@@ -22,7 +22,7 @@ public class CartItemDto
 		return new CartItemDto
 		{
 			Quantity = entity.Quantity,
-			Product = ProductBasicDto.ToModel(entity.Product)
+			ProductSku = ProductSkuBasicDto.ToModel(entity.ProductSku)
 		};
 	}
 }

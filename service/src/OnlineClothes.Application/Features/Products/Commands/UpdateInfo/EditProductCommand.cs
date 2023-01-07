@@ -16,7 +16,5 @@ public sealed class UpdateProductCommandValidation : AbstractValidator<EditProdu
 			.NotEmpty().WithMessage("Tên sản phẩm không được để trống");
 		RuleFor(q => q.Price)
 			.GreaterThanOrEqualTo(0);
-		RuleFor(q => q.InStock)
-			.GreaterThanOrEqualTo(0);
 	}
 }

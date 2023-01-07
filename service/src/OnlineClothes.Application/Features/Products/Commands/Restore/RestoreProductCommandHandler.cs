@@ -21,11 +21,12 @@ public class RestoreProductCommandHandler : IRequestHandler<RestoreProductComman
 		CancellationToken cancellationToken)
 	{
 		var product = await _productRepository.GetByIntKey(request.ProductId, cancellationToken);
-		var restore = product.Restore();
+
 		_productRepository.Update(product);
+		product.Restore();
 
 		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
-		if (!save && !restore)
+		if (!save)
 		{
 			return JsonApiResponse<EmptyUnitResponse>.Fail();
 		}
