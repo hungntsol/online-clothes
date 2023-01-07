@@ -1,4 +1,6 @@
-﻿namespace OnlineClothes.Application.Persistence.Schemas.Products;
+﻿using System.ComponentModel;
+
+namespace OnlineClothes.Application.Persistence.Schemas.Products;
 
 public class PutProductInRepoObject
 {
@@ -8,4 +10,5 @@ public class PutProductInRepoObject
 	public ClotheType? Type { get; set; }
 	public int? BrandId { get; set; }
 	public HashSet<int> CategoryIds { get; set; } = new();
+	[DefaultValue(true)] public bool IsPublish { get; set; }
 }

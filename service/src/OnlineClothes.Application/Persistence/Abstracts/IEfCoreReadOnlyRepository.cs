@@ -23,6 +23,12 @@ public interface IEfCoreReadOnlyRepository<TEntity, TKey> : IDisposable
 
 	#endregion
 
+	#region Any
+
+	Task<bool> AnyAsync(FilterBuilder<TEntity> filterBuilder, CancellationToken cancellationToken = default);
+
+	#endregion
+
 	#region FindOne
 
 	Task<TEntity?> FindOneAsync(object?[]? keyValues, CancellationToken cancellationToken = default);

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using OnlineClothes.Application.Persistence;
 
@@ -38,6 +37,6 @@ public sealed class
 
 		_logger.LogInformation("Create product: {model}", JsonConvert.SerializeObject(productSku));
 
-		return JsonApiResponse<EmptyUnitResponse>.Success(StatusCodes.Status201Created, "Thêm sản phẩm thành công");
+		return JsonApiResponse<EmptyUnitResponse>.Created("Thêm sản phẩm thành công");
 	}
 }

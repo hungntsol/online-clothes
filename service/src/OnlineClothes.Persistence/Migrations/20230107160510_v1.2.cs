@@ -4,22 +4,23 @@
 
 namespace OnlineClothes.Persistence.Migrations
 {
-    public partial class v11 : Migration
+    public partial class v12 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
+            migrationBuilder.AddColumn<bool>(
                 name: "IsDeleted",
-                table: "Products",
-                newName: "IsPublish");
+                table: "ProductSkus",
+                type: "boolean",
+                nullable: false,
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "IsPublish",
-                table: "Products",
-                newName: "IsDeleted");
+            migrationBuilder.DropColumn(
+                name: "IsDeleted",
+                table: "ProductSkus");
         }
     }
 }

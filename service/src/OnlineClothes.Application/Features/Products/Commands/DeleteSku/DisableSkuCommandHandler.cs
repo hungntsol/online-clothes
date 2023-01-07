@@ -1,6 +1,6 @@
 ﻿using OnlineClothes.Application.Persistence;
 
-namespace OnlineClothes.Application.Features.Products.Commands.Delete;
+namespace OnlineClothes.Application.Features.Products.Commands.DeleteSku;
 
 public class DisableSkuCommandHandler : IRequestHandler<DisableSkuCommand, JsonApiResponse<EmptyUnitResponse>>
 {
@@ -23,6 +23,7 @@ public class DisableSkuCommandHandler : IRequestHandler<DisableSkuCommand, JsonA
 		CancellationToken cancellationToken)
 	{
 		var productSku = await _skuRepository.GetByStrKey(request.Sku, cancellationToken);
+
 		_skuRepository.Update(productSku);
 		productSku.Disable();
 

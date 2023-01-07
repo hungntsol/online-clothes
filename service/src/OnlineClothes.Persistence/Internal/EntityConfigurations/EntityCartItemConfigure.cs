@@ -8,6 +8,6 @@ internal class EntityCartItemConfigure : IEntityTypeConfiguration<CartItem>
 {
 	public void Configure(EntityTypeBuilder<CartItem> builder)
 	{
-		builder.HasKey(q => new { q.CartId, ProductId = q.ProductSku });
+		builder.HasKey(q => new { q.CartId, q.ProductSkuId });
 	}
 }

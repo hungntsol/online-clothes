@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace OnlineClothes.Application.Features.Products.Commands.ImportProducts;
+namespace OnlineClothes.Application.Features.Products.Commands.ImportSku;
 
 public class ImportSkuStockCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {

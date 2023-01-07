@@ -4,7 +4,8 @@ using OnlineClothes.Application.Features.Brands.Commands.Edit;
 using OnlineClothes.Application.Features.Categories.Commands.Edit;
 using OnlineClothes.Application.Features.Products.Commands.CreateNewProductSeri;
 using OnlineClothes.Application.Features.Products.Commands.CreateNewSku;
-using OnlineClothes.Application.Features.Products.Commands.UpdateInfo;
+using OnlineClothes.Application.Features.Products.Commands.EditProductInfo;
+using OnlineClothes.Application.Features.Products.Commands.EditSkuInfo;
 using OnlineClothes.Application.Mapping.ViewModels;
 using OnlineClothes.Application.Persistence.Schemas.Products;
 using OnlineClothes.Domain.Entities;
@@ -40,7 +41,18 @@ public class DefaultAutoMapperProfile : Profile
 		CreateMap<CreateNewProductCommand, Product>()
 			.ForMember(dest => dest.ProductCategories,
 				opt => opt.MapFrom(src =>
-					src.CategoryIds.Select(x => new ProductCategory { CategoryId = x, ProductId = 0 })));
+					src.CategoryIds.Select(x => new ProductCategory { CategoryId = x, ProductId = 0 })))
+			.ForMember(dest => dest.ProductSkus, opt => opt.MapFrom(src => new List<ProductSku>
+			{
+				new()
+				{
+					Sku = src.Sku,
+					AddOnPrice = src.SkuAddOnPrice,
+					InStock = src.SkuInStock,
+					Size = src.SkuSize
+				}
+			}));
+		CreateMap<EditSkuInfoCommand, ProductSku>();
 
 		CreateMap<EditProductCommand, PutProductInRepoObject>();
 	}

@@ -1,6 +1,6 @@
 ﻿using OnlineClothes.Application.Persistence;
 
-namespace OnlineClothes.Application.Features.Products.Commands.Restore;
+namespace OnlineClothes.Application.Features.Products.Commands.RestoreProduct;
 
 public class RestoreProductCommandHandler : IRequestHandler<RestoreProductCommand, JsonApiResponse<EmptyUnitResponse>>
 {

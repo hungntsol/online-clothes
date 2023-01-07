@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace OnlineClothes.Domain.Entities.Aggregate;
 
@@ -37,7 +38,10 @@ public class Product : EntityBase
 	[DefaultValue(true)] public bool IsPublish { get; set; }
 
 	[ForeignKey("BrandId")] public Brand? Brand { get; set; }
-	public virtual ICollection<ProductSku> ProductSkus { get; set; } = new Collection<ProductSku>();
+
+	[JsonIgnore] public virtual ICollection<ProductSku> ProductSkus { get; set; } = new Collection<ProductSku>();
+
+	[JsonIgnore]
 	public virtual ICollection<ProductCategory> ProductCategories { get; set; } = new Collection<ProductCategory>();
 
 	public bool IsAvailable()

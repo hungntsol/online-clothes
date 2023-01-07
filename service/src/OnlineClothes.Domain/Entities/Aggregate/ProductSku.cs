@@ -5,29 +5,39 @@ using OnlineClothes.Support.Entity.Event;
 
 namespace OnlineClothes.Domain.Entities.Aggregate;
 
-public class ProductSku : SupportDomainEvent, IEntityDatetimeSupport, IEntity<string>
+public class ProductSku : SupportDomainEvent, IEntity<string>
 {
-	[Key] public string Sku { get; set; } = null!;
+	[Key]
+	[DatabaseGenerated(DatabaseGeneratedOption.None)]
+	public string Sku { get; set; } = null!;
+
 	public int ProductId { get; set; }
 	public int InStock { get; set; }
 	public decimal AddOnPrice { get; set; }
 	public ClotheSizeType Size { get; set; }
+	public bool IsDeleted { get; set; }
 
 	[ForeignKey("ProductId")] public Product Product { get; set; } = null!;
 
 	[JsonIgnore] public virtual ICollection<OrderItem> OrderItems { get; set; } = new Collection<OrderItem>();
+	[JsonIgnore] public virtual ICollection<CartItem> CartItems { get; set; } = new Collection<CartItem>();
 
 	public DateTime CreatedAt { get; set; }
 	public DateTime ModifiedAt { get; set; }
 
 	public bool IsAvailable()
 	{
-		return InStock > 0;
+		return InStock > 0 && !IsDeleted;
 	}
 
 	public void Disable()
 	{
-		InStock = 0;
+		IsDeleted = true;
+	}
+
+	public void Enable()
+	{
+		IsDeleted = false;
 	}
 
 	public void ImportStock(int number)

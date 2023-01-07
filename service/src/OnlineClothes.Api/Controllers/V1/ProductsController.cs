@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using OnlineClothes.Application.Features.Products.Commands.CreateNewProductSeri;
 using OnlineClothes.Application.Features.Products.Commands.CreateNewSku;
-using OnlineClothes.Application.Features.Products.Commands.Delete;
-using OnlineClothes.Application.Features.Products.Commands.ImportProducts;
-using OnlineClothes.Application.Features.Products.Commands.Restore;
-using OnlineClothes.Application.Features.Products.Commands.UpdateInfo;
+using OnlineClothes.Application.Features.Products.Commands.DeleteProduct;
+using OnlineClothes.Application.Features.Products.Commands.DeleteSku;
+using OnlineClothes.Application.Features.Products.Commands.EditProductInfo;
+using OnlineClothes.Application.Features.Products.Commands.EditSkuInfo;
+using OnlineClothes.Application.Features.Products.Commands.ImportSku;
+using OnlineClothes.Application.Features.Products.Commands.RestoreProduct;
+using OnlineClothes.Application.Features.Products.Commands.RestoreSku;
 using OnlineClothes.Application.Features.Products.Commands.UploadImage;
 using OnlineClothes.Application.Features.Products.Queries.Detail;
 using OnlineClothes.Application.Features.Products.Queries.Paging;
@@ -32,20 +36,31 @@ public class ProductsController : ApiV1ControllerBase
 		return HandleApiResponse(await Mediator.Send(new GetSkuDetailQuery(sku)));
 	}
 
-	[HttpPost]
-	public async Task<IActionResult> Create([FromBody] CreateSkuCommand inRepoCommand,
-		CancellationToken cancellationToken = default)
-	{
-		return HandleApiResponse(await Mediator.Send(inRepoCommand, cancellationToken));
-	}
-
-	[HttpPut("edit")]
-	public async Task<IActionResult> Update([FromBody] EditProductCommand request)
+	[HttpPost("product")]
+	public async Task<IActionResult> CreateProduct([FromForm] CreateNewProductCommand request)
 	{
 		return HandleApiResponse(await Mediator.Send(request));
 	}
 
-	[HttpPut("import-stock")]
+	[HttpPost("sku")]
+	public async Task<IActionResult> CreateSku([FromForm] CreateSkuCommand request)
+	{
+		return HandleApiResponse(await Mediator.Send(request));
+	}
+
+	[HttpPut("product/edit")]
+	public async Task<IActionResult> EditProduct([FromBody] EditProductCommand request)
+	{
+		return HandleApiResponse(await Mediator.Send(request));
+	}
+
+	[HttpPut("sku/edit")]
+	public async Task<IActionResult> EditSku([FromForm] EditSkuInfoCommand request)
+	{
+		return HandleApiResponse(await Mediator.Send(request));
+	}
+
+	[HttpPut("sku/import")]
 	public async Task<IActionResult> ImportStock([FromBody] ImportSkuStockCommand request)
 	{
 		return HandleApiResponse(await Mediator.Send(request));
@@ -58,14 +73,26 @@ public class ProductsController : ApiV1ControllerBase
 		return HandleApiResponse(await Mediator.Send(new UploadProductImageCommand(id, file)));
 	}
 
-	[HttpPut("{id:int}/restore")]
-	public async Task<IActionResult> Restore(int id)
+	[HttpPut("product/{id:int}/restore")]
+	public async Task<IActionResult> RestoreProduct(int id)
 	{
 		return HandleApiResponse(await Mediator.Send(new RestoreProductCommand(id)));
 	}
 
-	[HttpDelete("{sku}")]
-	public async Task<IActionResult> Delete(string sku)
+	[HttpPut("sku/{sku}/restore")]
+	public async Task<IActionResult> RestoreSku(string sku)
+	{
+		return HandleApiResponse(await Mediator.Send(new RestoreSkuCommand(sku)));
+	}
+
+	[HttpDelete("product/{id:int}")]
+	public async Task<IActionResult> DeleteProduct(int id)
+	{
+		return HandleApiResponse(await Mediator.Send(new DeleteProductCommand(id)));
+	}
+
+	[HttpDelete("sku/{sku}")]
+	public async Task<IActionResult> DeleteSku(string sku)
 	{
 		return HandleApiResponse(await Mediator.Send(new DisableSkuCommand(sku)));
 	}

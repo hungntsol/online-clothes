@@ -12,8 +12,8 @@ using OnlineClothes.Persistence.Context;
 namespace OnlineClothes.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230106035030_v1.1")]
-    partial class v11
+    [Migration("20230107122805_v1.0")]
+    partial class v10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,21 +23,6 @@ namespace OnlineClothes.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("CategoriesId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("CategoryProduct");
-                });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.AccountCart", b =>
                 {
@@ -239,7 +224,7 @@ namespace OnlineClothes.Persistence.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.Product", b =>
@@ -259,9 +244,6 @@ namespace OnlineClothes.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int>("InStock")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("IsPublish")
                         .HasColumnType("boolean");
 
@@ -272,15 +254,8 @@ namespace OnlineClothes.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
-
-                    b.Property<int?>("Size")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Sku")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<int?>("Type")
                         .HasColumnType("integer");
@@ -289,10 +264,37 @@ namespace OnlineClothes.Persistence.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.HasIndex("Sku")
-                        .IsUnique();
-
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.ProductSku", b =>
+                {
+                    b.Property<string>("Sku")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("AddOnPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("InStock")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Sku");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductSkus");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.CartItem", b =>
@@ -300,15 +302,15 @@ namespace OnlineClothes.Persistence.Migrations
                     b.Property<int>("CartId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProductDetailId")
-                        .HasColumnType("integer");
+                    b.Property<string>("ProductSkuId")
+                        .HasColumnType("text");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.HasKey("CartId", "ProductDetailId");
+                    b.HasKey("CartId", "ProductSkuId");
 
-                    b.HasIndex("ProductDetailId");
+                    b.HasIndex("ProductSkuId");
 
                     b.ToTable("CartItems");
                 });
@@ -318,7 +320,7 @@ namespace OnlineClothes.Persistence.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ProductSku")
+                    b.Property<string>("ProductSkuId")
                         .HasColumnType("text");
 
                     b.Property<double>("Price")
@@ -327,26 +329,26 @@ namespace OnlineClothes.Persistence.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.HasKey("OrderId", "ProductSku");
+                    b.HasKey("OrderId", "ProductSkuId");
 
-                    b.HasIndex("ProductSku");
+                    b.HasIndex("ProductSkuId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("CategoryProduct", b =>
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.ProductCategory", b =>
                 {
-                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
 
-                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ProductId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.AccountCart", b =>
@@ -380,6 +382,17 @@ namespace OnlineClothes.Persistence.Migrations
                     b.Navigation("Brand");
                 });
 
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.ProductSku", b =>
+                {
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.Product", "Product")
+                        .WithMany("ProductSkus")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("OnlineClothes.Domain.Entities.CartItem", b =>
                 {
                     b.HasOne("OnlineClothes.Domain.Entities.Aggregate.AccountCart", "Cart")
@@ -388,15 +401,15 @@ namespace OnlineClothes.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductDetailId")
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ProductSku", "ProductSku")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductSkuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cart");
 
-                    b.Navigation("Product");
+                    b.Navigation("ProductSku");
                 });
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.OrderItem", b =>
@@ -407,14 +420,32 @@ namespace OnlineClothes.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.Product", "Product")
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.ProductSku", "ProductSku")
                         .WithMany("OrderItems")
-                        .HasForeignKey("ProductSku")
-                        .HasPrincipalKey("Sku")
+                        .HasForeignKey("ProductSkuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
+
+                    b.Navigation("ProductSku");
+                });
+
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.ProductCategory", b =>
+                {
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.Category", "Category")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineClothes.Domain.Entities.Aggregate.Product", "Product")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Product");
                 });
@@ -429,6 +460,11 @@ namespace OnlineClothes.Persistence.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.Category", b =>
+                {
+                    b.Navigation("ProductCategories");
+                });
+
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.Order", b =>
                 {
                     b.Navigation("Items");
@@ -436,6 +472,15 @@ namespace OnlineClothes.Persistence.Migrations
 
             modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.Product", b =>
                 {
+                    b.Navigation("ProductCategories");
+
+                    b.Navigation("ProductSkus");
+                });
+
+            modelBuilder.Entity("OnlineClothes.Domain.Entities.Aggregate.ProductSku", b =>
+                {
+                    b.Navigation("CartItems");
+
                     b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618

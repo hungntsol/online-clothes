@@ -1,23 +1,27 @@
 ﻿using System.ComponentModel;
+using System.Text.RegularExpressions;
 using FluentValidation;
+using OnlineClothes.Application.Commons;
+using OnlineClothes.Application.Persistence.Schemas.Products;
 
 namespace OnlineClothes.Application.Features.Products.Commands.CreateNewProductSeri;
 
-public class CreateNewProductCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
+public class CreateNewProductCommand : PutProductInRepoObject, IRequest<JsonApiResponse<EmptyUnitResponse>>
 {
-	public string Name { get; set; } = null!;
-	public string? Description { get; set; }
-	public decimal Price { get; set; }
-	[DefaultValue(null)] public int? BrandId { get; set; }
-	public ClotheType? Type { get; set; }
-	public HashSet<int> CategoryIds { get; set; } = new();
-	[DefaultValue(true)] public bool IsPublish { get; set; }
+	// default sku of product
+	public string Sku { get; set; } = null!;
+	[DefaultValue(0)] public int SkuInStock { get; set; }
+	[DefaultValue(0)] public decimal SkuAddOnPrice { get; set; }
+	public ClotheSizeType SkuSize { get; set; }
 }
 
 public class CreateNewProductCommandValidation : AbstractValidator<CreateNewProductCommand>
 {
 	public CreateNewProductCommandValidation()
 	{
+		RuleFor(q => q.Sku)
+			.Matches(new Regex(RegexPattern.ValidSku))
+			.WithMessage("Sku chỉ sử dụng các kí tự [a-z], [0-9] và `-`");
 		RuleFor(q => q.Name).NotEmpty();
 		RuleFor(q => q.Price).GreaterThanOrEqualTo(0);
 	}

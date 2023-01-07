@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using OnlineClothes.Application.Persistence.Schemas.Products;
 
-namespace OnlineClothes.Application.Features.Products.Commands.UpdateInfo;
+namespace OnlineClothes.Application.Features.Products.Commands.EditProductInfo;
 
 public class EditProductCommand : PutProductInRepoObject, IRequest<JsonApiResponse<EmptyUnitResponse>>
 {

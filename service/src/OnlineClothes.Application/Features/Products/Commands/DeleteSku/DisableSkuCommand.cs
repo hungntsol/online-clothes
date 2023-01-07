@@ -1,4 +1,4 @@
-﻿namespace OnlineClothes.Application.Features.Products.Commands.Delete;
+﻿namespace OnlineClothes.Application.Features.Products.Commands.DeleteSku;
 
 public class DisableSkuCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {

@@ -26,26 +26,6 @@ public class ProductRepository : EfCoreRepositoryBase<Product, int>, IProductRep
 		throw new NotImplementedException();
 	}
 
-	public async Task<Product?> CreateOneAsync(
-		PutProductInRepoObject @object,
-		CancellationToken cancellationToken = default)
-	{
-		//var product = _mapper.Map<PutProductInRepoObject, Product>(@object);
-
-		//var navigationCategories = await _categoryRepository.FindAsync(
-		//	FilterBuilder<Category>.Where(q => @object.CategoryIds.Contains(q.Id)),
-		//	cancellationToken: cancellationToken);
-
-		//_categoryRepository.Table.AttachRange(navigationCategories);
-
-		//product.Categories = navigationCategories;
-		//await AddAsync(product, cancellationToken: cancellationToken);
-
-		//return product;
-
-		throw new NotImplementedException();
-	}
-
 	public async Task EditOneAsync(
 		int id,
 		PutProductInRepoObject @object,

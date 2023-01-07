@@ -2,7 +2,7 @@
 using OnlineClothes.Application.Persistence;
 using OnlineClothes.Application.Persistence.Schemas.Products;
 
-namespace OnlineClothes.Application.Features.Products.Commands.UpdateInfo;
+namespace OnlineClothes.Application.Features.Products.Commands.EditProductInfo;
 
 public class EditProductCommandHandler : IRequestHandler<EditProductCommand, JsonApiResponse<EmptyUnitResponse>>
 {
@@ -22,7 +22,8 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Jso
 		_mapper = mapper;
 	}
 
-	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(EditProductCommand request,
+	public async Task<JsonApiResponse<EmptyUnitResponse>> Handle(
+		EditProductCommand request,
 		CancellationToken cancellationToken)
 	{
 		// begin tx
@@ -31,8 +32,8 @@ public class EditProductCommandHandler : IRequestHandler<EditProductCommand, Jso
 		await _productRepository.EditOneAsync(request.Id,
 			_mapper.Map<EditProductCommand, PutProductInRepoObject>(request),
 			cancellationToken);
-		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+		var save = await _unitOfWork.SaveChangesAsync(cancellationToken);
 		if (!save)
 		{
 			return JsonApiResponse<EmptyUnitResponse>.Fail();

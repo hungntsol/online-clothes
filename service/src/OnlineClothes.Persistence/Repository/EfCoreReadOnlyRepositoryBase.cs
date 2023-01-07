@@ -53,6 +53,13 @@ public abstract class EfCoreReadOnlyRepositoryBase<TEntity, TKey> : IEfCoreReadO
 		return await queryable.ToListAsync(cancellationToken);
 	}
 
+	public virtual async Task<bool> AnyAsync(FilterBuilder<TEntity> filterBuilder,
+		CancellationToken cancellationToken = default)
+	{
+		return await AsQueryable()
+			.AnyAsync(filterBuilder.Statement, cancellationToken: cancellationToken);
+	}
+
 	public virtual async Task<TEntity?> FindOneAsync(object?[]? keyValues,
 		CancellationToken cancellationToken = default)
 	{

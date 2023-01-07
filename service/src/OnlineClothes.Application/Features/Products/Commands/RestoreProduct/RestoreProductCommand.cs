@@ -1,4 +1,4 @@
-﻿namespace OnlineClothes.Application.Features.Products.Commands.Restore;
+﻿namespace OnlineClothes.Application.Features.Products.Commands.RestoreProduct;
 
 public class RestoreProductCommand : IRequest<JsonApiResponse<EmptyUnitResponse>>
 {
