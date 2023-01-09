@@ -23,16 +23,6 @@ public class FilterBuilder<T>
 		return this;
 	}
 
-	public FilterBuilder<T> True(Expression<Func<T, bool>>? expr = default)
-	{
-		if (expr is not null)
-		{
-			Statement = expr;
-		}
-
-		return this;
-	}
-
 	public FilterBuilder<T> False()
 	{
 		Statement = _ => false;
@@ -41,19 +31,24 @@ public class FilterBuilder<T>
 
 	public FilterBuilder<T> And(Expression<Func<T, bool>> other)
 	{
-		Statement.And(other);
+		Statement = Statement.And(other);
 
 		return this;
 	}
 
 	public FilterBuilder<T> Or(Expression<Func<T, bool>> other)
 	{
-		Statement.Or(other);
+		Statement = Statement.Or(other);
 		return this;
 	}
 
 	public static FilterBuilder<T> Where(Expression<Func<T, bool>> expr)
 	{
 		return new FilterBuilder<T>(expr);
+	}
+
+	public static FilterBuilder<T> True()
+	{
+		return new FilterBuilder<T>().Empty();
 	}
 }

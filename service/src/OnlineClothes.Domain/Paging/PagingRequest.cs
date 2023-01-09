@@ -4,29 +4,35 @@ namespace OnlineClothes.Domain.Paging;
 
 public class PagingRequest
 {
-	public PagingRequest(uint pageIndex, uint pageSize)
+	public PagingRequest()
 	{
-		PageIndex = pageIndex;
-		PageSize = pageSize;
 	}
 
 	public PagingRequest(int pageIndex, int pageSize)
 	{
-		if (pageIndex < 0)
-		{
-			pageIndex = 0;
-		}
-
-		if (pageSize < 0)
-		{
-			pageSize = 0;
-		}
-
-		PageIndex = (uint)pageIndex;
-		PageSize = (uint)pageSize;
+		this.pageIndex = pageIndex;
+		this.pageSize = pageSize;
 	}
 
-	[DefaultValue(1)] public uint PageIndex { get; set; }
+	public PagingRequest(PagingRequest page) : this(page.PageIndex, page.PageSize)
+	{
+	}
 
-	[DefaultValue(20)] public uint PageSize { get; set; }
+	private int pageIndex { get; set; } = 1;
+
+	private int pageSize { get; set; } = 20;
+
+	[DefaultValue(1)]
+	public int PageIndex
+	{
+		get => pageIndex;
+		set => pageIndex = value <= 0 ? 1 : value;
+	}
+
+	[DefaultValue(20)]
+	public int PageSize
+	{
+		get => pageSize;
+		set => pageSize = value <= 0 ? 1 : value;
+	}
 }

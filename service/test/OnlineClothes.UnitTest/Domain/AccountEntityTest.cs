@@ -1,9 +1,9 @@
 ﻿using OnlineClothes.Domain.Common;
-using OnlineClothes.Domain.Entities;
+using OnlineClothes.Domain.Entities.Aggregate;
 
 namespace OnlineClothes.UnitTest.Domain;
 
-[Collection("Domain UserAccount")]
+[Collection("Domain AccountUser")]
 public class AccountEntityTest : IClassFixture<AccountEntityTestFixture>
 {
 	private readonly AccountEntityTestFixture fixture;
@@ -20,7 +20,7 @@ public class AccountEntityTest : IClassFixture<AccountEntityTestFixture>
 		// arrange
 
 		// act
-		var newAccount = fixture.TestClientAccount;
+		var newAccount = fixture.TestClient;
 
 		// assert
 		Assert.Equal(fixture.Email.ToUpper(), newAccount.NormalizeEmail);
@@ -34,7 +34,7 @@ public class AccountEntityTest : IClassFixture<AccountEntityTestFixture>
 	public void Account_Activate()
 	{
 		// arrange
-		var newAccount = fixture.TestClientAccount;
+		var newAccount = fixture.TestClient;
 
 		// act
 		newAccount.Activate();
@@ -48,10 +48,10 @@ public class AccountEntityTest : IClassFixture<AccountEntityTestFixture>
 	public void Account_GivenClientAccount_HasClientRole()
 	{
 		// arrange
-		var newAccount = fixture.TestClientAccount;
+		var newAccount = fixture.TestClient;
 
 		// act
-		var hasRole = newAccount.HasRole(UserAccountRole.Client);
+		var hasRole = newAccount.HasRole(AccountRole.Client);
 
 		// assert
 		Assert.True(hasRole);
@@ -62,7 +62,7 @@ public class AccountEntityTest : IClassFixture<AccountEntityTestFixture>
 	public void Account_GivenUser_ShouldVerifyPasswordTrue()
 	{
 		// arrange
-		var newAccount = fixture.TestClientAccount;
+		var newAccount = fixture.TestClient;
 
 		// act
 		var verify = newAccount.VerifyPassword(fixture.Password);
@@ -76,7 +76,7 @@ public class AccountEntityTest : IClassFixture<AccountEntityTestFixture>
 	public void Account_GivenUser_ShouldVerifyPasswordFalse()
 	{
 		// arrange
-		var newAccount = fixture.TestClientAccount;
+		var newAccount = fixture.TestClient;
 
 		// act
 		var verify = newAccount.VerifyPassword(fixture.Password + "1@");
@@ -93,10 +93,11 @@ public class AccountEntityTest : IClassFixture<AccountEntityTestFixture>
 public class AccountEntityTestFixture : IDisposable
 {
 	public string Email = "test@mail.com";
+	public Fullname FullNameHelper = Fullname.Create("test acc");
 	public string Password = "hello123";
 
-	public UserAccount TestClientAccount => UserAccount.Create(Email, Password, UserAccountRole.Client);
-	public UserAccount TestAdminAccount => UserAccount.Create(Email, Password, UserAccountRole.Admin);
+	public AccountUser TestClient => AccountUser.Create(Email, Password, FullNameHelper);
+	public AccountUser TestAdmin => AccountUser.Create(Email, Password, FullNameHelper, AccountRole.Admin);
 
 
 	public void Dispose()

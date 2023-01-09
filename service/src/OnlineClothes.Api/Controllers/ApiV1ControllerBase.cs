@@ -1,20 +1,18 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using OnlineClothes.Support.HttpResponse;
+﻿using OnlineClothes.Support.HttpResponse;
 
 namespace OnlineClothes.Api.Controllers;
 
 [Route("api/v1/[controller]")]
-public class ApiV1ControllerBase : ControllerBase
+public abstract class ApiV1ControllerBase : ControllerBase
 {
 	protected readonly IMediator Mediator;
 
-	public ApiV1ControllerBase(IMediator mediator)
+	protected ApiV1ControllerBase(IMediator mediator)
 	{
 		Mediator = mediator;
 	}
 
-	protected ActionResult ApiResponse<T>(JsonApiResponse<T> responseApi, string? redirect = null) where T : class
+	protected ActionResult HandleApiResponse<T>(JsonApiResponse<T> responseApi, string? redirect = null) where T : class
 	{
 		if (!responseApi.IsError)
 		{
